@@ -443,4 +443,24 @@ jQuery(document).ready(function ($) {
         }
         return false;
     });
+    jQuery("#floating-buttons .cta").on('click', function(){
+        if (jQuery(".wrap-bookmarks").is(":hidden")) {
+            jQuery(".wrap-bookmarks").addClass('bounceInLeft animated').show();
+            setTimeout(function () {
+                jQuery(".wrap-bookmarks").removeClass('bounceInLeft animated');
+            }, 1000);
+        } else {
+            jQuery(".wrap-bookmarks").hide();
+        }
+        return false;
+    });
+
+    jQuery('#btn-view-link').on('click', function(){
+        var link = jQuery('#lstbookmarts option:selected').val();
+        window.open(link, '_blank');
+    });
+
+    jQuery('.btn-close').on('click',function(){
+        jQuery('.wrap-bookmarks').hide();
+    });
 });

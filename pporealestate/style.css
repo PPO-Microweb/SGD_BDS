@@ -2130,6 +2130,144 @@ ul.list-pu li{
 }
 #scrollToTop:hover{opacity: 1}
 
+.callus {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    background: green;
+    border-radius: 40px;
+    color: #fff;
+    height: 40px;
+    line-height: 40px;
+    padding: 0 10px 0 0;
+    z-index: 9999;
+}
+.callus i {
+    background: orangered !important;
+    border-radius: 50%;
+    font-size: 20px;
+    height: 39px;
+    line-height: 39px;
+    margin-right: 0;
+    text-align: center;
+    width: 39px;
+    color: #fff;
+}
+.callus a {
+    color: #fff;
+    font-size: 20px;
+}
+
+/* # Call to actions
+---------------------------------------------------------------------------- */
+#floating-buttons {
+    position: fixed;
+    bottom: 50px;
+    left: 20px;
+    z-index: 1000;
+}
+#floating-buttons .cta {
+    width: 48px;
+    height: 48px;
+    line-height: 48px;
+    display: block;
+    background: #09086e;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    border-radius: 50%;
+    -webkit-box-shadow: 0 0 20px rgba(0,0,0,.2);
+    -moz-box-shadow: 0 0 20px rgba(0,0,0,.2);
+    box-shadow: 0 0 20px rgba(0,0,0,.2);
+    color: #fff;
+    font-size: 26px;
+    text-align: center;
+}
+
+.wrap-bookmarks {
+    width: 858px;
+    height: 249px;
+    background: #09086e;
+    padding: 20px;
+    position: fixed;
+    bottom: 50px;
+    left: 0;
+    display: none;
+    border-radius: 0 5px 5px 0;
+    box-shadow: 1px 1px 10px 1px #003263;
+    -webkit-box-shadow: 1px 1px 10px 1px #003263;
+    -moz-box-shadow: 1px 1px 10px 1px #003263;
+}
+
+.wrap-bookmarks .title-bookmarks {
+    color: #fff;
+    text-align: left;
+    font-size: 30px;
+    text-transform: uppercase;
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+
+.wrap-bookmarks .title-bookmarks .btn-close {
+    cursor: pointer;
+}
+
+.wrap-bookmarks .list-bookmarts {
+    margin-bottom: 30px;
+}
+
+.wrap-bookmarks .list-bookmarts .text-selectbox {
+    float: left;
+    margin-right: 20px;
+    color: #fff;
+    font-size: 24px;
+    margin-top: 2px;
+}
+
+.wrap-bookmarks .list-bookmarts select {
+    color: #fff;
+    background: #09086e;
+    border: 2px solid #fff;
+    padding: 5px 10px;
+    outline: none;
+    font-size: 24px;
+    float: left;
+}
+
+.wrap-bookmarks .list-bookmarts a.btn {
+    color: #fff;
+    background: #FF6100;
+    border-radius: 0;
+    font-weight: bold;
+    padding: 3px 10px;
+    font-size: 21px;
+    display: inline-block;
+    border: 2px solid #FF6100;
+    margin-top: 2px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.wrap-bookmarks .text-building {
+    color: #fff;
+    font-size: 18px;
+}
+
+.wrap-bookmarks .phone-building {
+    color: #fff;
+    font-weight: bold;
+    font-size: 22px;
+}
+
+.wrap-bookmarks img {
+    margin-top: 4px;
+}
+
+.wrap-bookmarks .pdleft-0 {
+    padding-left: 0;
+}
+
 /* Responsive */
 @media (min-width: 1200px){
     .container{
@@ -2189,6 +2327,10 @@ ul.list-pu li{
     #footer .footer-contact .btn{margin-top:0}
     #footer .footer-widgets .col-sm-6:nth-child(3){clear: both}
     #footer .copyright .left, #footer .footer-nav{text-align: center}
+    .callus {display: none}
+    #floating-buttons {bottom: 0}
+    .wrap-bookmarks {bottom: 0; width: 90%; height: auto;}
+    .wrap-bookmarks .list-bookmarts select {font-size: 23px;}
 }
 @media (max-width:768px){
     #menu{
@@ -2237,6 +2379,7 @@ ul.list-pu li{
     }
     #footer .copyright{text-align: center}
     #footer .footer-nav{text-align: center}
+    #floating-buttons .cta{display: none}
 }
 @media (max-width:575px){
     .list_product .item_product .col-sm-4{width: 100%;margin-bottom: 10px}

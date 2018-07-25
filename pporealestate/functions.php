@@ -87,7 +87,7 @@ if (!function_exists("ppo_theme_setup")) {
 
     function ppo_theme_setup() {
         ## Enable Links Manager (WP 3.5 or higher)
-//        add_filter('pre_option_link_manager_enabled', '__return_true');
+       add_filter('pre_option_link_manager_enabled', '__return_true');
         
         // This theme styles the visual editor to resemble the theme style.
 	add_editor_style( array( 

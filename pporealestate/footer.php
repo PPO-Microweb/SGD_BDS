@@ -80,6 +80,75 @@
     </div>
 </div>
 
+<!-- SUPPORT -->
+<section id="floating-buttons">
+    <a href="#" class="cta"><i class="fa fa-life-ring"></i></a>
+    <div class="wrap-bookmarks">
+        <div class="title-bookmarks">
+            Chúng tôi có thể giúp gì cho bạn?
+            <div class="btn-close pull-right">X</div>
+        </div>
+        <div class="list-bookmarts">
+            <?php
+                $bookmarks = get_bookmarks( array(
+                    'orderby' => 'name',
+                    'order' => 'ASC',
+                    'category' => '',
+                    'category_name'  => ''
+                ) );
+            ?>
+            <div class="text-selectbox">Tôi muốn</div> 
+            <select id="lstbookmarts">
+                <?php foreach ( $bookmarks as $bookmark ) { ?>
+                  <?php printf( '<option value="%1$s">%2$s</option>', esc_attr( $bookmark->link_url ), $bookmark->link_name ); ?>
+                <?php } ?>
+            </select>
+            <a class="btn" id="btn-view-link">XEM</a>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <img src="<?php echo THEME_URI ?>assets/images/icon-building.png">
+                    </div>
+                    <div class="col-xs-9 pdleft-0">
+                        <div class="text-building">Tư vấn cho chủ đầu tư</div>
+                        <div class="phone-building"><?php echo get_option(SHORT_NAME . "_hotline-support-1") ?></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <img src="<?php echo THEME_URI ?>assets/images/icon-home-support.png">
+                    </div>
+                    <div class="col-xs-9 pdleft-0">
+                        <div class="text-building">Tư vấn cho chủ nhà</div>
+                        <div class="phone-building"><?php echo get_option(SHORT_NAME . "_hotline-support-2") ?></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <img src="<?php echo THEME_URI ?>assets/images/icon-user-support.png">
+                    </div>
+                    <div class="col-xs-9 pdleft-0">
+                        <div class="text-building">Tư vấn cho môi giới</div>
+                        <div class="phone-building"><?php echo get_option(SHORT_NAME . "_hotline-support-3") ?></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- HOTLINE -->
+<div class="callus">
+    <i class="glyphicon glyphicon-earphone"></i>
+    <a href="tel:<?php echo get_option(SHORT_NAME . "_hotline") ?>"><?php echo get_option(SHORT_NAME . "_hotline") ?></a>
+</div>
+
 <div id="scrollToTop"><i class="fa fa-angle-up" aria-hidden="true"></i></div>
 <div id="fb-root"></div>
 <?php wp_footer(); ?>
