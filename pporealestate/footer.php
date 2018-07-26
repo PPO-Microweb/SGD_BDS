@@ -82,7 +82,7 @@
 
 <!-- SUPPORT -->
 <section id="floating-buttons">
-    <a href="#" class="cta"><i class="fa fa-life-ring"></i></a>
+    <a href="#" class="cta"><i class="fa fa-question"></i></a>
     <div class="wrap-bookmarks">
         <div class="title-bookmarks">
             Chúng tôi có thể giúp gì cho bạn?
