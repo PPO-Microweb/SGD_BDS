@@ -2171,7 +2171,7 @@ ul.list-pu li{
     height: 48px;
     line-height: 48px;
     display: block;
-    background: #09086e;
+    background: #ff6000;
     -webkit-border-radius: 50%;
     -moz-border-radius: 50%;
     -ms-border-radius: 50%;
@@ -2188,7 +2188,7 @@ ul.list-pu li{
 .wrap-bookmarks {
     width: 858px;
     height: 249px;
-    background: #09086e;
+    background: #ff6000;
     padding: 20px;
     position: fixed;
     bottom: 50px;
@@ -2227,7 +2227,7 @@ ul.list-pu li{
 
 .wrap-bookmarks .list-bookmarts select {
     color: #fff;
-    background: #09086e;
+    background: #ff6000;
     border: 2px solid #fff;
     padding: 5px 10px;
     outline: none;
