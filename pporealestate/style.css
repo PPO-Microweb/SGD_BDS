@@ -311,18 +311,18 @@ main_menu .sub-menu ul.last {
     margin-left: 5px;
     width: 100%;
     font-size: 12px;
-    background: #fff;
-    border: 1px solid #0054A0;
-    border-radius: 4px;
+    background: #f2f2f2;
+    border: 1px solid #ccc;
+    border-radius: 0;
 }
 .top_link ul li .glyphicon{color: #0054A0;display: none}
 .top_link ul li a{
-    color: #0054A0!important;
+    color: #333!important;
     font-weight: bold;
     text-decoration: none;
 }
 .top_link ul li:hover{
-    background: #0054A0
+    background: #FF6000
 }
 .top_link ul li:hover a{
     color: #fff!important
@@ -2268,6 +2268,33 @@ ul.list-pu li{
     padding-left: 0;
 }
 
+.carousel-blocks-widget .item h3 {
+    margin-bottom: 10px !important;
+}
+
+.wrap-count-header {
+    float: right;
+    text-align: center;
+    border: 2px solid #fff;
+    max-width: 100%;
+    width: 90px;
+    padding: 10px 0 0 0;
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+.wrap-count-header .number-count {
+    margin-bottom: 0;
+    color: #fff;
+    font-size: 23px;
+    font-weight: bold;
+}
+
+.wrap-count-header .text-count {
+    color: #fff;
+    font-size: 12px;
+}
+
 /* Responsive */
 @media (min-width: 1200px){
     .container{
@@ -2276,6 +2303,9 @@ ul.list-pu li{
     }
 }
 @media (min-width:992px) and (max-width: 1199px){
+    #header_logo {
+        margin-top: 20px;
+    }
     .main_menu li a {padding: 7px 9px}
     ul.list-pu li{width: 30%}
     .list_product .item_product .row-pro h4{font-size: 15px}
@@ -2284,6 +2314,17 @@ ul.list-pu li{
     #footer .socials li a{width: 45px;height: 45px}
 }
 @media (max-width:991px){
+    #header_logo {
+        text-align: center;
+        margin-bottom: 15px;
+    }
+    .wrap-count-header {
+        float: none;
+        display: inline-block;
+    }
+    .container-count {
+        text-align: center;
+    }
     .vc_row.vc_custom_1514376915802{padding-top: 100px!important}
     .vc_custom_1514397958856 .vc_col-sm-6{width: 100%}
     .vc_custom_1514400618748 .vc_col-sm-8{width: 100%}

@@ -37,14 +37,17 @@ function ppo_shortcode_carousel_blocks($atts) {
     while ($loop_query->have_posts()) : $loop_query->the_post();
         $img = get_template_directory_uri() . '/assets/images/icon-home.png';
         $title = get_the_title();
+        $segment = get_post_meta(get_the_ID(), 'segment', true);
+        $segment_check = empty($segment) ? "PHÂN KHÚC" : $segment;
         $link_bds = get_post_meta(get_the_ID(), 'link_bds', true);
         $link_block = get_post_meta(get_the_ID(), 'link_block', true);
         $html_output .= <<<HTML
         <div class="item">
             <img src="$img" alt="{$title}" />
+            <h3>[{$segment_check}]</h3>
             <h3>{$title}</h3>
-            <a href="{$link_bds}" class="xem-bds">Xem bất động sản</a>
-            <a href="{$link_block}" class="xem-block">Xem Block GD</a>
+            <!-- <a href="{$link_bds}" class="xem-bds">Xem bất động sản</a> -->
+            <a href="{$link_block}" class="xem-block">Xem thêm</a>
         </div>
 HTML;
     endwhile;

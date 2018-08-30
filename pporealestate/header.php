@@ -113,16 +113,68 @@
         <div class="head-mid">
             <div class="container">
                 <div class="row">
-                    <div class="col-sm-6">
+                    <div class="col-lg-6 col-md-5">
                         <div id="header_logo" itemtype="http://schema.org/Organization" itemscope="itemscope">
                             <a title="<?php bloginfo('sitename'); ?>" itemprop="url" href="<?php bloginfo('siteurl'); ?>">
                                 <img alt="<?php bloginfo('sitename'); ?>" src="<?php echo get_option('sitelogo'); ?>" itemprop="logo" />
                             </a>
                         </div>
                     </div>
-                    <div class="col-sm-6 hidden-xs">
-                        <div class="header-hotline">
-                            <a href="tel:<?php echo get_option(SHORT_NAME . "_hotline") ?>"><?php echo get_option(SHORT_NAME . "_hotline") ?></a>
+                    <div class="col-lg-6 col-md-7 hidden-xs container-count">
+                        <div class="wrap-count-header">
+                            <p class="number-count">
+                                <?php echo wp_statistics_visit('total'); ?>
+                            </p>
+                            <p class="text-count">
+                                Lượt xem
+                            </p>
+                        </div>
+                        <div class="wrap-count-header">
+                            <p class="number-count">
+                                <?php
+                                    $count_user = count_users();
+                                    echo $count_user['total_users'];
+                                ?>
+                            </p>
+                            <p class="text-count">
+                                Thành viên
+                            </p>
+                        </div>
+                        <div class="wrap-count-header">
+                            <p class="number-count">
+                                <?php
+                                    $count_posts = wp_count_posts('supplier');
+                                    $published_posts = $count_posts->publish;
+                                    echo $published_posts;
+                                ?>
+                            </p>
+                            <p class="text-count">
+                                Nhà cung cấp
+                            </p>
+                        </div>
+                        <div class="wrap-count-header">
+                            <p class="number-count">
+                                <?php
+                                    $count_posts = wp_count_posts('project');
+                                    $published_posts = $count_posts->publish;
+                                    echo $published_posts;
+                                ?>
+                            </p>
+                            <p class="text-count">
+                                Dự án
+                            </p>
+                        </div>
+                        <div class="wrap-count-header">
+                            <p class="number-count">
+                                <?php
+                                    $count_posts = wp_count_posts('product');
+                                    $published_posts = $count_posts->publish;
+                                    echo $published_posts;
+                                ?>
+                            </p>
+                            <p class="text-count">
+                                Bất động sản
+                            </p>
                         </div>
                     </div>
                 </div>
