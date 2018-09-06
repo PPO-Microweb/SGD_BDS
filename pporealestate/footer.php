@@ -58,7 +58,7 @@
                     <span>Copyright &copy; <a href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php echo $copyright; ?>"><?php echo $copyright; ?></a>. All rights reserved. </span>
                     <a href="http://ppo.vn" title="Thiết kế web chuyên nghiệp" target="_blank"><?php _e('Thiết kế web bởi PPO.VN', SHORT_NAME) ?></a>
                     <?php else: ?>
-                    <span>Copyright &COPY; <a href="http://ppo.vn" title="Thiết kế website">PPO.VN</a>. All rights reserved.</span>
+                    <span>Copyright &COPY; <a href="http://vrx.vn" title="Thiết kế website">VRX.VN</a>. All rights reserved.</span>
                     <?php endif; ?>
                 </div>
                 <div class="col-md-6">
