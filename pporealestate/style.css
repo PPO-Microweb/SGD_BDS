@@ -618,6 +618,21 @@ main_menu .sub-menu ul.last {
     transition: all .3s ease-in-out
 }
 .list_product .item_product .tools .save-post{margin-right: 10px}
+.list_product .item_product .com {
+    position: absolute;
+    top: 5px;
+    color: #fff;
+    background: #e41b23;
+    text-align: center;
+    border-radius: 50%;
+    left: 10px;
+    z-index: 2;
+    font-weight: 700;
+    font-size: 16px;
+    width: 50px;
+    height: 50px;
+    padding: 14px 0;
+}
 .list_product .item_product .thumbnail:hover .tools {
     opacity: 1
 }
@@ -1917,14 +1932,14 @@ main_menu .sub-menu ul.last {
 .user-info .avatar{margin-bottom: 10px}
 .user-info .avatar img{border-radius: 50%}
 .user-info .name{
-    font-family: "Roboto";
+    font-family: "Roboto Condensed";
     font-weight: bold;
     font-size: 24px;
     margin: 0 0 5px
 }
 .user-info .login{
     font-size: 18px;
-    font-family: "Roboto";
+    font-family: "Roboto Condensed";
     font-weight: lighter
 }
 .user-info .biographical_info{
@@ -1935,7 +1950,7 @@ main_menu .sub-menu ul.last {
     margin-top: 30px;
     margin-bottom: 30px;
     font-size: 24px;
-    font-family: "Roboto";
+    font-family: "Roboto Condensed";
     font-weight: 300;
     text-transform: uppercase;
     position: relative

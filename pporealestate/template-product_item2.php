@@ -18,6 +18,7 @@ $vitri = get_post_meta(get_the_ID(), "vi_tri", true);
 $direction = get_post_meta(get_the_ID(), 'direction', true);
 $currency = get_post_meta(get_the_ID(), "currency", true);
 $price = get_post_meta(get_the_ID(), "unitPrice", true);
+$com = get_post_meta(get_the_ID(), "com", true);
 ?>
 <div class="item <?php echo (get_post_meta(get_the_ID(), 'not_in_vip', true) == 1)?'vip':''; ?>">
     <a class="thumbnail" title="<?php the_title(); ?>" href="<?php the_permalink(); ?>">
@@ -26,6 +27,9 @@ $price = get_post_meta(get_the_ID(), "unitPrice", true);
             <span class="save-post" data-id="<?php the_ID() ?>" title="Thêm vào yêu thích"><i class="fa fa-heart-o"></i></span>
             <span class="compare-post" data-id="<?php the_ID() ?>" title="So sánh bất động sản"><i class="fa fa-exchange"></i></span>
         </span>
+        <?php if(!empty($com)): ?>
+        <div class="com"><?php echo $com; ?></div>
+        <?php endif; ?>
         <span class="share-pro">
             <span class="pull-right">
                 <span class="price">

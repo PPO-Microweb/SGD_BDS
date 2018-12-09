@@ -115,6 +115,21 @@
     color: #959595;
     margin-right: 5px
 }
+.carousel-products-widget .item .com {
+    position: absolute;
+    top: 5px;
+    color: #fff;
+    background: #e41b23;
+    text-align: center;
+    border-radius: 50%;
+    left: 10px;
+    z-index: 2;
+    font-weight: 700;
+    font-size: 16px;
+    width: 50px;
+    height: 50px;
+    padding: 14px 0;
+}
 .carousel-products-widget .item .share-pro {
     position: absolute;
     bottom: 3px;
