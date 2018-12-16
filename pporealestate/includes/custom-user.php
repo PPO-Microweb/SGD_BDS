@@ -200,9 +200,6 @@ if (!function_exists('country_list')) {
     }
 
 }
-$user_fields = array(
-    "user_country",
-);
 
 add_action('show_user_profile', 'my_show_extra_profile_fields');
 add_action('edit_user_profile', 'my_show_extra_profile_fields');
@@ -214,7 +211,7 @@ function my_show_extra_profile_fields($user) {
     <h3>Extra profile information</h3>
     <table class="form-table">
         <tr>
-            <th><label for="user_country">Country</label></th>
+            <th><label for="user_country">Quốc gia</label></th>
             <td>
                 <select name="user_country" id="user_country" style="width: 15em;">
                     <?php
@@ -230,12 +227,36 @@ function my_show_extra_profile_fields($user) {
                 </select>
             </td>
         </tr>
+        <tr>
+            <th><label>Phân khúc/Địa bàn (1)</label></th>
+            <td>
+                <input type="text" name="bds_segment1" value="<?php echo esc_attr(get_the_author_meta('bds_segment1', $user->ID)) ?>" placeholder="Phân khúc" style="width:200px;margin-right: 10px" />
+                <input type="text" name="bds_location1" value="<?php echo esc_attr(get_the_author_meta('bds_location1', $user->ID)) ?>" placeholder="Địa bàn" style="width:200px" />
+            </td>
+        </tr>
+        <tr>
+            <th><label>Phân khúc/Địa bàn (2)</label></th>
+            <td>
+                <input type="text" name="bds_segment2" value="<?php echo esc_attr(get_the_author_meta('bds_segment2', $user->ID)) ?>" placeholder="Phân khúc" style="width:200px;margin-right: 10px" />
+                <input type="text" name="bds_location2" value="<?php echo esc_attr(get_the_author_meta('bds_location2', $user->ID)) ?>" placeholder="Địa bàn" style="width:200px" />
+            </td>
+        </tr>
+        <tr>
+            <th><label>Phân khúc/Địa bàn (3)</label></th>
+            <td>
+                <input type="text" name="bds_segment3" value="<?php echo esc_attr(get_the_author_meta('bds_segment3', $user->ID)) ?>" placeholder="Phân khúc" style="width:200px;margin-right: 10px" />
+                <input type="text" name="bds_location3" value="<?php echo esc_attr(get_the_author_meta('bds_location3', $user->ID)) ?>" placeholder="Địa bàn" style="width:200px" />
+            </td>
+        </tr>
     </table>
     <?php
 }
 
 function my_save_extra_profile_fields($user_id) {
-    global $user_fields;
+    $user_fields = array(
+        "user_country", "bds_segment1", "bds_segment2", "bds_segment3", 
+        "bds_location1", "bds_location2", "bds_location3",
+    );
 
     if (!current_user_can('edit_user', $user_id))
         return false;

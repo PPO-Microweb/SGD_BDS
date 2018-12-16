@@ -143,6 +143,54 @@
     </div>
 </section>
 
+<div id="segments-list-floating" class="hide bounceInDown animated">
+    <span class="close">Đóng X</span>
+    <div class="container">
+        <h3 class="title"><span class="glyphicon glyphicon-th" aria-hidden="true"></span> Danh sách 40 phân khúc (loại) Bất động sản</h3>
+        <ul>
+            <li><a href="#" rel="nofollow"><span class="glyphicon glyphicon-home"></span> Đất nền</a></li>
+            <li><a href="#" rel="nofollow"><span class="glyphicon glyphicon-home"></span> Đất vàng</a></li>
+            <li><a href="#" rel="nofollow"><span class="glyphicon glyphicon-home"></span> Thổ cư</a></li>
+            <li><a href="#" rel="nofollow"><span class="glyphicon glyphicon-home"></span> Nhà mặt phố</a></li>
+            <li><a href="#" rel="nofollow"><span class="glyphicon glyphicon-home"></span> Biệt thự</a></li>
+            <li><a href="#" rel="nofollow"><span class="glyphicon glyphicon-home"></span> Nhà trọ</a></li>
+            <li><a href="#" rel="nofollow"><span class="glyphicon glyphicon-home"></span> Nhà cổ</a></li>
+            <li><a href="#" rel="nofollow"><span class="glyphicon glyphicon-home"></span> BĐS siêu cao cấp</a></li>
+            <li><a href="#" rel="nofollow"><span class="glyphicon glyphicon-home"></span> Căn hộ cao cấp</a></li>
+            <li><a href="#" rel="nofollow"><span class="glyphicon glyphicon-home"></span> Condotel</a></li>
+            <li><a href="#" rel="nofollow"><span class="glyphicon glyphicon-home"></span> Officetel</a></li>
+            <li><a href="#" rel="nofollow"><span class="glyphicon glyphicon-home"></span> Hometel</a></li>
+            <li><a href="#" rel="nofollow"><span class="glyphicon glyphicon-home"></span> Penthouse</a></li>
+            <li><a href="#" rel="nofollow"><span class="glyphicon glyphicon-home"></span> Shophouse</a></li>
+            <li><a href="#" rel="nofollow"><span class="glyphicon glyphicon-home"></span> Biệt thự nghỉ dưỡng</a></li>
+            <li><a href="#" rel="nofollow"><span class="glyphicon glyphicon-home"></span> Resort</a></li>
+            <li><a href="#" rel="nofollow"><span class="glyphicon glyphicon-home"></span> Chung cư bình dân</a></li>
+            <li><a href="#" rel="nofollow"><span class="glyphicon glyphicon-home"></span> Nhà tập thể</a></li>
+            <li><a href="#" rel="nofollow"><span class="glyphicon glyphicon-home"></span> Nhà ở xã hội</a></li>
+            <li><a href="#" rel="nofollow"><span class="glyphicon glyphicon-home"></span> Chung cư tư nhân</a></li>
+            <li><a href="#" rel="nofollow"><span class="glyphicon glyphicon-home"></span> Trang trại</a></li>
+            <li><a href="#" rel="nofollow"><span class="glyphicon glyphicon-home"></span> Kho bãi nhà xưởng</a></li>
+            <li><a href="#" rel="nofollow"><span class="glyphicon glyphicon-home"></span> Khu công nghiệp</a></li>
+            <li><a href="#" rel="nofollow"><span class="glyphicon glyphicon-home"></span> Khu đô thị</a></li>
+            <li><a href="#" rel="nofollow"><span class="glyphicon glyphicon-home"></span> Văn phòng</a></li>
+            <li><a href="#" rel="nofollow"><span class="glyphicon glyphicon-home"></span> Văn phòng ảo</a></li>
+            <li><a href="#" rel="nofollow"><span class="glyphicon glyphicon-home"></span> Coworking Space</a></li>
+            <li><a href="#" rel="nofollow"><span class="glyphicon glyphicon-home"></span> Homestay</a></li>
+            <li><a href="#" rel="nofollow"><span class="glyphicon glyphicon-home"></span> Time share</a></li>
+            <li><a href="#" rel="nofollow"><span class="glyphicon glyphicon-home"></span> Ghép phòng</a></li>
+            <li><a href="#" rel="nofollow"><span class="glyphicon glyphicon-home"></span> Đổi nhà</a></li>
+            <li><a href="#" rel="nofollow"><span class="glyphicon glyphicon-home"></span> Đấu giá bất động sản</a></li>
+            <li><a href="#" rel="nofollow"><span class="glyphicon glyphicon-home"></span> BĐS thương mại</a></li>
+            <li><a href="#" rel="nofollow"><span class="glyphicon glyphicon-home"></span> Khách sạn</a></li>
+            <li><a href="#" rel="nofollow"><span class="glyphicon glyphicon-home"></span> Nhà hàng</a></li>
+            <li><a href="#" rel="nofollow"><span class="glyphicon glyphicon-home"></span> Tiny House</a></li>
+            <li><a href="#" rel="nofollow"><span class="glyphicon glyphicon-home"></span> Mobile House</a></li>
+            <li><a href="#" rel="nofollow"><span class="glyphicon glyphicon-home"></span> Smart House</a></li>
+            <li><a href="#" rel="nofollow"><span class="glyphicon glyphicon-home"></span> Dự án bất động sản</a></li>
+        </ul>
+    </div>
+</div>
+
 <!-- HOTLINE -->
 <div class="callus">
     <i class="glyphicon glyphicon-earphone"></i>

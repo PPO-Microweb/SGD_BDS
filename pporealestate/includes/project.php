@@ -1,5 +1,13 @@
 <?php
 
+function project_status(){
+    return array(
+        'soon' => __('Sắp mở bán', SHORT_NAME),
+        'open' => __('Đang mở bán', SHORT_NAME),
+        'close' => __('Hết hàng', SHORT_NAME),
+    );
+}
+
 function supplier_list() {
     $result = array('' => '- Chọn nhà cung cấp -');
     if(is_admin()){
@@ -111,6 +119,14 @@ $project_meta_box = array(
             'type' => 'select',
             'std' => '',
             'options' => supplier_list(),
+        ),
+        array(
+            'name' => 'Tình trạng',
+            'desc' => '',
+            'id' => 'status',
+            'type' => 'radio',
+            'std' => '',
+            'options' => project_status(),
         ),
     )
 );

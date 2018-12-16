@@ -4,7 +4,7 @@
     color: #333;
     text-transform: uppercase;
     padding-left: 10px;
-    font-family: "Roboto Condensed";
+    font-family: "Roboto Condensed", sans-serif;
     margin: 0 0 15px;
     font-weight: bold
 }

@@ -15,11 +15,19 @@
                             'posts_per_page' => 3
                         );
                         $projects = new WP_Query($args);
+                        $project_status_list = project_status();
                         while ($projects->have_posts()) : $projects->the_post();
+                            $project_status = get_post_meta(get_the_ID(), "status", true);
+                            $project_status_html = "";
+                            if(!empty($project_status)){
+                                $project_status_html = '<span class="status status-'.$project_status.'">'.$project_status_list[$project_status].'</span>';
+                            }
                         ?>
                             <div>
-                                <a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>">
-                                    <img src="<?php the_post_thumbnail_url('347x232') ?>" alt="<?php the_title(); ?>" /></a>
+                                <a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>" class="thumb">
+                                    <img src="<?php the_post_thumbnail_url('347x232') ?>" alt="<?php the_title(); ?>" />
+                                    <?php echo $project_status_html ?>
+                                </a>
                                 <h4><a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>"><?php the_title(); ?></a></h4>
                                 <p><?php echo get_post_meta(get_the_ID(), "khu_vuc", true); ?></p>
                             </div>

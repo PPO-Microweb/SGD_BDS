@@ -44,17 +44,24 @@ function ppo_shortcode_project_list($atts) {
         $html_output .= '<h3 class="widget-title">' . $instance['title'] . '</h3>';
     }
     $html_output .= '<div class="widget-content">';
+    $project_status_list = project_status();
     while ($loop_query->have_posts()) : $loop_query->the_post();
         $title = get_the_title();
         $permalink = get_permalink();
         $thumbnail_url = get_the_post_thumbnail_url(get_the_ID(), '170x115');
         $no_image_url = get_template_directory_uri() . "/assets/images/no_image.png";
         $khu_vuc = get_post_meta(get_the_ID(), "khu_vuc", true);
+        $project_status = get_post_meta(get_the_ID(), "status", true);
+        $project_status_html = "";
+        if(!empty($project_status)){
+            $project_status_html = '<span class="status status-'.$project_status.'">'.$project_status_list[$project_status].'</span>';
+        }
         $html_output .= <<<HTML
 <div class="entry" itemscope="" itemtype="http://schema.org/Article">
     <div class="col-sm-3 pdl0 pdr0">
         <a class="thumbnail" href="{$permalink}" onclick="ga('send', 'event', 'Dự án', 'Xem dự án', '{$title}');">
-            <img src="{$thumbnail_url}" alt="{$title}" itemprop="image" onError="this.src={$no_image_url}" />
+            <img src="{$thumbnail_url}" alt="{$title}" itemprop="image" onError="this.src='{$no_image_url}'" />
+            {$project_status_html}
         </a>
     </div>
     <div class="col-sm-9">

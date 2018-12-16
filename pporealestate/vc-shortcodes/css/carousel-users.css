@@ -1,10 +1,10 @@
 .carousel-users-widget{margin-bottom: 30px}
 .carousel-users-widget .widget-title{
-    border-left: 5px solid #ff6000;
-    color: #0054a0;
+    border-left: 5px solid #FF3300;
+    color: #333;
     text-transform: uppercase;
     padding-left: 10px;
-    font-family: "Roboto Condensed";
+    font-family: "Roboto Condensed", sans-serif;
     margin: 0 0 15px;
     font-weight: bold
 }
@@ -49,7 +49,7 @@
     border-radius: 50%
 }
 .carousel-users-widget .item h3, .user_list .item h3{
-    color: #0054a0;
+    color: #014380;
     font-size: 18px;
     text-align: center
 }
@@ -57,8 +57,8 @@
     margin-bottom: 3px
 }
 .carousel-users-widget .item .xem-them, .user_list .item .xem-them{
-    color: #0054a0;
-    border: 1px solid #0054a0;
+    color: #014380;
+    border: 1px solid #014380;
     padding: 8px;
     margin-top: 15px;
     text-transform: uppercase;
@@ -66,7 +66,7 @@
     display: block
 }
 .carousel-users-widget .item .xem-them:hover, .user_list .item .xem-them:hover{
-    background: #0054a0;
+    background: #014380;
     color: #fff
 }
 .carousel-users-widget .owl-controls .owl-nav{

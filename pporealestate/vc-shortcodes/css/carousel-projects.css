@@ -4,7 +4,7 @@
     color: #fff;
     text-transform: uppercase;
     padding-left: 10px;
-    font-family: "Roboto Condensed";
+    font-family: "Roboto Condensed", sans-serif;
     margin: 0 0 15px;
     font-weight: bold
 }
@@ -25,7 +25,26 @@
     padding: 0;
     margin-bottom: 15px;
     border: none;
-    border-radius: 0
+    border-radius: 0;
+    position: relative
+}
+.carousel-projects-widget .entry .thumbnail .status{
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 5px 10px;
+    text-transform: uppercase;
+    color: #fff;
+}
+.carousel-projects-widget .entry .thumbnail .status-soon{
+    background: #FFC000;
+    color: #000
+}
+.carousel-projects-widget .entry .thumbnail .status-open{
+    background: #00B050
+}
+.carousel-projects-widget .entry .thumbnail .status-close{
+    background: #e41b23;
 }
 .carousel-projects-widget .entry .entry-title{
     text-transform: uppercase;

@@ -17,7 +17,7 @@ var PPOFixed = {
             jQuery(window).scroll(function(event){
                 if (jQuery(this).scrollTop() >= top){
                     var wpadminbar_height = 0;
-                    if(jQuery(this).width() > 583){
+                    if(jQuery(this).width() > 991){
                         wpadminbar_height = jQuery('#wpadminbar').outerHeight(true);
                     }
                     jQuery('.ppo_menu').css({
@@ -463,4 +463,20 @@ jQuery(document).ready(function ($) {
     jQuery('.btn-close').on('click',function(){
         jQuery('.wrap-bookmarks').hide();
     });
+    
+    jQuery(window).bind('load resize', function(){
+        if(jQuery(this).width() < 992){
+            jQuery("html").style('margin-top', '0', 'important');
+        } else {
+            jQuery("html").style('margin-top', '32px', 'important');
+        }
+    });
+    
+    jQuery(".toggle-segments").click(function(){
+        jQuery("#segments-list-floating").removeClass('hide');
+    });
+    jQuery("#segments-list-floating .close").click(function(){
+        jQuery("#segments-list-floating").addClass('hide');
+    });
+    
 });

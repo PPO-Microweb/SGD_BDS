@@ -27,7 +27,12 @@ if (!defined('THEME_VER'))
 
 function get_api_urls(){
     return array(
-        'http://chungcubinhdan.batdongsan.vn/wp-json/api/v1' => 'Chung cư bình dân',
+        // Danh sach 30 quan/huyen
+        'http://badinh.batdongsan.vn/wp-json/api/v1' => 'Quận Ba Đình',
+        'http://bactuliem.batdongsan.vn/wp-json/api/v1' => 'Quận Bắc Từ Liêm',
+        // Danh sach 40 phan khuc va dia ban
+        'http://datnenhanoi.batdongsan.vn/wp-json/api/v1' => 'Đất vàng Hà Nội',
+        'http://datvanghanoi.batdongsan.vn/wp-json/api/v1' => 'Đất vàng Hà Nội',
     );
 }
 

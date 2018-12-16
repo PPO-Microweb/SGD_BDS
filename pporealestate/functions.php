@@ -266,6 +266,7 @@ function ppo_enqueue_scripts() {
     wp_enqueue_style( SHORT_NAME . '-vc-product-categories-list', get_template_directory_uri() . '/vc-shortcodes/css/product-categories-list.css', array(), THEME_VER );
     wp_enqueue_style( SHORT_NAME . '-vc-project-list', get_template_directory_uri() . '/vc-shortcodes/css/project-list.css', array(), THEME_VER );
     wp_enqueue_style( SHORT_NAME . '-vc-service-item', get_template_directory_uri() . '/vc-shortcodes/css/service-item.css', array(), THEME_VER );
+    wp_enqueue_style( SHORT_NAME . '-vc-link-item', get_template_directory_uri() . '/vc-shortcodes/css/link-item.css', array(), THEME_VER );
     wp_enqueue_style( SHORT_NAME . '-vc-video', get_template_directory_uri() . '/vc-shortcodes/css/video.min.css', array(), THEME_VER );
     
     // Load our main stylesheet.
@@ -656,11 +657,13 @@ function add_toolbar_items($admin_bar) {
 //    $admin_bar->remove_menu('site-name');
     $admin_bar->remove_menu('customize');
     $admin_bar->remove_menu('updates');
-//    $admin_bar->remove_menu('comments');
+    $admin_bar->remove_menu('comments');
     $admin_bar->remove_menu('autoptimize');
     $admin_bar->remove_menu('wpseo-menu');
     $admin_bar->remove_menu('ubermenu');
     $admin_bar->remove_menu('itsec_admin_bar_menu');
+//    $admin_bar->remove_menu('autoptimize');
+//    $admin_bar->remove_menu('vc_inline-admin-bar-link');
 }
 
 /**

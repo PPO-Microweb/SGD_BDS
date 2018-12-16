@@ -24,6 +24,7 @@ function ts_map_vc_shortcodes() {
 	include_once( PPO_DIR_SHORTCODES_MAP . 'form-search.php' );
 	include_once( PPO_DIR_SHORTCODES_MAP . 'popular-projects.php' );
 	include_once( PPO_DIR_SHORTCODES_MAP . 'service-item.php' );
+	include_once( PPO_DIR_SHORTCODES_MAP . 'link-item.php' );
 	include_once( PPO_DIR_SHORTCODES_MAP . 'product-list.php' );
 	include_once( PPO_DIR_SHORTCODES_MAP . 'product-categories-list.php' );
 	include_once( PPO_DIR_SHORTCODES_MAP . 'slide-projects.php' );

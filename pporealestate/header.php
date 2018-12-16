@@ -44,9 +44,6 @@
         var website = '<?php echo get_option(SHORT_NAME . "_website") ?>';
     </script>
     <?php wp_head(); ?>
-    <style type="text/css">
-        @media (max-width: 991px){html {margin-top:0!important}}
-    </style>
 </head>
 <body <?php body_class(); ?>>
     <div id="ajax_loading" style="display: none;z-index: 9999999" class="ajax-loading-block-window">
@@ -103,7 +100,10 @@
                                 <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> 
                                 <a title="Thoát" href="<?php echo wp_logout_url(); ?>">Thoát</a>
                             </li>
-                            <?php endif; ?> 
+                            <?php endif; ?>
+                            <li class="toggle-segments">
+                                <a href="javascript://" title="Danh sách 40 phân khúc (loại) Bất động sản"><span class="glyphicon glyphicon-th" aria-hidden="true"></span></a>
+                            </li>
                         </ul>
                     </div>
                 </div>

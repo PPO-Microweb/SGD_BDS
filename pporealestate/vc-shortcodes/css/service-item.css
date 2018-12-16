@@ -18,14 +18,14 @@
 }
 .service-item-widget .service-title{
     text-transform: uppercase;
-    color: #0054a0;
+    color: #014380;
     font-size: 20px
 }
 .service-item-widget .service-description{
     padding: 0 15px 15px
 }
 .service-item-widget .btn{
-    background: #0054a0;
+    background: #014380;
     text-transform: uppercase;
     text-align: center;
     color: #fff;
@@ -34,5 +34,5 @@
     display: block;
 }
 .service-item-widget .btn:hover{
-    background: #ff6000
+    background: #FF3300
 }

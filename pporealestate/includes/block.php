@@ -52,19 +52,19 @@ $block_meta_box = array(
     'priority' => 'high',
     'fields' => array(
         array(
-            'name' => 'Phân khúc',
-            'desc' => '',
-            'id' => 'segment',
+            'name' => 'Màu nền',
+            'desc' => 'Nhập mã màu vào đây, ví dụ: #014380',
+            'id' => 'bgcolor',
             'type' => 'text',
             'std' => '',
         ),
-        array(
-            'name' => 'Link BĐS',
-            'desc' => '',
-            'id' => 'link_bds',
-            'type' => 'text',
-            'std' => '',
-        ),
+//        array(
+//            'name' => 'Link BĐS',
+//            'desc' => '',
+//            'id' => 'link_bds',
+//            'type' => 'text',
+//            'std' => '',
+//        ),
         array(
             'name' => 'Link Block',
             'desc' => '',

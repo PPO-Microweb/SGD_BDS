@@ -1,6 +1,15 @@
-<div class="row item_product">
+<?php
+$project_status_list = project_status();
+$project_status = get_post_meta(get_the_ID(), "status", true);
+$project_status_html = "";
+if(!empty($project_status)){
+    $project_status_html = '<span class="status status-'.$project_status.'">'.$project_status_list[$project_status].'</span>';
+}
+?>
+<div class="row item_product project-item">
     <a class="col-sm-4 thumbnail" title="<?php the_title(); ?>" href="<?php the_permalink(); ?>">
         <img alt="<?php the_title(); ?>" src="<?php the_post_thumbnail_url('170x115'); ?>"/>
+        <?php echo $project_status_html ?>
     </a>
     <div class="row-pro col-sm-8">
         <h4>

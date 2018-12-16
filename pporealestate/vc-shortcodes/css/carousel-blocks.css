@@ -1,16 +1,16 @@
 .carousel-blocks-widget{margin-bottom: 30px}
 .carousel-blocks-widget .widget-title{
-    border-left: 5px solid #ff6000;
-    color: #0054a0;
+    border-left: 5px solid #FF3300;
+    color: #333;
     text-transform: uppercase;
     padding-left: 10px;
-    font-family: "Roboto Condensed";
+    font-family: "Roboto Condensed", sans-serif;
     margin: 0 0 15px;
     font-weight: bold
 }
 .carousel-blocks-widget .owl-carousel .owl-stage-outer{padding-bottom: 5px}
 .carousel-blocks-widget .item{
-    background: #ff6000;
+    background: #FF3300;
     padding: 15px;
     border: 1px solid #ddd;
     -webkit-box-shadow: 0px 2px 10px -5px rgba(0,0,0,0.5);
@@ -32,13 +32,13 @@
     text-transform: uppercase;
     text-align: center;
     font-size: 20px;
-    font-weight: 500
+    font-weight: bold
 }
 .carousel-blocks-widget .item .xem-bds, .carousel-blocks-widget .item .xem-block{
     color: #fff;
     text-transform: uppercase;
     text-align: center;
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 500;
     display: block;
     padding: 6px
@@ -48,7 +48,11 @@
     background: #00b6ff
 }
 .carousel-blocks-widget .item .xem-block{
-    background: #0054a0
+    background: none;
+    border: 1px solid #fff;
+}
+.carousel-blocks-widget .item .xem-block:hover{
+    background: #014380
 }
 .carousel-blocks-widget .owl-controls .owl-nav{
     position: absolute;

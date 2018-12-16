@@ -171,13 +171,13 @@
     padding: 0.5em
 }
 .comment-form input.submit{
-    background: #0054a0;
+    background: #014380;
     color: #fff;
     border: none;
     padding: 12px 20px
 }
 .comment-form input.submit:hover{
-    background: #ff6000
+    background: #FF3300
 }
 
 .form-allowed-tags, .form-allowed-tags code {

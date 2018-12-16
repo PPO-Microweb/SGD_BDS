@@ -45,6 +45,7 @@ function ppo_shortcode_popular_projects($atts) {
         $html_output .= '<h3 class="widget-title">' . $instance['title'] . '</h3>';
     }
     $html_output .= '<div class="row">';
+    $project_status_list = project_status();
     while ($loop_query->have_posts()) : $loop_query->the_post();
         $title = get_the_title();
         $permalink = get_permalink();
@@ -55,11 +56,17 @@ function ppo_shortcode_popular_projects($atts) {
         if($instance['show_description'] == 1){
             $excerpt = '<div class="description">' . get_short_content(get_the_excerpt(), 156) . '</div>';
         }
+        $project_status = get_post_meta(get_the_ID(), "status", true);
+        $project_status_html = "";
+        if(!empty($project_status)){
+            $project_status_html = '<span class="status status-'.$project_status.'">'.$project_status_list[$project_status].'</span>';
+        }
         $html_output .= <<<HTML
 <div class="col-md-3 col-sm-6 col-xs-6">
     <div class="entry" itemscope="" itemtype="http://schema.org/Article">
         <a class="thumbnail" href="{$permalink}" onclick="ga('send', 'event', 'Dự án', 'Xem dự án', '{$title}');">
-            <img src="{$thumbnail_url}" alt="{$title}" itemprop="image" onError="this.src={$no_image_url}" />
+            <img src="{$thumbnail_url}" alt="{$title}" itemprop="image" onError="this.src='{$no_image_url}'" />
+            {$project_status_html}
         </a>
         <h3 class="entry-title" itemprop="name">
             <a href="{$permalink}" itemprop="url" onclick="ga('send', 'event', 'Dự án', 'Xem dự án', '{$title}');">{$title}</a>

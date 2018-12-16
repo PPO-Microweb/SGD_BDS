@@ -1,4 +1,12 @@
-<div class="item">
+<?php
+$project_status_list = project_status();
+$project_status = get_post_meta(get_the_ID(), "status", true);
+$project_status_html = "";
+if(!empty($project_status)){
+    $project_status_html = '<span class="status status-'.$project_status.'">'.$project_status_list[$project_status].'</span>';
+}
+?>
+<div class="item project-item">
     <a class="thumbnail" title="<?php the_title(); ?>" href="<?php the_permalink(); ?>">
         <img alt="<?php the_title(); ?>" src="<?php the_post_thumbnail_url('400x250'); ?>"/>
         <span class="share-pro">
@@ -9,6 +17,7 @@
             </span>
             <span class="clearfix"></span>
         </span>
+        <?php echo $project_status_html ?>
     </a>
     <div class="row-pro">
         <h4>

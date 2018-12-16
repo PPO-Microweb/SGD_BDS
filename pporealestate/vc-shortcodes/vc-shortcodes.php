@@ -30,6 +30,7 @@ require_once( THEME_DIR . 'vc-shortcodes/shortcodes/list-posts.php' );
 require_once( THEME_DIR . 'vc-shortcodes/shortcodes/form-search.php' );
 require_once( THEME_DIR . 'vc-shortcodes/shortcodes/popular-projects.php' );
 require_once( THEME_DIR . 'vc-shortcodes/shortcodes/service-item.php' );
+require_once( THEME_DIR . 'vc-shortcodes/shortcodes/link-item.php' );
 require_once( THEME_DIR . 'vc-shortcodes/shortcodes/product-list.php' );
 require_once( THEME_DIR . 'vc-shortcodes/shortcodes/product-categories-list.php' );
 require_once( THEME_DIR . 'vc-shortcodes/shortcodes/slide-projects.php' );
