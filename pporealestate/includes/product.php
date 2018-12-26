@@ -513,15 +513,15 @@ function product_columns_content($column_name, $post_id) {
                         echo '<option value="'.$url.'" selected>'.$name.'</option>';
                     }
                     echo '</select>';
-                    echo '<button class="button button-primary btn-push-api" data-id=' . $post_id . '">' . __('Push', SHORT_NAME) . '</button>';
+                    echo '<button class="button button-primary btn-push-api" data-id=' . $post_id . '">' . __('Đẩy tin', SHORT_NAME) . '</button>';
                 }
             } else if($count_api_url > 1){
-                echo '<select class="api-url">';
+                echo '<select class="api-url" style="max-width:100%">';
                 foreach(get_api_urls() as $url => $name){
                     echo '<option value="'.$url.'">'.$name.'</option>';
                 }
                 echo '</select>';
-                echo '<button class="button button-primary btn-push-api" data-id=' . $post_id . '">' . __('Push', SHORT_NAME) . '</button>';
+                echo '<button class="button button-primary btn-push-api" data-id=' . $post_id . '">' . __('Đẩy tin', SHORT_NAME) . '</button>';
             }
             break;
         default:

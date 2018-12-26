@@ -11,112 +11,118 @@ if (isset($_POST['bntSave'])) {
     global $current_user;
     get_currentuserinfo();
     
-    $loaitin = intval(getRequest('loai_tin'));
-    $category = intval(getRequest('category'));
-    $city = getRequest('city');
-    $district = getRequest('district');
-    $ward = getRequest('ward');
-    $street = getRequest('street');
-    $price = getRequest('price');
-    $currency = getRequest('currency');
-    $unitPrice = getRequest('unitPrice');
-    $com = getRequest('com');
-    $area = getRequest('area');
-    $vi_tri = getRequest('vi_tri');
-    $mat_tien = getRequest('mat_tien');
-    $duong_truoc_nha = getRequest('duong_truoc_nha');
-    $direction = getRequest('direction');
-    $so_tang = getRequest('so_tang');
-    $so_phong = getRequest('so_phong');
-    $toilet = getRequest('toilet');
-    $project = getRequest('project');
-    $purpose_cat = getRequest('purpose_cat');
-    $special_cat = getRequest('special_cat');
-    $post_title = getRequest('post_title');
-    $post_content = getRequest('post_content');
-    $post_video = getRequest('post_video');
-    $post_maps = getRequest('post_maps');
-    $object_poster = getRequest('object_poster');
-    $product_permission = getRequest('product_permission');
-    $tin_vip = intval(getRequest('not_in_vip'));
-    $start_time = getRequest('start_time');
-    $start_time_arr = explode("/", $start_time);
-    if(count($start_time_arr) == 3){
-        $start_time = $start_time_arr[2] . "/" . $start_time_arr[1] . "/" . $start_time_arr[0];
-    }
-    $end_time = getRequest('end_time');
-    $end_time_arr = explode("/", $end_time);
-    if(count($end_time_arr) == 3){
-        $end_time = $end_time_arr[2] . "/" . $end_time_arr[1] . "/" . $end_time_arr[0];
-    }
-    $contact_name = getRequest('contact_name');
-    $contact_tel = getRequest('contact_tel');
-    $contact_email = getRequest('contact_email');
-
-    $my_post = array(
-        'post_type' => 'product',
-        'post_title' => $post_title,
-        'post_content' => $post_content,
-        'post_status' => 'draft',
-        'post_author' => $current_user->ID,
-//        'tax_input' => array(
-//            'product_category' => array($loaitin, $category),
-//            'product_purpose' => $purpose_cat,
-//            'product_special' => $special_cat,
-//        ),
-    );
-    $post_id = wp_insert_post($my_post);
-    if ($post_id > 0) {
-        $notify = "Bạn đã đăng dự án thành công!";
-        // update terms
-        wp_set_object_terms($post_id, array($loaitin, $category), 'product_category');
-        wp_set_object_terms($post_id, $purpose_cat, 'product_purpose');
-        wp_set_object_terms($post_id, $special_cat, 'product_special');
-        // update meta data
-        update_post_meta($post_id, 'city', $city);
-        update_post_meta($post_id, 'district', $district);
-        update_post_meta($post_id, 'ward', $ward);
-        update_post_meta($post_id, 'street', $street);
-        update_post_meta($post_id, 'price', $price);
-        update_post_meta($post_id, 'currency', $currency);
-        update_post_meta($post_id, 'unitPrice', $unitPrice);
-        update_post_meta($post_id, 'com', $com);
-        update_post_meta($post_id, 'area', $area);
-        update_post_meta($post_id, 'vi_tri', $vi_tri);
-        update_post_meta($post_id, 'direction', $direction);
-        update_post_meta($post_id, 'mat_tien', $mat_tien);
-        update_post_meta($post_id, 'duong_truoc_nha', $duong_truoc_nha);
-        update_post_meta($post_id, 'so_tang', $so_tang);
-        update_post_meta($post_id, 'so_phong', $so_phong);
-        update_post_meta($post_id, 'toilet', $toilet);
-        update_post_meta($post_id, 'project', $project);
-        update_post_meta($post_id, 'video', $post_video);
-        update_post_meta($post_id, 'maps', $post_maps);
-        update_post_meta($post_id, 'object_poster', $object_poster);
-        update_post_meta($post_id, 'product_permission', $product_permission);
-        update_post_meta($post_id, 'not_in_vip', $tin_vip);
-        update_post_meta($post_id, 'start_time', $start_time);
-        update_post_meta($post_id, 'end_time', $end_time);
-        update_post_meta($post_id, 'contact_name', $contact_name);
-        update_post_meta($post_id, 'contact_tel', $contact_tel);
-        update_post_meta($post_id, 'contact_email', $contact_email);
-        
-        // upload images
-        $gallery_ids = array();
-        for ($i = 0; $i < count($_FILES['images']['name']); $i++) {
-            $filename = $_FILES['images']['name'][$i];
-            $file = file_get_contents($_FILES['images']['tmp_name'][$i]);
-            $res = wp_upload_bits($filename, '', $file);
-            $attach_id = insert_attachment($res['file'], $post_id);
-            $gallery_ids[] = $attach_id;
+    if(validate_user_limit_posting()){
+        $loaitin = intval(getRequest('loai_tin'));
+        $category = intval(getRequest('category'));
+        $city = getRequest('city');
+        $district = getRequest('district');
+        $ward = getRequest('ward');
+        $street = getRequest('street');
+        $price = getRequest('price');
+        $currency = getRequest('currency');
+        $unitPrice = getRequest('unitPrice');
+        $com = getRequest('com');
+        $area = getRequest('area');
+        $vi_tri = getRequest('vi_tri');
+        $mat_tien = getRequest('mat_tien');
+        $duong_truoc_nha = getRequest('duong_truoc_nha');
+        $direction = getRequest('direction');
+        $so_tang = getRequest('so_tang');
+        $so_phong = getRequest('so_phong');
+        $toilet = getRequest('toilet');
+        $project = getRequest('project');
+        $purpose_cat = getRequest('purpose_cat');
+        $special_cat = getRequest('special_cat');
+        $post_title = getRequest('post_title');
+        $post_content = getRequest('post_content');
+        $post_video = getRequest('post_video');
+        $post_maps = getRequest('post_maps');
+        $object_poster = getRequest('object_poster');
+        $product_permission = getRequest('product_permission');
+        $tin_vip = intval(getRequest('not_in_vip'));
+        $start_time = getRequest('start_time');
+        $start_time_arr = explode("/", $start_time);
+        if(count($start_time_arr) == 3){
+            $start_time = $start_time_arr[2] . "/" . $start_time_arr[1] . "/" . $start_time_arr[0];
         }
-        if(!empty($gallery_ids)){
-            set_post_thumbnail($post_id, $gallery_ids[0]);
-            update_field('gallery', $gallery_ids, $post_id);
+        $end_time = getRequest('end_time');
+        $end_time_arr = explode("/", $end_time);
+        if(count($end_time_arr) == 3){
+            $end_time = $end_time_arr[2] . "/" . $end_time_arr[1] . "/" . $end_time_arr[0];
+        }
+        $contact_name = getRequest('contact_name');
+        $contact_tel = getRequest('contact_tel');
+        $contact_email = getRequest('contact_email');
+
+        $my_post = array(
+            'post_type' => 'product',
+            'post_title' => $post_title,
+            'post_content' => $post_content,
+            'post_status' => 'draft',
+            'post_author' => $current_user->ID,
+    //        'tax_input' => array(
+    //            'product_category' => array($loaitin, $category),
+    //            'product_purpose' => $purpose_cat,
+    //            'product_special' => $special_cat,
+    //        ),
+        );
+        $post_id = wp_insert_post($my_post);
+        if ($post_id > 0) {
+            $notify = "Bạn đã đăng dự án thành công!";
+            // update terms
+            wp_set_object_terms($post_id, array($loaitin, $category), 'product_category');
+            wp_set_object_terms($post_id, $purpose_cat, 'product_purpose');
+            wp_set_object_terms($post_id, $special_cat, 'product_special');
+            // update meta data
+            update_post_meta($post_id, 'city', $city);
+            update_post_meta($post_id, 'district', $district);
+            update_post_meta($post_id, 'ward', $ward);
+            update_post_meta($post_id, 'street', $street);
+            update_post_meta($post_id, 'price', $price);
+            update_post_meta($post_id, 'currency', $currency);
+            update_post_meta($post_id, 'unitPrice', $unitPrice);
+            update_post_meta($post_id, 'com', $com);
+            update_post_meta($post_id, 'area', $area);
+            update_post_meta($post_id, 'vi_tri', $vi_tri);
+            update_post_meta($post_id, 'direction', $direction);
+            update_post_meta($post_id, 'mat_tien', $mat_tien);
+            update_post_meta($post_id, 'duong_truoc_nha', $duong_truoc_nha);
+            update_post_meta($post_id, 'so_tang', $so_tang);
+            update_post_meta($post_id, 'so_phong', $so_phong);
+            update_post_meta($post_id, 'toilet', $toilet);
+            update_post_meta($post_id, 'project', $project);
+            update_post_meta($post_id, 'video', $post_video);
+            update_post_meta($post_id, 'maps', $post_maps);
+            update_post_meta($post_id, 'object_poster', $object_poster);
+            update_post_meta($post_id, 'product_permission', $product_permission);
+            update_post_meta($post_id, 'not_in_vip', $tin_vip);
+            update_post_meta($post_id, 'start_time', $start_time);
+            update_post_meta($post_id, 'end_time', $end_time);
+            update_post_meta($post_id, 'contact_name', $contact_name);
+            update_post_meta($post_id, 'contact_tel', $contact_tel);
+            update_post_meta($post_id, 'contact_email', $contact_email);
+
+            // upload images
+            $gallery_ids = array();
+            for ($i = 0; $i < count($_FILES['images']['name']); $i++) {
+                $filename = $_FILES['images']['name'][$i];
+                $file = file_get_contents($_FILES['images']['tmp_name'][$i]);
+                $res = wp_upload_bits($filename, '', $file);
+                $attach_id = insert_attachment($res['file'], $post_id);
+                $gallery_ids[] = $attach_id;
+            }
+            if(!empty($gallery_ids)){
+                set_post_thumbnail($post_id, $gallery_ids[0]);
+                update_field('gallery', $gallery_ids, $post_id);
+            }
+        } else {
+            $contact_page = get_page_link(get_option(SHORT_NAME . "_pagecontact"));
+            $notify1 = 'Có lỗi xảy ra, bạn hãy thử lại hoặc <a href="'.$contact_page.'" target="_blank">liên hệ</a> với chúng tôi để được trợ giúp.';
         }
     } else {
         $contact_page = get_page_link(get_option(SHORT_NAME . "_pagecontact"));
-        $notify1 = 'Có lỗi xảy ra, bạn hãy thử lại hoặc <a href="'.$contact_page.'" target="_blank">liên hệ</a> với chúng tôi để được trợ giúp.';
+        $limit_posting = esc_attr(get_the_author_meta('limit_posting', $current_user->ID));
+        $notify1 = 'Bạn đã đạt ngưỡng '.$limit_posting.' tin đăng chưa hết thời hạn, hãy <a href="'.$contact_page.'" target="_blank">liên hệ</a> với chúng tôi để được trợ giúp.';
     }
 }
 
@@ -216,7 +222,7 @@ get_header();
                                 <label class="text">Giá <span>(*)</span></label>
                             </div>
                             <div class="col-sm-2">
-                                <input type="text" value="0" name="price" min="0" id="price" class="number textbox" required/>
+                                <input type="text" value="<?php echo (isset($_POST['price']))?getRequest('price'):0 ?>" name="price" min="0" id="price" class="number textbox" placeholder="0" required/>
                             </div>
                             <div class="col-sm-4">
                                 <div class="row">
@@ -294,7 +300,7 @@ get_header();
                                                 <label class="text">Hoa hồng</label> 
                                             </div>
                                             <div class="col-sm-6">
-                                                <input type="text" placeholder="Tính theo %" name="com" class="textbox" />
+                                                <input type="text" placeholder="Tính theo %" name="com" value="<?php echo (isset($_POST['com']))?getRequest('com'):"" ?>" class="textbox" />
                                             </div>
                                         </div>
                                     </div>
@@ -311,7 +317,7 @@ get_header();
                                 <label class="text">Tiêu đề tin <span>(*)</span></label> 
                             </div>
                             <div class="col-md-10 col-sm-9">
-                                <input name="post_title" type="text" maxlength="70" value="" placeholder="Vui lòng gõ tiếng Việt có dấu để tin đăng được kiểm duyệt nhanh hơn" id="contact_name" class="form-control" required/>
+                                <input name="post_title" type="text" maxlength="70" value="<?php echo (isset($_POST['post_title']))?getRequest('post_title'):"" ?>" placeholder="Vui lòng gõ tiếng Việt có dấu để tin đăng được kiểm duyệt nhanh hơn" id="contact_name" class="form-control" required/>
                             </div>
                         </div>
                         <div class="item row">
@@ -320,7 +326,8 @@ get_header();
                             </div>
                             <div class="col-md-10 col-sm-9">
                                 <?php
-                                wp_editor("", "post_content", array(
+                                $content = (isset($_POST['post_content']))?getRequest('post_content'):"";
+                                wp_editor($content, "post_content", array(
                                     'textarea_name' => "post_content",
                                     'textarea_rows' => 12,
                                     'media_buttons' => false,
@@ -335,7 +342,7 @@ get_header();
                                 <label class="text">Video</label>
                             </div>
                             <div class="col-sm-10">
-                                <textarea rows="3" name="post_video" class="form-control"></textarea>
+                                <textarea rows="3" name="post_video" class="form-control"><?php echo (isset($_POST['post_video']))?getRequest('post_video'):"" ?></textarea>
                                 <small>Mã nhúng iframe video Youtube hoặc Vimeo. Width: 100% x Height: 400</small>
                             </div>
                         </div>
@@ -411,7 +418,7 @@ get_header();
                                         <label class="text">Diện tích (m<sup>2</sup>)</label>
                                     </div>
                                     <div class="col-sm-7">
-                                        <input type="text" value="" name="area" id="area" class="number textbox" />
+                                        <input type="text" value="<?php echo (isset($_POST['area']))?getRequest('area'):"" ?>" name="area" id="area" class="number textbox" />
                                     </div>
                                 </div>
                             </div>
@@ -421,7 +428,7 @@ get_header();
                                         <label class="text">Mặt tiền (m)</label>
                                     </div>
                                     <div class="col-sm-7">
-                                        <input type="text" value="" name="mat_tien" id="mat_tien" class="number textbox" />
+                                        <input type="text" value="<?php echo (isset($_POST['mat_tien']))?getRequest('mat_tien'):"" ?>" name="mat_tien" id="mat_tien" class="number textbox" />
                                     </div>
                                 </div>
                             </div>
@@ -431,7 +438,7 @@ get_header();
                                         <label class="text">Đường vào (m)</label>
                                     </div>
                                     <div class="col-sm-7">
-                                        <input type="text" value="" name="duong_truoc_nha" id="duong_truoc_nha" class="number textbox" />
+                                        <input type="text" value="<?php echo (isset($_POST['duong_truoc_nha']))?getRequest('duong_truoc_nha'):"" ?>" name="duong_truoc_nha" id="duong_truoc_nha" class="number textbox" />
                                     </div>
                                 </div>
                             </div>
@@ -457,7 +464,7 @@ get_header();
                                         <label class="text">Số tầng</label>
                                     </div>
                                     <div class="col-sm-7">
-                                        <input type="text" value="" name="so_tang" id="so_tang" class="number textbox" />
+                                        <input type="text" value="<?php echo (isset($_POST['so_tang']))?getRequest('so_tang'):"" ?>" name="so_tang" id="so_tang" class="number textbox" />
                                     </div>
                                 </div>
                             </div>
@@ -526,7 +533,7 @@ get_header();
                                 </select>
                             </div>
                             <div class="col-sm-3">
-                                <input type="text" value="" name="street" id="street" class="textbox" placeholder="Đường phố" />
+                                <input type="text" value="<?php echo (isset($_POST['street']))?getRequest('street'):"" ?>" name="street" id="street" class="textbox" placeholder="Đường phố" />
                             </div>
                         </div>
                         <div class="item row">
@@ -534,7 +541,7 @@ get_header();
                                 <label class="text">Địa chỉ <span>(*)</span></label> 
                             </div>
                             <div class="col-sm-10">
-                                <input type="text" value="" name="vi_tri" id="vi_tri" class="textbox required" required/>
+                                <input type="text" value="<?php echo (isset($_POST['vi_tri']))?getRequest('vi_tri'):"" ?>" name="vi_tri" id="vi_tri" class="textbox required" required/>
                             </div>
                         </div>
                         <div class="item row mb0">
@@ -542,7 +549,7 @@ get_header();
                                 <label class="text">Google Maps</label>
                             </div>
                             <div class="col-sm-10">
-                                <textarea rows="5" name="post_maps" class="form-control"></textarea>
+                                <textarea rows="5" name="post_maps" class="form-control"><?php echo (isset($_POST['post_maps']))?getRequest('post_maps'):"" ?></textarea>
                                 <small>Mã nhúng iframe bản đồ Google Maps. Width: 100%</small>
                             </div>
                             <div class="clear"></div>
@@ -595,7 +602,7 @@ get_header();
                                 <label class="text">Họ tên <span>(*)</span></label>      
                             </div>
                             <div class="col-md-6 col-sm-6">
-                                <input type="text" name="contact_name" id="contact_name" value="" maxlength="100" placeholder="Là Họ tên mà khách hàng sẽ liên hệ với bạn" class="form-control" required/>
+                                <input type="text" name="contact_name" id="contact_name" value="<?php echo (isset($_POST['contact_name']))?getRequest('contact_name'):"" ?>" maxlength="100" placeholder="Là Họ tên mà khách hàng sẽ liên hệ với bạn" class="form-control" required/>
                             </div>
                         </div>
                         <div class="item row">
@@ -603,7 +610,7 @@ get_header();
                                 <label class="text">Điện thoại <span>(*)</span></label>                          
                             </div>
                             <div class="col-md-6 col-sm-6">
-                                <input type="text" name="contact_tel" id="contact_tel" maxlength="20" value="" placeholder="Là Số điện thoại mà khách hàng sẽ gọi cho bạn" class="form-control" required/>
+                                <input type="text" name="contact_tel" id="contact_tel" maxlength="20" value="<?php echo (isset($_POST['contact_tel']))?getRequest('contact_tel'):"" ?>" placeholder="Là Số điện thoại mà khách hàng sẽ gọi cho bạn" class="form-control" required/>
                             </div>
                         </div>
                         <div class="item row">
@@ -611,7 +618,7 @@ get_header();
                                 <label class="text">Email</label>  
                             </div>
                             <div class="col-md-6 col-sm-6">
-                                <input type="email" name="contact_email" id="contact_email" maxlength="100"  value="" placeholder="Là Email mà khách hàng sẽ gửi cho bạn" class="form-control"/>
+                                <input type="email" name="contact_email" id="contact_email" maxlength="100"  value="<?php echo (isset($_POST['contact_email']))?getRequest('contact_email'):"" ?>" placeholder="Là Email mà khách hàng sẽ gửi cho bạn" class="form-control"/>
                             </div>
                         </div>
                     </div>

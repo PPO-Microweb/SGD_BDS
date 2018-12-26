@@ -3,6 +3,9 @@
     <div class="ppo_breadcrumb">
         <?php if ( function_exists('yoast_breadcrumb') ) { yoast_breadcrumb('<div class="breadcrumbs">','</div>'); } ?>
     </div>
+    <div class="banner_logo mt10 mb10">
+        <?php get_template_part('template', 'logo_banner'); ?>
+    </div>
     <div class="row">
         <div class="left col-md-8 col-sm-8 col-xs-12">
             <div class="archive_post">

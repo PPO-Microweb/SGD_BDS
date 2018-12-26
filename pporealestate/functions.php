@@ -245,7 +245,7 @@ function ppo_enqueue_scripts() {
     wp_enqueue_style( SHORT_NAME . '-font-awesome', get_template_directory_uri() . '/assets/css/font-awesome.min.css', array(), '4.7.0' );
     wp_enqueue_style( SHORT_NAME . '-animate', get_template_directory_uri() . '/assets/css/animate.min.css', array(), THEME_VER );
     wp_enqueue_style( SHORT_NAME . '-excoloSlider', get_template_directory_uri() . '/assets/css/jquery.excoloSlider.css', array(), '1.1.0' );
-//    wp_enqueue_style( SHORT_NAME . '-jquery-ui', '//code.jquery.com/ui/1.11.1/themes/start/jquery-ui.css', array(), '1.11.1' );
+//    wp_enqueue_style( SHORT_NAME . '-jquery-ui', '//code.jquery.com/ui/1.11.4/themes/start/jquery-ui.css', array(), '1.11.4' );
     wp_enqueue_style( SHORT_NAME . '-wp-default', get_template_directory_uri() . '/assets/css/wp-default.css', array(), THEME_VER );
     wp_enqueue_style( SHORT_NAME . '-owl-carousel', get_template_directory_uri() . '/assets/css/owl.carousel.min.css', array(), THEME_VER );
     wp_enqueue_style( SHORT_NAME . '-fancybox', get_template_directory_uri() . '/assets/fancybox/jquery.fancybox.min.css', array(), '3.2.10' );
@@ -294,11 +294,12 @@ function ppo_enqueue_scripts() {
     // Add script references
     wp_deregister_script( 'wp-embed' );
     wp_enqueue_script( 'jquery-ui-accordion' );
-//    wp_enqueue_script( SHORT_NAME . '-jquery-ui', get_template_directory_uri() . '/assets/js/jquery-ui.js', array( ), '1.11.1', true );
+    wp_enqueue_script( SHORT_NAME . '-attrchange', 'https://cdn.rawgit.com/meetselva/attrchange/master/js/attrchange.js', array( ), THEME_VER, true );
+    wp_enqueue_script( SHORT_NAME . '-jquery-ui', get_template_directory_uri() . '/assets/js/jquery-ui.min.js', array( ), '1.11.4', true );
     wp_enqueue_script( SHORT_NAME . '-bootstrap', get_template_directory_uri() . '/assets/js/bootstrap.min.js', array( ), '3.3.7', true );
     wp_enqueue_script( SHORT_NAME . '-excoloSlider', get_template_directory_uri() . '/assets/js/excoloSlider.js', array( ), '1.1.0', true );
     wp_enqueue_script( SHORT_NAME . '-responsive-tabs', get_template_directory_uri() . '/assets/js/responsive-tabs.js', array( ), THEME_VER, true );
-    wp_enqueue_script( SHORT_NAME . '-simplesidebar', get_template_directory_uri() . '/assets/js/jquery.simplesidebar.js', array( ), THEME_VER, true );
+    wp_enqueue_script( SHORT_NAME . '-simplesidebar', get_template_directory_uri() . '/assets/js/jquery.simple-sidebar.min.js', array( ), '2.8.3', true );
     wp_enqueue_script( SHORT_NAME . '-scrolltofixed', get_template_directory_uri() . '/assets/js/jquery-scrolltofixed-min.js', array( ), THEME_VER, true );
     wp_enqueue_script( SHORT_NAME . '-owl-carousel', get_template_directory_uri() . '/assets/js/owl.carousel.min.js', array( ), THEME_VER, true );
     wp_enqueue_script( SHORT_NAME . '-fancybox', get_template_directory_uri() . '/assets/fancybox/jquery.fancybox.min.js', array( 'jquery' ), '3.2.10', true );
@@ -320,6 +321,23 @@ HTML;
 }
 
 add_action('wp_head', 'ppo_script_add_data');
+
+/**
+ * Custom role name for User
+ * @global WP_Roles $wp_roles
+ */
+function ppo_change_role_name() {
+    global $wp_roles;
+    if (!isset($wp_roles)){
+        $wp_roles = new WP_Roles();
+    }
+    $wp_roles->roles['contributor']['name'] = __('Thành viên tích cực', SHORT_NAME);
+    $wp_roles->role_names['contributor'] = __('Thành viên tích cực', SHORT_NAME);
+    $wp_roles->roles['author']['name'] = __('Thành viên VIP', SHORT_NAME);
+    $wp_roles->role_names['author'] = __('Thành viên VIP', SHORT_NAME);
+}
+
+add_action('init', 'ppo_change_role_name');
 
 /* ----------------------------------------------------------------------------------- */
 # User login
@@ -742,9 +760,9 @@ function get_unitCurrency($key) {
  */
 function unitPrice_list() {
     return array(
-        'm' => '/m2',
-        'mmonth' => '/m2/tháng',
-        'total' => '/tổng',
+        'm2' => '/m2',
+        'm2month' => '/m2/tháng',
+        'totalarea' => '/tổng',
         'month' => '/tháng',
         'room' => '/phòng',
     );
@@ -792,4 +810,31 @@ function get_product_permissions(){
 function get_product_permission($permission){
     $array = get_product_permissions();
     return $array[$permission];
+}
+/**
+ * Kiểm tra giới hạn số tin đăng của thành viên
+ * @return bool TRUE là hợp lệ, FALSE là không hợp lệ
+ */
+function validate_user_limit_posting(){
+    global $current_user;
+    get_currentuserinfo();
+    $limit_posting = esc_attr(get_the_author_meta('limit_posting', $current_user->ID));
+    $args = array(
+        'post_type' => 'product',
+        'meta_query' => array(
+            'relation' => 'AND',
+            array(
+                'key' => 'end_time',
+                'value' => date('Y/m/d', strtotime("today")),
+                'compare' => '>=',
+                'type' => 'DATE'
+            )
+        ),
+        'posts_per_page' => -1,
+    );
+    $query = new WP_Query($args);
+    if($query->found_posts < $limit_posting){
+        return true;
+    }
+    return false;
 }

@@ -24,7 +24,7 @@ function create_qna_post_type(){
         'show_ui' => true,
         'publicy_queryable' => true,
         'exclude_from_search' => false,
-        'menu_position' => 20,
+        'menu_position' => 5,
         'hierarchical' => false,
         'query_var' => true,
         'supports' => array(

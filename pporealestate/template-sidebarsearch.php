@@ -6,19 +6,19 @@ $rooms = room_list();
 // Can ban
 $categories = get_terms(array(
     'taxonomy' => 'product_category',
-    'hide_empty' => 0,
+    'hide_empty' => 1,
     'parent' => intval(get_option(SHORT_NAME . "_cat_sell")),
 ));
 // Cho thue
 $categories2 = get_terms(array(
     'taxonomy' => 'product_category',
-    'hide_empty' => 0,
+    'hide_empty' => 1,
     'parent' => intval(get_option(SHORT_NAME . "_cat_rent")),
 ));
 // Cho thue
 $categories3 = get_terms(array(
     'taxonomy' => 'product_category',
-    'hide_empty' => 0,
+    'hide_empty' => 1,
     'parent' => intval(get_option(SHORT_NAME . "_cat_invest")),
 ));
 $areas = get_categories(array(

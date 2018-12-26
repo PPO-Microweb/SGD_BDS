@@ -52,7 +52,8 @@
     border: 1px solid #fff;
 }
 .carousel-blocks-widget .item .xem-block:hover{
-    background: #014380
+    background: #fff;
+    color: #014380
 }
 .carousel-blocks-widget .owl-controls .owl-nav{
     position: absolute;

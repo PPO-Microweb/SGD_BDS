@@ -313,6 +313,19 @@ function shortcode_youtube($content = NULL, $width = 300, $height = 300){
     return '<object width="'.$width.'" height="'.$height.'"><param name="movie" value="http://www.youtube.com/v/' . $id . '"></param><embed src="http://www.youtube.com/v/' . $id . '" type="application/x-shockwave-flash" width="'.$width.'" height="'.$height.'"></embed></object>';
 }
 /**
+ * Get Youtube ID from Embed code
+ */
+function getYoutubeID($embed){
+    $embed = trim($embed);
+    if(!empty($embed) or strpos($embed, "<iframe") === false) return "";
+    
+    $re = '/embed\/(\w+)(.*)"/';
+    $str = $embed;
+
+    preg_match($re, $str, $matches, PREG_OFFSET_CAPTURE, 0);
+    return $matches[1][0];
+}
+/**
  * Tests a string to see if it's a valid email address
  *
  * @param	string	Email address

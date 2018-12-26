@@ -76,26 +76,41 @@ jQuery(document).ready(function ($) {
 
     // Menu mobile
     jQuery(".menu-mobile").simpleSidebar({
-        settings: {
-            opener: "#menu",
-            wrapper: "#wrapper",
-            animation: {
-                easing: "easeOutQuint"
-            }
+        opener: "#menu",
+        wrapper: "#wrapper",
+        animation: {
+            easing: "easeOutQuint"
         },
         sidebar: {
             align: "left",
-            width: 200,
+            width: 220,
             closingLinks: '.btn-close-menu'
         },
+        sbWrapper: {
+            display: true
+        },
         mask: {
+            display: true,
             //STYLE holds all CSS rules. Use this feature to stylize the mask.
             style: {
                 //Default options.
-                backgroundColor: 'transparent', //if you do not want any color use 'transparent'.
-                opacity: 0.5, //if you do not want any opacity use 0.
-                filter: 'Alpha(opacity=50)' //IE8 and earlier - If you do not want any opacity use 0.
+                backgroundColor: 'rgba(0,0,0)', //if you do not want any color use 'transparent'.
+                opacity: 0.7, //if you do not want any opacity use 0.
+                filter: 'Alpha(opacity=70)' //IE8 and earlier - If you do not want any opacity use 0.
                         //You can add more options.
+            }
+        }
+    });
+    jQuery(".menu-mobile").attrchange({
+        trackValues: true, /* Default to false, if set to true the event object is updated with old and new value.*/
+        callback: function (event) { 
+            //event               - event object
+            //event.attributeName - Name of the attribute modified
+            //event.oldValue      - Previous value of the modified attribute
+            //event.newValue      - New value of the modified attribute
+            //Triggered when the selected elements attribute is added/updated/removed
+            if(event.attributeName === 'data-simplesidebar' && event.newValue === 'disabled'){
+                jQuery("body").find('div[data-simplesidebar="mask"]').hide();
             }
         }
     });
@@ -393,7 +408,7 @@ jQuery(document).ready(function ($) {
         setTimeout(function (){
             jQuery("#myModal").modal();
             TFunc.setCookie('t-popup', 1, 60 * 60 * 1000 * 24, '/', '', ''); // 24 hours
-        }, 2 * 1000); // seconds
+        }, 5 * 1000); // 5 seconds
     }
     
     jQuery(".own-avatar").append('<span class="toolbox"><a class="hotline" href="tel:' + hotline + '"></a><a class="website" href="' + website + '"></a></span>');
@@ -443,7 +458,7 @@ jQuery(document).ready(function ($) {
         }
         return false;
     });
-    jQuery("#floating-buttons .cta").on('click', function(){
+    jQuery("#floating-buttons .cta-support").on('click', function(){
         if (jQuery(".wrap-bookmarks").is(":hidden")) {
             jQuery(".wrap-bookmarks").addClass('bounceInLeft animated').show();
             setTimeout(function () {
@@ -466,9 +481,9 @@ jQuery(document).ready(function ($) {
     
     jQuery(window).bind('load resize', function(){
         if(jQuery(this).width() < 992){
-            jQuery("html").style('margin-top', '0', 'important');
+            jQuery("html").style('margin-top', '0px', 'important');
         } else {
-            jQuery("html").style('margin-top', '32px', 'important');
+            jQuery("html").style('margin-top', jQuery("#wpadminbar").outerHeight(true)+"px", 'important');
         }
     });
     

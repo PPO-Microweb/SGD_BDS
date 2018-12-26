@@ -1,1 +1,1 @@
-<img alt="<?php bloginfo('sitename'); ?>" src="<?php echo get_option('logo_banner');?>"/>
+<?php echo stripslashes_deep(get_option('logo_banner'));?>

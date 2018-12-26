@@ -152,7 +152,21 @@ function add_subiz_livechat_v4() {
     $subizID = get_option(SHORT_NAME . '_subizID_v4');
     if (!empty($subizID)):
         echo <<<HTML
-<script type="text/javascript">window._sbzq||function(t){t._sbzq=[];var e=t._sbzq;e.push(["_setAccount", "{$subizID}"]);var a=document.createElement("script");a.type="text/javascript",a.async=!0,a.src="https://widgetv4.subiz.com/static/js/app.js";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(a,s)}(window);</script>
+<!-- Subiz -->
+<script>
+(function(s, u, b, i, z){
+  u[i]=u[i]||function(){
+    u[i].t=+new Date();
+    (u[i].q=u[i].q||[]).push(arguments);
+  };
+  z=s.createElement('script');
+  var zz=s.getElementsByTagName('script')[0];
+  z.async=1; z.src=b; z.id='subiz-script';
+  zz.parentNode.insertBefore(z,zz);
+})(document, window, 'https://widgetv4.subiz.com/static/js/app.js', 'subiz');
+subiz('setAccount', '{$subizID}');
+</script>
+<!-- End Subiz -->
 HTML;
     endif;
 }
@@ -554,6 +568,13 @@ function get_province() {
     return $wpdb->get_results('SELECT * FROM province');
 }
 /**
+ * Get Province instance by ID
+ */
+function get_province_by_id($provinceID) {
+    global $wpdb;
+    return $wpdb->get_row($wpdb->prepare( "SELECT * FROM province WHERE provinceid = %s", $provinceID ));
+}
+/**
  * Get Districts by Province ID
  */
 function get_district($provinceID) {
@@ -573,6 +594,13 @@ function get_district_by_id($districtID) {
 function get_ward($districtID) {
     global $wpdb;
     return $wpdb->get_results('SELECT * FROM ward WHERE districtid = '.$districtID);
+}
+/**
+ * Get Ward instance by ID
+ */
+function get_wards_by_id($wardID) {
+    global $wpdb;
+    return $wpdb->get_row($wpdb->prepare( "SELECT * FROM ward WHERE wardid = %s", $wardID ));
 }
 
 //function get_history_order() {

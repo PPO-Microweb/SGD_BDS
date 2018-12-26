@@ -18,8 +18,9 @@
 }
 .service-item-widget .service-title{
     text-transform: uppercase;
-    color: #014380;
-    font-size: 20px
+    color: #333;
+    font-size: 16px;
+    font-weight: 700;
 }
 .service-item-widget .service-description{
     padding: 0 15px 15px

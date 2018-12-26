@@ -248,6 +248,13 @@ function my_show_extra_profile_fields($user) {
                 <input type="text" name="bds_location3" value="<?php echo esc_attr(get_the_author_meta('bds_location3', $user->ID)) ?>" placeholder="Địa bàn" style="width:200px" />
             </td>
         </tr>
+        <tr>
+            <th><label>Giới hạn số tin đăng</label></th>
+            <td>
+                <input type="text" name="limit_posting" value="<?php echo esc_attr(get_the_author_meta('limit_posting', $user->ID)) ?>" placeholder="20" style="width:200px" /><br/>
+                <p class="description">Start: 20, Biz: 100, Pro: 200,...</p>
+            </td>
+        </tr>
     </table>
     <?php
 }
@@ -255,7 +262,7 @@ function my_show_extra_profile_fields($user) {
 function my_save_extra_profile_fields($user_id) {
     $user_fields = array(
         "user_country", "bds_segment1", "bds_segment2", "bds_segment3", 
-        "bds_location1", "bds_location2", "bds_location3",
+        "bds_location1", "bds_location2", "bds_location3", "limit_posting",
     );
 
     if (!current_user_can('edit_user', $user_id))

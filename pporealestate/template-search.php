@@ -4,21 +4,21 @@ $directions = direction_list();
 $rooms = room_list();
 // Can ban
 $termchildren = get_terms(array(
-    'hide_empty' => 0,
+    'hide_empty' => 1,
     'post_type' => 'product',
     'taxonomy' => 'product_category',
     'parent' => intval(get_option(SHORT_NAME . "_cat_sell"))
 ));
 // Cho thue
 $termchildren2 = get_terms(array(
-    'hide_empty' => 0,
+    'hide_empty' => 1,
     'post_type' => 'product',
     'taxonomy' => 'product_category',
     'parent' => intval(get_option(SHORT_NAME . "_cat_rent"))
 ));
 // Dau tu
 $termchildren3 = get_terms(array(
-    'hide_empty' => 0,
+    'hide_empty' => 1,
     'post_type' => 'product',
     'taxonomy' => 'product_category',
     'parent' => intval(get_option(SHORT_NAME . "_cat_invest"))
@@ -47,9 +47,9 @@ $specials = get_categories(array(
 ?>
 <h3 class="form-title hide">Tìm bất động sản</h3>
 <ul class="nav nav-tabs responsive" id="myTab">
-    <li class="test-class"><a data-id="invest" href="#tab3"><span>Đầu tư</span></a></li>
-    <li class="test-class"><a data-id="rent" href="#tab2"><span>Cho thuê</span></a></li>
     <li class="test-class active"><a data-id="sales" href="#tab1"><span>Cần bán</span></a></li>
+    <li class="test-class"><a data-id="rent" href="#tab2"><span>Cho thuê</span></a></li>
+    <li class="test-class"><a data-id="invest" href="#tab3"><span>Đầu tư</span></a></li>
 </ul>
 <div class="hide hidden" id="categories-sales">
     <option value="<?php echo get_option(SHORT_NAME . "_cat_sell") ?>">- Loại nhà đất -</option>

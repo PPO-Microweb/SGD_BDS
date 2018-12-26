@@ -35,7 +35,7 @@
     <script>
         var siteUrl = "<?php bloginfo('siteurl'); ?>";
         var themeUrl = "<?php bloginfo('stylesheet_directory'); ?>";
-        var no_image_src = themeUrl + "/images/no_image_available.jpg";
+        var no_image_src = themeUrl + "/assets/images/no_image_available.jpg";
         var is_fixed_menu = <?php echo (get_option(SHORT_NAME . "_fixedMenu")) ? 'true' : 'false'; ?>;
         var is_home = <?php echo is_home() ? 'true' : 'false'; ?>;
         var show_popup = <?php echo (get_option(SHORT_NAME . "_showPopup")) ? 'true' : 'false'; ?>;
@@ -101,9 +101,6 @@
                                 <a title="Thoát" href="<?php echo wp_logout_url(); ?>">Thoát</a>
                             </li>
                             <?php endif; ?>
-                            <li class="toggle-segments">
-                                <a href="javascript://" title="Danh sách 40 phân khúc (loại) Bất động sản"><span class="glyphicon glyphicon-th" aria-hidden="true"></span></a>
-                            </li>
                         </ul>
                     </div>
                 </div>
@@ -191,20 +188,30 @@
                     'theme_location' => 'primary',
                     'menu_class' => 'main_menu',
                 ));
+                
+                if(get_option('mobilelogo')):
                 ?>
+                <a href="<?php bloginfo('siteurl') ?>" class="logo-mobile">
+                    <img alt="<?php bloginfo('name') ?>" src="<?php echo get_option('mobilelogo') ?>" />
+                </a>
+                <?php endif; ?>
+                <span class="toggle-segments">
+                    <a href="javascript://" title="Danh sách 40 phân khúc (loại) Bất động sản"><span class="glyphicon glyphicon-th" aria-hidden="true"></span></a>
+                </span>
             </div>
-            <!--MENU MOBILE-->
-            <section class="menu-mobile">
-                <div style="text-align: right">
-                    <span class="btn-close-menu"></span>
-                </div>
-                <?php
-                wp_nav_menu(array(
-                    'container' => '',
-                    'theme_location' => 'mobile',
-                    'menu_class' => 'mnleft',
-                ));
-                ?> 
-            </section>
         </div>
     </div>
+    
+    <!--MENU MOBILE-->
+    <section class="menu-mobile">
+<!--        <div class="text-right">
+            <span class="btn-close-menu"></span>
+        </div>-->
+        <?php
+        wp_nav_menu(array(
+            'container' => '',
+            'theme_location' => 'mobile',
+            'menu_class' => 'mnleft',
+        ));
+        ?> 
+    </section>

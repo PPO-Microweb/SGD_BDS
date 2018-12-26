@@ -23,43 +23,154 @@ function get_category_childrens() {
 # Push product to SGD
 /* ----------------------------------------------------------------------------------- */
 function api_push_product() {
-    $api_url = getRequest('api_url');
+    $api_url = getRequest('url');
     $post_id = intval(getRequest('id'));
+    if($api_url == 'http://www.batdongsan.vn/api/v1/realestatepost'){
+        push_to_batdongsan_vn($api_url, $post_id);
+    } else {
+        $product = get_post($post_id);
+//        $pushed = get_post_meta($post_id, 'pushed', true);
+//        if($product and $pushed != 'yes'){
+        if($product){
+            $loai_tin = null;
+            $category = null;
+            $taxonomy = 'product_category';
+            $terms = get_the_terms($post_id, $taxonomy);
+            foreach ($terms as $term) {
+                if($term->parent == 0){
+                    $loai_tin = get_term( $term, $taxonomy );
+                } else {
+                    $category = get_term( $term, $taxonomy );
+                }
+            }
+            $purpose_cat = array();
+            $purposes = get_the_terms($post_id, 'product_purpose');
+            foreach ($purposes as $purpose) {
+                $purpose_cat[] = $purpose->term_id;
+            }
+            $product_price = array();
+            $prices = get_the_terms($post_id, 'product_price');
+            foreach ($prices as $price) {
+                $product_price[] = $price->term_id;
+            }
+            $product_acreage = array();
+            $acreages = get_the_terms($post_id, 'product_acreage');
+            foreach ($acreages as $acreage) {
+                $product_acreage[] = $acreage->term_id;
+            }
+            $special_cat = array();
+            $specials = get_the_terms($post_id, 'product_special');
+            foreach ($specials as $special) {
+                $special_cat[] = $special->term_id;
+            }
+
+            $gallery = get_post_meta($post_id, 'gallery', true);
+            $_gallery = array();
+            if(is_array($gallery) and !empty($gallery)){
+                foreach ($gallery as $__gallery) {
+                    $_gallery[] = wp_get_attachment_url( $__gallery );
+                }
+            }
+
+            $args = array(
+                'loai_tin' => $loai_tin->name,
+                'category' => $category->name,
+                'purpose_cat' => $purpose_cat,
+                'product_price' => $product_price,
+                'product_acreage' => $product_acreage,
+                'special_cat' => $special_cat,
+                'post_title' => $product->post_title,
+                'post_content' => $product->post_content,
+                'city' => get_post_meta($post_id, 'city', true),
+                'district' => get_post_meta($post_id, 'district', true),
+                'ward' => get_post_meta($post_id, 'ward', true),
+                'street' => get_post_meta($post_id, 'street', true),
+                'price' => get_post_meta($post_id, 'price', true),
+                'currency' => get_post_meta($post_id, 'currency', true),
+                'unitPrice' => get_post_meta($post_id, 'unitPrice', true),
+                'com' => get_post_meta($post_id, 'com', true),
+                'area' => get_post_meta($post_id, 'area', true),
+                'vi_tri' => get_post_meta($post_id, 'vi_tri', true),
+                'mat_tien' => get_post_meta($post_id, 'mat_tien', true),
+                'duong_truoc_nha' => get_post_meta($post_id, 'duong_truoc_nha', true),
+                'direction' => get_post_meta($post_id, 'direction', true),
+                'so_tang' => get_post_meta($post_id, 'so_tang', true),
+                'so_phong' => get_post_meta($post_id, 'so_phong', true),
+                'toilet' => get_post_meta($post_id, 'toilet', true),
+                'post_video' => get_post_meta($post_id, 'video', true),
+                'post_maps' => get_post_meta($post_id, 'maps', true),
+                'object_poster' => get_post_meta($post_id, 'object_poster', true),
+                'product_permission' => get_post_meta($post_id, 'product_permission', true),
+                'start_time' => get_post_meta($post_id, 'start_time', true),
+                'end_time' => get_post_meta($post_id, 'end_time', true),
+                'contact_name' => get_post_meta($post_id, 'contact_name', true),
+                'contact_tel' => get_post_meta($post_id, 'contact_tel', true),
+                'contact_email' => get_post_meta($post_id, 'contact_email', true),
+                'thumbnail' => get_the_post_thumbnail_url($post_id, 'full'),
+                'gallery' => $_gallery,
+            );
+            $data = http_build_query($args);
+            $ch = curl_init($api_url . "/post_product");
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_USERAGENT, 'PPO/API');
+            $returnValue = curl_exec($ch);
+            curl_close($ch);
+
+            echo $returnValue;
+            $response = json_decode($returnValue);
+//            if($response->status == 'success'){
+//                update_post_meta($post_id, 'pushed', 'yes');
+//            }
+        } else {
+            Response(json_encode(array(
+                'status' => 'error',
+                'message' => 'Không hợp lệ!',
+            )));
+        }
+    }
+    exit();
+}
+
+/**
+ * 
+ */
+function push_to_batdongsan_vn($api_url, $post_id){
     $product = get_post($post_id);
-    $pushed = get_post_meta($post_id, 'pushed', true);
-    if($product and $pushed != 'yes'){
-        $loai_tin = null;
-        $category = null;
+    if($product){
+        $loai_tin = "";
+        $category = "";
         $taxonomy = 'product_category';
         $terms = get_the_terms($post_id, $taxonomy);
         foreach ($terms as $term) {
             if($term->parent == 0){
-                $loai_tin = get_term( $term, $taxonomy );
+                $loai_tin = $term->name;
             } else {
-                $category = get_term( $term, $taxonomy );
+                $category = $term->name;
             }
         }
-        $purpose_cat = array();
-        $purposes = get_the_terms($post_id, 'product_purpose');
-        foreach ($purposes as $purpose) {
-            $purpose_cat[] = $purpose->term_id;
-        }
-        $product_price = array();
-        $prices = get_the_terms($post_id, 'product_price');
-        foreach ($prices as $price) {
-            $product_price[] = $price->term_id;
-        }
-        $product_acreage = array();
-        $acreages = get_the_terms($post_id, 'product_acreage');
-        foreach ($acreages as $acreage) {
-            $product_acreage[] = $acreage->term_id;
-        }
-        $special_cat = array();
-        $specials = get_the_terms($post_id, 'product_special');
-        foreach ($specials as $special) {
-            $special_cat[] = $special->term_id;
-        }
-        
+//        $purpose_cat = array();
+//        $purposes = get_the_terms($post_id, 'product_purpose');
+//        foreach ($purposes as $purpose) {
+//            $purpose_cat[] = $purpose->term_id;
+//        }
+//        $product_price = array();
+//        $prices = get_the_terms($post_id, 'product_price');
+//        foreach ($prices as $price) {
+//            $product_price[] = $price->term_id;
+//        }
+//        $product_acreage = array();
+//        $acreages = get_the_terms($post_id, 'product_acreage');
+//        foreach ($acreages as $acreage) {
+//            $product_acreage[] = $acreage->term_id;
+//        }
+//        $special_cat = array();
+//        $specials = get_the_terms($post_id, 'product_special');
+//        foreach ($specials as $special) {
+//            $special_cat[] = $special->term_id;
+//        }
+
         $gallery = get_post_meta($post_id, 'gallery', true);
         $_gallery = array();
         if(is_array($gallery) and !empty($gallery)){
@@ -67,57 +178,81 @@ function api_push_product() {
                 $_gallery[] = wp_get_attachment_url( $__gallery );
             }
         }
+        
+        $city = get_post_meta($post_id, 'city', true);
+        $district = get_post_meta($post_id, 'district', true);
+        $wardID = get_post_meta($post_id, 'ward', true);
+        $content = do_shortcode($product->post_content);
 
-        $args = array(
-            'loai_tin' => $loai_tin->name,
-            'category' => $category->name,
-            'purpose_cat' => $purpose_cat,
-            'product_price' => $product_price,
-            'product_acreage' => $product_acreage,
-            'special_cat' => $special_cat,
-            'post_title' => $product->post_title,
-            'post_content' => $product->post_content,
-            'city' => get_post_meta($post_id, 'city', true),
-            'district' => get_post_meta($post_id, 'district', true),
-            'ward' => get_post_meta($post_id, 'ward', true),
+        $body = array(
+            'trantype' => $loai_tin,
+            'category' => $category,
+//            'purpose_cat' => $purpose_cat,
+//            'product_price' => $product_price,
+//            'product_acreage' => $product_acreage,
+//            'special_cat' => $special_cat,
+            'city' => get_province_by_id($city)->name,
+            'district' => get_district_by_id($district)->name,
+            'wards' => get_wards_by_id($wardID)->name,
             'street' => get_post_meta($post_id, 'street', true),
+            'title' => $product->post_title,
+            'brief' => get_short_content($content, 300),
+            'content' => $content,
+            'address' => get_post_meta($post_id, 'vi_tri', true),
             'price' => get_post_meta($post_id, 'price', true),
-            'currency' => get_post_meta($post_id, 'currency', true),
-            'unitPrice' => get_post_meta($post_id, 'unitPrice', true),
-            'com' => get_post_meta($post_id, 'com', true),
+//            'currency' => get_post_meta($post_id, 'currency', true),
+            'priceUnit' => get_post_meta($post_id, 'unitPrice', true),
+//            'com' => get_post_meta($post_id, 'com', true),
             'area' => get_post_meta($post_id, 'area', true),
-            'vi_tri' => get_post_meta($post_id, 'vi_tri', true),
-            'mat_tien' => get_post_meta($post_id, 'mat_tien', true),
-            'duong_truoc_nha' => get_post_meta($post_id, 'duong_truoc_nha', true),
-            'direction' => get_post_meta($post_id, 'direction', true),
-            'so_tang' => get_post_meta($post_id, 'so_tang', true),
-            'so_phong' => get_post_meta($post_id, 'so_phong', true),
-            'toilet' => get_post_meta($post_id, 'toilet', true),
-            'post_video' => get_post_meta($post_id, 'video', true),
-            'post_maps' => get_post_meta($post_id, 'maps', true),
-            'object_poster' => get_post_meta($post_id, 'object_poster', true),
-            'product_permission' => get_post_meta($post_id, 'product_permission', true),
-            'start_time' => get_post_meta($post_id, 'start_time', true),
-            'end_time' => get_post_meta($post_id, 'end_time', true),
-            'contact_name' => get_post_meta($post_id, 'contact_name', true),
-            'contact_tel' => get_post_meta($post_id, 'contact_tel', true),
-            'contact_email' => get_post_meta($post_id, 'contact_email', true),
-            'thumbnail' => get_the_post_thumbnail_url($post_id, 'full'),
-            'gallery' => $_gallery,
+            'video' => getYoutubeID(get_post_meta($post_id, 'video', true)),
+            'createTime' => date("Y-m-d H:i:s"),
+            'beginTime' => date("Y-m-d H:i:s", strtotime(get_post_meta($post_id, 'start_time', true))),
+            'endTime' => date("Y-m-d H:i:s", strtotime(get_post_meta($post_id, 'end_time', true))),
+//            'mat_tien' => get_post_meta($post_id, 'mat_tien', true),
+//            'duong_truoc_nha' => get_post_meta($post_id, 'duong_truoc_nha', true),
+//            'direction' => get_post_meta($post_id, 'direction', true),
+//            'so_tang' => get_post_meta($post_id, 'so_tang', true),
+//            'so_phong' => get_post_meta($post_id, 'so_phong', true),
+//            'toilet' => get_post_meta($post_id, 'toilet', true),
+//            'post_maps' => get_post_meta($post_id, 'maps', true),
+//            'object_poster' => get_post_meta($post_id, 'object_poster', true),
+//            'product_permission' => get_post_meta($post_id, 'product_permission', true),
+            'contactName' => get_post_meta($post_id, 'contact_name', true),
+            'contactEmail' => get_post_meta($post_id, 'contact_email', true),
+            'contactPhone' => get_post_meta($post_id, 'contact_tel', true),
+            'crawlerLink' => get_permalink($post_id),
+            'crawlerSource' => get_bloginfo('siteurl'),
+            'image' => get_the_post_thumbnail_url($post_id, 'full'),
+            'galleries' => $_gallery,
+            'longitude' => "",
+            'latitude' => "",
+            'username' => 'test',
         );
-        $data = http_build_query($args);
-        $ch = curl_init($api_url . "/post_product");
+        $args = array(
+            'username' => 'test',
+            'apikey' => '01b953fe-8ede-415d-904e-8248b8302d93',
+            'body' => json_encode($body),
+        );
+        $data = http_build_query($args);;
+        $ch = curl_init($api_url);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_USERAGENT, 'PPO/API');
         $returnValue = curl_exec($ch);
         curl_close($ch);
-
-        echo $returnValue;
+        
         $response = json_decode($returnValue);
-        if($response->status == 'success'){
-            update_post_meta($post_id, 'pushed', 'yes');
+        if($response->status == true){
+            Response(json_encode(array(
+                'status' => 'success',
+                'message' => 'Đăng tin thành công',
+            )));
+        } else {
+            Response(json_encode(array(
+                'status' => 'error',
+                'message' => $returnValue,
+            )));
         }
     } else {
         Response(json_encode(array(
@@ -125,7 +260,6 @@ function api_push_product() {
             'message' => 'Không hợp lệ!',
         )));
     }
-    exit();
 }
 
 //THANH PHO - QUAN HUYEN - PHUONG XA

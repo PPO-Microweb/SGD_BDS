@@ -29,8 +29,8 @@
     text-align: center
 }
 .carousel-users-widget .item .avatar .avatar-bg, .user_list .item .avatar .avatar-bg{
-    width: 160px;
-    height: 160px;
+    width: 150px;
+    height: 150px;
     border-radius: 50%;
     display: block;
     text-align: center;
@@ -83,3 +83,17 @@
     text-align: center
 }
 .carousel-users-widget .owl-controls .owl-next{text-align: right}
+@media (max-width:424px){
+    .carousel-users-widget .item .avatar .avatar-bg, .user_list .item .avatar .avatar-bg {
+        width: 120px;
+        height: 120px
+    }
+    .carousel-users-widget .item .avatar .avatar-first-char, .user_list .item .avatar .avatar-first-char{
+        line-height: 120px
+    }
+}
+@media (max-width:380px){
+    .user_list .col-xs-6 {
+        width: 100%
+    }
+}
