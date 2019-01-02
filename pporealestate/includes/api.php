@@ -5,6 +5,10 @@ add_action('rest_api_init', function () {
         'methods' => 'POST',
         'callback' => 'api_post_product',
     ));
+    register_rest_route('api/v1', '/get_segment_sites', array(
+        'methods' => 'GET',
+        'callback' => 'api_get_segment_sites',
+    ));
 });
 
 //add_action('rest_api_init', function () {
@@ -180,6 +184,25 @@ function api_post_product(WP_REST_Request $request) {
     // response json string
     return rest_ensure_response(array(
         'status' => $status,
+        'message' => $message,
+    ));
+}
+
+function api_get_segment_sites(WP_REST_Request $request) {
+    @ini_set('user_agent', 'PPO/API');
+    
+    $segments = list_site_loai_bds();
+    $message = '<h3 class="title"><span class="glyphicon glyphicon-th" aria-hidden="true"></span> Các loại BĐS</h3>';
+    $message .= '<ul>';
+    foreach($segments as $bds){
+        $message .= '<li><a href="'.$bds['url'].'" rel="nofollow" style="background:'.$bds['bgcolor'].';color:'.$bds['color'].'">'.$bds['name'].'</a></li>';
+    }
+    $message .= '<li><a href="javascript://" style="background:#808080"><span class="glyphicon glyphicon-plus"></span></a></li>';
+    $message .= '</ul>';
+
+    // response json string
+    return rest_ensure_response(array(
+        'status' => 'success',
         'message' => $message,
     ));
 }

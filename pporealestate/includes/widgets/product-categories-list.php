@@ -38,7 +38,7 @@ class Product_Categories_List_Widget extends WP_Widget {
             $args = array(
                 'taxonomy' => 'product_category',
                 'show_count' => 1,
-                'hide_empty' => 0,
+                'hide_empty' => 1,
                 'echo' => 0,
                 'title_li' => '',
                 'use_desc_for_title' => 0,

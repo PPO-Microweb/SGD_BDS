@@ -65,6 +65,18 @@
                 <div class="col-md-7">
                     <div class="top_link">
                         <ul>
+                            <?php
+                            global $current_user;
+                            $limit_posting = 0;
+                            if(is_user_logged_in()){
+                                $limit_posting = get_the_author_meta( 'limit_posting', $current_user->ID );
+                            }
+                            if (is_user_logged_in() and $limit_posting < MAX_LIMIT_POSTING):
+                            ?>
+                            <li class="upgrade">
+                                <a title="Nâng cấp Tài khoản" href="<?php echo get_page_link(get_option(SHORT_NAME . "_pageUpgradeAccount")); ?>">Nâng cấp</a>
+                            </li>
+                            <?php endif; ?>
                             <li>
                                 <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> 
                                 <a title="Đăng tin Bán/Cho thuê Nhà đất" href="<?php echo get_page_link(get_option(SHORT_NAME . "_pageposter")); ?>">Đăng tin</a>
@@ -77,30 +89,37 @@
                                 <span class="glyphicon glyphicon-pushpin" aria-hidden="true"></span> 
                                 <a title="Ký gửi nhà đất" href="<?php echo get_page_link(get_option(SHORT_NAME . "_pagesign")); ?>">Ký gửi</a>
                             </li>
-                            
-                            <?php if (!is_user_logged_in()): ?>
-                            <li>
-                                <span class="glyphicon glyphicon-user" aria-hidden="true"></span> 
-                                <a title="Đăng nhập" href="<?php echo get_page_link(get_option(SHORT_NAME . "_pagelogin")); ?>">Đăng nhập</a>
-                            </li> 
-                            <li>
-                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 
-                                <a title="Đăng ký" href="<?php echo get_page_link(get_option(SHORT_NAME . "_pageregister")); ?>">Đăng ký</a>
+                            <li class="toggle-acc-options">
+                                <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                                <ul class="nav">
+                                    <?php if (!is_user_logged_in()): ?>
+                                    <li>
+                                        <a title="Đăng nhập" href="<?php echo get_page_link(get_option(SHORT_NAME . "_pagelogin")); ?>"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Đăng nhập</a>
+                                    </li> 
+                                    <li>
+                                        <a title="Đăng ký" href="<?php echo get_page_link(get_option(SHORT_NAME . "_pageregister")); ?>"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Đăng ký</a>
+                                    </li>
+                                    <?php else: ?>
+                                    <li>
+                                        <a title="Danh sách Yêu thích" href="<?php echo get_page_link(get_option(SHORT_NAME . "_pageFavorites")); ?>"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span> Yêu thích</a>
+                                    </li>
+                                    <li>
+                                        <a title="Tài khoản" href="<?php echo get_page_link(get_option(SHORT_NAME . "_pageprofile")); ?>"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Tài khoản</a>
+                                    </li>
+                                    <?php if($limit_posting < MAX_LIMIT_POSTING): ?>
+                                    <li>
+                                        <a title="Nâng cấp Tài khoản" href="<?php echo get_page_link(get_option(SHORT_NAME . "_pageUpgradeAccount")); ?>"><span class="glyphicon glyphicon-usd" aria-hidden="true"></span> Nâng cấp</a>
+                                    </li>
+                                    <?php endif; ?>
+                                    <li>
+                                        <a title="Đổi mật khẩu" href="<?php echo get_page_link(get_option(SHORT_NAME . "_pagelostpassword")); ?>"><span class="fa fa-key" aria-hidden="true"></span> Đổi mật khẩu</a>
+                                    </li>
+                                    <li>
+                                        <a title="Thoát" href="<?php echo wp_logout_url(); ?>"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Thoát</a>
+                                    </li>
+                                    <?php endif; ?>
+                                </ul>
                             </li>
-                            <?php else: ?>
-                            <li>
-                                <span class="glyphicon glyphicon-heart" aria-hidden="true"></span> 
-                                <a title="Yêu thích" href="<?php echo get_page_link(get_option(SHORT_NAME . "_pageFavorites")); ?>">Yêu thích</a>
-                            </li>
-                            <li>
-                                <span class="glyphicon glyphicon-user" aria-hidden="true"></span> 
-                                <a title="Tài khoản" href="<?php echo get_page_link(get_option(SHORT_NAME . "_pageprofile")); ?>">Tài khoản</a>
-                            </li>
-                            <li>
-                                <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> 
-                                <a title="Thoát" href="<?php echo wp_logout_url(); ?>">Thoát</a>
-                            </li>
-                            <?php endif; ?>
                         </ul>
                     </div>
                 </div>

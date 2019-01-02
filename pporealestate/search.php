@@ -27,6 +27,7 @@ get_header();
         <!--END COLUMN MAIN-->
 
         <div class="right sidebar col-md-4 hidden-sm hidden-xs">
+            <?php get_template_part('template/widget-district-list'); ?>
             <?php get_template_part('template', 'sidebarsearch'); ?>
             <?php if ( is_active_sidebar( 'sidebar_archive' ) ) { dynamic_sidebar( 'sidebar_archive' ); } ?>
         </div>

@@ -51,19 +51,19 @@ class Project_List_Widget extends WP_Widget {
             }
             $cat_posts = new WP_Query($args);
             while ($cat_posts->have_posts()) : $cat_posts->the_post();
-                $thumbnail_url = get_the_post_thumbnail_url(get_the_ID(), '170x115');
+                $thumbnail_url = get_the_post_thumbnail_url(get_the_ID(), 'thumbnail');
                 $no_image_url = get_template_directory_uri() . "/assets/images/no_image.png";
                 $khu_vuc = get_post_meta(get_the_ID(), "khu_vuc", true);
             ?>
             <div class="entry" itemscope="" itemtype="http://schema.org/Article">
-                <div class="col-sm-3 pdl0 pdr0">
+                <div class="col-xs-3 pdl0 pdr0">
                     <a class="thumbnail" title="<?php the_title(); ?>" href="<?php the_permalink(); ?>" rel="bookmark" 
                        onclick="ga('send', 'event', 'Dự án', 'Xem dự án', '<?php the_title(); ?>');">
                         <img src="<?php echo $thumbnail_url ?>" alt="<?php the_title(); ?>" itemprop="image" 
-                             onError="this.src=<?php echo $no_image_url ?>" />
+                             onError="this.src='<?php echo $no_image_url ?>'" />
                     </a>
                 </div>
-                <div class="col-sm-9">
+                <div class="col-xs-9">
                     <h3 class="entry-title" itemprop="name">
                         <a href="<?php the_permalink(); ?>" rel="bookmark" itemprop="url" 
                            onclick="ga('send', 'event', 'Dự án', 'Xem dự án', '<?php the_title(); ?>');"><?php the_title(); ?></a>

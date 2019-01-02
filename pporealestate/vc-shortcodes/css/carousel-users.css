@@ -1,6 +1,6 @@
 .carousel-users-widget{margin-bottom: 30px}
 .carousel-users-widget .widget-title{
-    border-left: 5px solid #FF3300;
+    border-left: 5px solid #ff6600;
     color: #333;
     text-transform: uppercase;
     padding-left: 10px;
@@ -49,7 +49,7 @@
     border-radius: 50%
 }
 .carousel-users-widget .item h3, .user_list .item h3{
-    color: #014380;
+    color: #0054a0;
     font-size: 18px;
     text-align: center
 }
@@ -57,8 +57,8 @@
     margin-bottom: 3px
 }
 .carousel-users-widget .item .xem-them, .user_list .item .xem-them{
-    color: #014380;
-    border: 1px solid #014380;
+    color: #0054a0;
+    border: 1px solid #0054a0;
     padding: 8px;
     margin-top: 15px;
     text-transform: uppercase;
@@ -66,7 +66,7 @@
     display: block
 }
 .carousel-users-widget .item .xem-them:hover, .user_list .item .xem-them:hover{
-    background: #014380;
+    background: #0054a0;
     color: #fff
 }
 .carousel-users-widget .owl-controls .owl-nav{
@@ -83,6 +83,10 @@
     text-align: center
 }
 .carousel-users-widget .owl-controls .owl-next{text-align: right}
+.user_list>.row>.col-xs-6:nth-child(4n+1){clear: both}
+@media (max-width:767px){
+    .user_list>.row>.col-xs-6:nth-child(2n+1){clear: both}
+}
 @media (max-width:424px){
     .carousel-users-widget .item .avatar .avatar-bg, .user_list .item .avatar .avatar-bg {
         width: 120px;

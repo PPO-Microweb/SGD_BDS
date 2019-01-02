@@ -8,184 +8,151 @@
         <?php get_template_part('template', 'logo_banner'); ?>
     </div>
     <div class="row">
-        <div class="left col-md-8 col-sm-8 col-xs-12">
+        <div class="left col-lg-9 col-md-8 col-sm-8 col-xs-12">
             <div class="single_product">
-                <h1 class="title_product"><?php the_title(); ?></h1> 
-                <div class="short_info">
-                    <div class="mb5">
-                        <span class="bold-red">Khu vực:</span> <?php echo get_post_meta(get_the_ID(), "vi_tri", true); ?>
+                <div class="product-tabs">
+                    <ul class="ui-tabs-nav">
+                        <?php if( get_field('gallery') ) : ?>
+                        <li><a href="#product-gallery" rel="nofollow">Hình ảnh</a></li>
+                        <?php endif; ?>
+                        <?php if( get_field('video') ) : ?>
+                        <li><a href="#product-video" rel="nofollow">Video</a></li>
+                        <?php endif; ?>
+                        <?php if( get_field('maps') ) : ?>
+                        <li><a href="#product-maps" rel="nofollow">Bản đồ</a></li>
+                        <?php endif; ?>
+                    </ul>
+                    <?php if( get_field('gallery') ) : ?>
+                    <div id="product-gallery" class="product-gallery">
+                        <div class="owl-carousel">
+                            <?php
+                            $gallery = get_field('gallery');
+                            foreach ($gallery as $_gallery) :
+                            ?>
+                            <img src="<?php echo $_gallery['url']; ?>" alt="<?php echo $_gallery['title']; ?>" />
+                            <?php endforeach; ?>
+                        </div>
                     </div>
-                    <span class="bold-red">Giá: </span>
-                    <?php echo get_post_meta(get_the_ID(), "price", true); ?> <?php echo get_unitCurrency(get_post_meta(get_the_ID(), "currency", true));?><?php echo get_unitPrice(get_post_meta(get_the_ID(), "unitPrice", true));?>
-                    <span class="bold-red" style="margin-left: 10px;">Diện tích: </span>
-                    <?php echo get_post_meta(get_the_ID(), "dt", true); ?> m2
-                    <span class="bold-red" style="margin-left: 10px;">Hướng: </span>
-                    <?php
-                    $direction = get_post_meta(get_the_ID(), 'direction', true);
-                    echo get_direction($direction);
-                    ?>
-                    <span class="bold-red" style="margin-left: 10px;">Người đăng: </span>
-                    <?php
-                    printf( '<span class="byline"><span class="author vcard"><a class="url fn n" href="%1$s">%2$s</a></span></span>',
-                        esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ),
-                        get_the_author()
-                    );
-                    ?>
-                </div>
-                <?php if( get_field('gallery') ) : ?>
-                <div class="product-gallery">
-                    <div class="owl-carousel">
-                        <?php
-                        $gallery = get_field('gallery');
-                        foreach ($gallery as $_gallery) :
-                        ?>
-                        <img src="<?php echo $_gallery['url']; ?>" alt="<?php echo $_gallery['title']; ?>" />
-                        <?php endforeach; ?>
-                    </div>
-                </div>
-                <?php endif; ?>
-                <div class="description">
+                    <?php endif; ?>
                     <?php if( get_field('video') ) : ?>
-                    <div class="post-video">
+                    <div id="product-video" class="post-video">
                         <?php the_field('video') ?>
                     </div>
                     <?php endif; ?>
+                    <?php if( get_field('maps') ) : ?>
+                    <div id="product-maps" class="post-maps">
+                        <?php the_field('maps') ?>
+                    </div>
+                    <?php endif; ?>
+                </div>
+                <div class="short_info">
+                    <h1 class="title_product"><?php the_title(); ?></h1> 
+                    <span class="bold-red">Mã tin:</span> <?php the_ID(); ?>
+                    <span class="bold-red" style="margin-left: 10px;">Ngày đăng: </span>
+                    <?php the_time('d-m-Y'); ?>
+                    <span class="bold-red" style="margin-left: 10px;">Ngày kết thúc: </span>
+                    <?php echo date('d-m-Y', strtotime(get_post_meta(get_the_ID(), "end_time", true))) ?>
+                    <div class="tools">
+                        <span class="save-post" data-id="<?php the_ID() ?>" title="Thêm vào yêu thích"><i class="fa fa-heart"></i> Yêu thích</span>
+                        <span class="compare-post" data-id="<?php the_ID() ?>" title="So sánh bất động sản"><i class="fa fa-exchange"></i> So sánh</span>
+                    </div>
+                </div>
+                <div class="thong-so">
+                    <h3 class="title_head">Thông số cơ bản</h3>
+                    <table class="table table-bordered table-striped">
+                        <tr>
+                            <th>Giá:</th>
+                            <td>
+                                <strong style="color:red"><?php echo get_post_meta(get_the_ID(), "price", true); ?> <?php echo get_unitCurrency(get_post_meta(get_the_ID(), "currency", true));?><?php echo get_unitPrice(get_post_meta(get_the_ID(), "unitPrice", true));?></strong>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Diện tích:</th>
+                            <td><?php echo get_post_meta(get_the_ID(), "dt", true); ?> m2</td>
+                        </tr>
+                        <tr>
+                            <th>Hoa hồng:</th>
+                            <td><?php echo get_post_meta(get_the_ID(), "com", true); ?></td>
+                        </tr>
+                        <tr>
+                            <th>Hướng:</th>
+                            <td>
+                                <?php
+                                $direction = get_post_meta(get_the_ID(), 'direction', true);
+                                echo get_direction($direction);
+                                ?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Mặt tiền:</th>
+                            <td>
+                                <?php
+                                $mat_tien = get_post_meta(get_the_ID(), "mat_tien", true);
+                                if(!empty($mat_tien)){
+                                    echo $mat_tien . ' m';
+                                }
+                                ?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Đường vào:</th>
+                            <td>
+                                <?php
+                                $duong_truoc_nha = get_post_meta(get_the_ID(), "duong_truoc_nha", true);
+                                if(!empty($duong_truoc_nha)){
+                                    echo $duong_truoc_nha . ' m';
+                                }
+                                ?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Số tầng:</th>
+                            <td><?php echo get_post_meta(get_the_ID(), "so_tang", true) ?></td>
+                        </tr>
+                        <tr>
+                            <th>Số phòng ngủ:</th>
+                            <td><?php echo get_post_meta(get_the_ID(), "so_phong", true) ?></td>
+                        </tr>
+                        <tr>
+                            <th>Số toilet:</th>
+                            <td><?php echo get_post_meta(get_the_ID(), "toilet", true) ?></td>
+                        </tr>
+                        <tr>
+                            <th>Khu vực:</th>
+                            <td><?php echo get_post_meta(get_the_ID(), "vi_tri", true); ?></td>
+                        </tr>
+                        <tr>
+                            <th>BĐS phù hợp để:</th>
+                            <td>
+                                <ul class="purpose-list normal">
+                                <?php
+                                $purposes = get_the_terms(get_the_ID(), 'product_purpose');
+                                foreach($purposes as $purpose){
+                                    echo '<li>- '.$purpose->name.'</li>';
+                                }
+                                ?>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Đặc điểm của BĐS:</th>
+                            <td>
+                                <ul class="special-list normal">
+                                <?php
+                                $specials = get_the_terms(get_the_ID(), 'product_special');
+                                foreach($specials as $special){
+                                    echo '<li>- '.$special->name.'</li>';
+                                }
+                                ?>
+                                </ul>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="description">
                     <h3 class="title_head">Mô tả chi tiết</h3>
                     <div class="main_des">
                         <?php the_content();?>
-<!--                        <div class="images_des">
-                            <img alt="<?php // the_title(); ?>" src="<?php // echo get_image_url(); ?>"/>
-                        </div>-->
-                        <div class="table_des">
-                            <table id="tbl1">
-                                <tbody>
-                                    <tr>
-                                        <td colspan="6" class="col1 bold-blue">THÔNG TIN KHÁC</td>
-                                    </tr>
-                                    <tr>
-                                        <td style="width: 120px" class="col1">Mã số tin rao</td>
-                                        <td> <?php the_ID(); ?></td>
-                                        <td style="width: 150px" class="col1">Mặt tiền</td>
-                                        <td>
-                                            <?php
-                                            $mat_tien = get_post_meta(get_the_ID(), "mat_tien", true);
-                                            if(!empty($mat_tien)){
-                                                echo $mat_tien . ' m';
-                                            }
-                                            ?>
-                                        </td>
-                                        <td style="width: 150px" class="col1">Số phòng ngủ</td>
-                                        <td><?php echo get_post_meta(get_the_ID(), "so_phong", true) ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="col1">Ngày đăng tin</td>
-                                        <td><?php the_time('d-m-Y'); ?> </td>
-                                        <td class="col1">Đường vào</td>
-                                        <td>
-                                            <?php
-                                            $duong_truoc_nha = get_post_meta(get_the_ID(), "duong_truoc_nha", true);
-                                            if(!empty($duong_truoc_nha)){
-                                                echo $duong_truoc_nha . ' m';
-                                            }
-                                            ?>
-                                        </td>
-                                        <td class="col1">Số phòng tắm</td>
-                                        <td><?php echo get_post_meta(get_the_ID(), "toilet", true) ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="col1">Ngày hết hạn</td>
-                                        <td><?php echo get_post_meta(get_the_ID(), "end_time", true); ?></td>
-                                        <td class="col1">Số tầng</td>
-                                        <td><?php echo get_post_meta(get_the_ID(), "so_tang", true) ?></td>
-                                        <td class="col1">Dự án</td>
-                                        <td>
-                                            <?php
-                                            $project_id = get_post_meta(get_the_ID(), "project", true);
-                                            if($project_id){
-                                                echo '<a href="' . get_permalink($project_id) . '" target="_blank">' . get_the_title($project_id) . '</a>';
-                                            }
-                                            ?>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="6" class="col1 bold-blue">BĐS PHÙ HỢP ĐỂ</td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="6" class="col1">
-                                            <ul class="purpose-list normal">
-                                            <?php
-                                            $purposes = get_the_terms(get_the_ID(), 'product_purpose');
-                                            foreach($purposes as $purpose){
-                                                echo '<li>- '.$purpose->name.'</li>';
-                                            }
-                                            ?>
-                                            </ul>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="6" class="col1 bold-blue">ĐẶC ĐIỂM CỦA BĐS</td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="6" class="col1">
-                                            <ul class="special-list normal">
-                                            <?php
-                                            $specials = get_the_terms(get_the_ID(), 'product_special');
-                                            foreach($specials as $special){
-                                                echo '<li>- '.$special->name.'</li>';
-                                            }
-                                            ?>
-                                            </ul>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="6" class="col1 bold-blue">LIÊN HỆ</td>
-                                    </tr>
-                                    <tr>
-                                        <td style="width: 120px" class="col1">Tên liên hệ</td>
-                                        <td colspan="5"><?php
-                                        $not_in_vip = get_post_meta(get_the_ID(), 'not_in_vip', TRUE);
-                                        $contact_name = get_post_meta(get_the_ID(), 'contact_name', TRUE);
-                                        $contact_tel = get_post_meta(get_the_ID(), 'contact_tel', TRUE);
-                                        $contact_email = get_post_meta(get_the_ID(), 'contact_email', TRUE);
-                                        if($not_in_vip == 1 or empty($contact_name)){
-                                            echo get_option('unit_owner');
-                                        } else {
-                                            echo $contact_name;
-                                        }
-                                        ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="col1">Địa chỉ</td>
-                                        <td colspan="5"><?php echo get_option('info_address') ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="col1">Điện thoại</td>
-                                        <td colspan="5"><?php
-                                        if($not_in_vip == 1 or empty($contact_tel)){
-                                            echo get_option('info_tel');
-                                        } else {
-                                            echo $contact_tel;
-                                        }
-                                        ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="col1">Email</td>
-                                        <td colspan="5"><?php
-                                        if($not_in_vip == 1 or empty($contact_email)){
-                                            echo get_option('info_tel');
-                                        } else {
-                                            echo $contact_email;
-                                        }
-                                        ?></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <?php if( get_field('maps') ) : ?>
-                        <div class="post-maps">
-                            <?php the_field('maps') ?>
-                        </div>
-                        <?php endif; ?>
                         <?php show_share_socials(); ?>
                         <?php the_tags( '<div class="post-tags"><span class="glyphicon glyphicon-tags"></span> Tags: ', ', ', '</div>'); ?>
                     </div>
@@ -233,7 +200,7 @@
                                 )
                             ));
                             while ($loop->have_posts()) : $loop->the_post();
-                                echo '<div class="col-xs-6">';
+                                echo '<div class="col-sm-4 col-xs-6">';
                                 get_template_part('template', 'product_item2');
                                 echo '</div>';
                             endwhile;
@@ -244,35 +211,115 @@
                 </div>
             </div>
         </div>
-        
-        <div class="right sidebar col-md-4 col-sm-4 col-xs-12">
-            <?php get_template_part('template', 'sidebarsearch'); ?>
-            <div class="widget child_category">
-                <?php
-                $ancestors = get_ancestors($term_id, $taxonomy); // Get a list of ancestors
-                $ancestors = array_reverse($ancestors); //Reverse the array to put the top level ancestor first
-                $ancestors[0] ? $top_term_id = $ancestors[0] : $top_term_id = $term_id; //Check if there is an ancestor, else use id of current term
-
-                $term = get_term($top_term_id, $taxonomy); //Get the term
-                $parent = $term->term_id; // id of top level ancestor
-                $args = array(
-                    'child_of' => $parent,
-                    'taxonomy' => 'product_category',
-                    'hide_empty' => 0,
-                );
-                $terms = get_terms($taxonomy, $args);
-                ?>
-                <h3 class="widget-title"><?php echo $term->name ?></h3>
-                <div class="child_content">
-                    <ul class="child">
-                    <?php 
-                    foreach ($terms as $term) {
-                        echo '<li><a href="' . get_term_link($term) . '">' . $term->name . '</a></li>';
-                    }
-                    ?>
-                    </ul>
+        <div class="right sidebar col-lg-3 col-md-4 col-sm-4 col-xs-12">
+            <?php
+            $author = get_user_by( 'ID', get_the_author_meta( 'ID' ) );
+            $display_name = $author->user_lastname . ' ' . $author->user_firstname;
+            if(empty($author->user_lastname) and empty($author->user_firstname)){
+                $display_name = $author->display_name;
+            }
+            if(get_post_meta(get_the_ID(), 'contact_name', TRUE)){
+                $display_name = get_post_meta(get_the_ID(), 'contact_name', TRUE);
+            }
+            $phone = get_post_meta(get_the_ID(), 'contact_tel', TRUE);
+            if(empty($phone)) $phone = get_the_author_meta( 'phone', $author->ID );
+            if(empty($phone)) $phone = get_option(SHORT_NAME . "_hotline");
+            $contact_email = get_post_meta(get_the_ID(), 'contact_email', TRUE);
+            if(empty($contact_email)) $contact_email = $author->user_email;
+            if(empty($contact_email)) $contact_email = get_option('info_email');
+            ?>
+            <div class="widget widget-product-owner">
+                <div class="widget-title">Được đăng bởi</div>
+                <div class="widget-content">
+                    <div class="avatar">
+                        <a href="<?php echo esc_url( get_author_posts_url( $author->ID ) ) ?>">
+                            <?php echo get_avatar($author->ID, 150); ?>
+                        </a>
+                    </div>
+                    <div class="name"><?php echo $display_name; ?></div>
+                    <p>
+                        <strong>M: </strong><?php echo $phone; ?><br/>
+                        <strong>E: </strong><?php echo $contact_email; ?><br/>
+                        <strong>W: </strong><?php echo get_the_author_meta( 'url', $author->ID ); ?>
+                    </p>
+                    <div class="user-location-active">
+                        <?php
+                        $bds_segment1 = get_the_author_meta( 'bds_segment1', $author->ID );
+                        $bds_segment2 = get_the_author_meta( 'bds_segment2', $author->ID );
+                        $bds_segment3 = get_the_author_meta( 'bds_segment3', $author->ID );
+                        $bds_location1 = get_the_author_meta( 'bds_location1', $author->ID );
+                        $bds_location2 = get_the_author_meta( 'bds_location2', $author->ID );
+                        $bds_location3 = get_the_author_meta( 'bds_location3', $author->ID );
+                        $html_output = "";
+                        if(!empty($bds_segment1) and !empty($bds_location1)){
+                            $html_output .=  '<div class="segment">' . $bds_segment1 . '</div>';
+                            $html_output .=  '<div class="location">' . $bds_location1 . '</div>';
+                            $html_output .=  '<div class="clearfix"></div>';
+                        }
+                        if(!empty($bds_segment2) and !empty($bds_location2)){
+                            $html_output .=  '<div class="segment">' . $bds_segment2 . '</div>';
+                            $html_output .=  '<div class="location">' . $bds_location2 . '</div>';
+                            $html_output .=  '<div class="clearfix"></div>';
+                        }
+                        if(!empty($bds_segment3) and !empty($bds_location3)){
+                            $html_output .=  '<div class="segment">' . $bds_segment3 . '</div>';
+                            $html_output .=  '<div class="location">' . $bds_location3 . '</div>';
+                            $html_output .=  '<div class="clearfix"></div>';
+                        }
+                        echo $html_output;
+                        ?>
+                    </div>
+                    <a href="<?php echo esc_url( get_author_posts_url( $author->ID ) ) ?>" class="xem-them">Xem thêm</a>
                 </div>
             </div>
+            
+            <div class="widget widget-contact-publisher">
+                <div class="widget-title">Liên hệ người đăng tin</div>
+                <div class="widget-content">
+                    <form action="" method="post">
+                        <div class="form-group">
+                            <input type="text" name="name" value="" placeholder="Họ và tên" class="form-control" required />
+                        </div>
+                        <div class="form-group">
+                            <input type="email" name="email" value="" placeholder="Địa chỉ Email" class="form-control" required />
+                        </div>
+                        <div class="form-group">
+                            <input type="tel" name="tel" value="" placeholder="Số điện thoại" class="form-control" required />
+                        </div>
+                        <div class="form-group">
+                            <textarea rows="5" class="form-control" name="message">Tôi đã xem thông tin về “<?php the_title() ?>” trên website. Tôi muốn bạn cung cấp thêm thông tin và tư vấn cụ thể hơn. Cảm ơn bạn!</textarea>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Gửi liên hệ" class="btn btn-lg btn-primary" />
+                            <input type="hidden" name="action" value="send_contact_publisher" />
+                            <input type="hidden" name="pid" value="<?php the_ID() ?>" />
+                            <input type="hidden" name="uid" value="<?php echo get_the_author_meta( 'ID' ) ?>" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <?php
+            $productProjects = new WP_Query(array(
+                'post_type' => 'project',
+                'posts_per_page' => 1,
+                'p' => intval(get_post_meta(get_the_ID(), 'project', true)),
+            ));
+            if($productProjects->found_posts > 0){
+            ?>
+            <div class="widget widget-product-project">
+                <div class="widget-title">Thuộc dự án</div>
+                <div class="widget-content carousel-products-widget product-grid-container">
+                    <?php
+                    while ($productProjects->have_posts()) : $productProjects->the_post();
+                        get_template_part('template', 'project_item2');
+                    endwhile;
+                    wp_reset_query();
+                    ?>
+                </div>
+            </div>
+            <?php } ?>
+            
             <?php if ( is_active_sidebar( 'sidebar_product' ) ) { dynamic_sidebar( 'sidebar_product' ); } ?>
         </div>
     </div>

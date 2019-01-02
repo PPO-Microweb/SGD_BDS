@@ -8,6 +8,7 @@ include 'libs/HttpFoundation/Session.php';
 include 'libs/custom.php';
 include 'libs/common-scripts.php';
 include 'libs/meta-box.php';
+include 'libs/nganluong.php';
 include 'libs/theme_functions.php';
 include 'libs/theme_settings.php';
 ######## END: BLOCK CODE NAY LUON O TREN VA KHONG DUOC XOA ##########################
@@ -17,6 +18,7 @@ include 'includes/project.php';
 include 'includes/feedback.php';
 include 'includes/question-answer.php';
 include 'includes/supplier.php';
+include 'includes/user-level.php';
 include 'includes/favorites.php';
 include 'includes/widgets/ads.php';
 include 'includes/widgets/category-post-list-widget.php';
@@ -49,6 +51,8 @@ if (is_admin()) {
             exit;
         }
     }
+    
+    include 'includes/orders.php';
     
     // Add filter
     add_filter('acf/settings/show_admin', '__return_false');

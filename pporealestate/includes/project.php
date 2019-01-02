@@ -100,14 +100,21 @@ $project_meta_box = array(
     'fields' => array(
         array(
             'name' => 'Giá',
-            'desc' => 'Ví dụ: 77000',
+            'desc' => 'Ví dụ: từ 1.2-3.6 tỷ',
             'id' => 'project_price',
             'type' => 'text',
             'std' => '',
         ),
         array(
+            'name' => 'Diện tích',
+            'desc' => 'Ví dụ: từ 45-150m2',
+            'id' => 'project_area',
+            'type' => 'text',
+            'std' => '',
+        ),
+        array(
             'name' => 'Khu vực',
-            'desc' => '',
+            'desc' => 'Ví dụ: Lê Văn Lương',
             'id' => 'khu_vuc',
             'type' => 'text',
             'std' => '',

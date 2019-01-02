@@ -39,7 +39,10 @@
             </div>
         </div>
         <div class="right sidebar col-md-4 col-sm-4 col-xs-12">
-            <?php if ( is_active_sidebar( 'sidebar_archive' ) ) { dynamic_sidebar( 'sidebar_archive' ); } ?>
+            <?php
+            get_template_part('template/widget-district-list');
+            if ( is_active_sidebar( 'sidebar_archive' ) ) { dynamic_sidebar( 'sidebar_archive' ); }
+            ?>
         </div>
     </div>
 </div>

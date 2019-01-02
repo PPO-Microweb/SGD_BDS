@@ -565,7 +565,7 @@ function insert_attachment($file, $id = 0) {
  */
 function get_province() {
     global $wpdb;
-    return $wpdb->get_results('SELECT * FROM province');
+    return $wpdb->get_results('SELECT * FROM province WHERE status = 1');
 }
 /**
  * Get Province instance by ID
@@ -579,7 +579,7 @@ function get_province_by_id($provinceID) {
  */
 function get_district($provinceID) {
     global $wpdb;
-    return $wpdb->get_results('SELECT * FROM district WHERE provinceid = '.$provinceID);
+    return $wpdb->get_results('SELECT * FROM district WHERE provinceid = '.$provinceID.' AND status=1');
 }
 /**
  * Get District instance by ID
@@ -637,6 +637,12 @@ function show_member_list($users){
             $color = $rand[rand(0,15)].$rand[rand(0,15)].$rand[rand(0,15)].$rand[rand(0,15)].$rand[rand(0,15)].$rand[rand(0,15)];
             $avatar = '<span class="avatar-bg" style="background:#'.$color.'"><span class="avatar-first-char">'. strtoupper($first_char).'</span></span>';
         }
+        $bds_segment1 = get_the_author_meta( 'bds_segment1', $user->ID );
+        $bds_segment2 = get_the_author_meta( 'bds_segment2', $user->ID );
+        $bds_segment3 = get_the_author_meta( 'bds_segment3', $user->ID );
+        $bds_location1 = get_the_author_meta( 'bds_location1', $user->ID );
+        $bds_location2 = get_the_author_meta( 'bds_location2', $user->ID );
+        $bds_location3 = get_the_author_meta( 'bds_location3', $user->ID );
         echo <<<HTML
         <div class="col-md-3 col-sm-4 col-xs-6">
             <div class="item" itemscope="" itemtype="http://schema.org/Person">
@@ -647,6 +653,27 @@ function show_member_list($users){
                 <p><strong>M: </strong>{$phone}</p>
                 <p><strong>E: </strong>{$user->user_email}</p>
                 <p><strong>W: </strong>{$website}</p>
+                <div class="user-location-active">
+HTML;
+                $html_output = "";
+                if(!empty($bds_segment1) and !empty($bds_location1)){
+                    $html_output .=  '<div class="segment">' . $bds_segment1 . '</div>';
+                    $html_output .=  '<div class="location">' . $bds_location1 . '</div>';
+                    $html_output .=  '<div class="clearfix"></div>';
+                }
+                if(!empty($bds_segment2) and !empty($bds_location2)){
+                    $html_output .=  '<div class="segment">' . $bds_segment2 . '</div>';
+                    $html_output .=  '<div class="location">' . $bds_location2 . '</div>';
+                    $html_output .=  '<div class="clearfix"></div>';
+                }
+                if(!empty($bds_segment3) and !empty($bds_location3)){
+                    $html_output .=  '<div class="segment">' . $bds_segment3 . '</div>';
+                    $html_output .=  '<div class="location">' . $bds_location3 . '</div>';
+                    $html_output .=  '<div class="clearfix"></div>';
+                }
+                echo $html_output;
+                echo <<<HTML
+                </div>
                 <a href="{$permalink}" class="xem-them">Xem thêm</a>
             </div>
         </div>

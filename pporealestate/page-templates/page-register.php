@@ -35,6 +35,8 @@ if(getRequestMethod() == 'POST'){
             array_push($msg['warning'], "Đăng ký lỗi. Vui lòng liên hệ <a href='mailto:" . get_option( 'admin_email' ) . "'>quản trị website</a>!");
         }else{
             array_push($msg['success'], "Đăng ký thành công!");
+            update_usermeta($user_id, 'limit_posting', '10');
+            update_usermeta($user_id, 'limit_postvip', '0');
             //Set up the Password change nag.
             update_user_option( $user_id, 'default_password_nag', true, true ); 
             // notification for user

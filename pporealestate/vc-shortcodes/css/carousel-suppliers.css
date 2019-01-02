@@ -1,6 +1,6 @@
 .carousel-suppliers-widget{margin-bottom: 30px}
 .carousel-suppliers-widget .widget-title{
-    border-left: 5px solid #FF3300;
+    border-left: 5px solid #ff6600;
     color: #333;
     text-transform: uppercase;
     padding-left: 10px;
@@ -29,15 +29,15 @@
     margin-bottom: 0
 }
 .carousel-suppliers-widget .entry .entry-title, .supplier_list .entry .entry-title{
-    color: #014380;
+    color: #0054a0;
     padding: 10px;
     margin-bottom: 0;
     font-size: 16px;
     text-align: center;
     min-height: 58px
 }
-.carousel-suppliers-widget .entry .entry-title a, .supplier_list .entry .entry-title a{color: #014380}
-.carousel-suppliers-widget .entry .entry-title a:hover, .supplier_list .entry .entry-title a:hover{color: #FF3300}
+.carousel-suppliers-widget .entry .entry-title a, .supplier_list .entry .entry-title a{color: #0054a0}
+.carousel-suppliers-widget .entry .entry-title a:hover, .supplier_list .entry .entry-title a:hover{color: #ff6600}
 .carousel-suppliers-widget .owl-controls .owl-nav{
     position: absolute;
     top: -46px;

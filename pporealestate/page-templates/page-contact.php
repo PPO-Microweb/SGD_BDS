@@ -19,6 +19,6 @@ get_header(); ?>
             <?php echo stripslashes(get_option(SHORT_NAME . "_gmaps")); ?>
         </div>
     </div>
+    <?php endwhile; ?>
 </div>
-<?php endwhile; ?>
 <?php get_footer(); ?>

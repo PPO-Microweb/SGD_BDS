@@ -53,7 +53,7 @@ $block_meta_box = array(
     'fields' => array(
         array(
             'name' => 'Màu nền',
-            'desc' => 'Nhập mã màu vào đây, ví dụ: #014380',
+            'desc' => 'Nhập mã màu vào đây, ví dụ: #0054a0',
             'id' => 'bgcolor',
             'type' => 'text',
             'std' => '',

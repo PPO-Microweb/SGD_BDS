@@ -503,3 +503,111 @@ function add_to_compare(){
     
     exit;
 }
+
+/**
+ * Liên hệ người đăng tin BĐS
+ */
+function send_contact_publisher(){
+    $errMsg = "";
+    $name = getRequest('name');
+    $email = getRequest('email');
+    $tel = getRequest('tel');
+    $message = getRequest('message');
+    $pid = getRequest('pid');
+    $uid = getRequest('uid');
+    $author = get_user_by( 'ID', $uid );
+    $contact_email = get_post_meta($pid, 'contact_email', TRUE);
+    if(empty($contact_email) and $author) $contact_email = $author->user_email;
+    if(empty($contact_email)) $contact_email = get_option('info_email');
+    $phone = get_post_meta($pid, 'contact_tel', TRUE);
+    if(empty($phone) and $author) $phone = get_the_author_meta( 'phone', $author->ID );
+    if(empty($phone)) $phone = get_option(SHORT_NAME . "_hotline");
+    
+    if(!is_valid_email($email)){
+        $errMsg = "Vui lòng nhập địa chỉ email hợp lệ!";
+    }
+    if(!empty($errMsg)){
+        Response(json_encode(array(
+            'status' => 'error',
+            'message' => $errMsg,
+        )));
+    } else {
+        $subject = "Liên hệ tư vấn thuê/mua/đầu tư Bất động sản";
+        $body = <<<HTML
+<p><strong>Họ và tên: </strong>{$name}</p>
+<p><strong>Email: </strong>{$email}</p>
+<p><strong>Số điện thoại: </strong>{$tel}</p>
+<div><strong>Nội dung: </strong>{$message}</div>
+HTML;
+
+        $headers = array(
+            'From: ' . $name . ' <' . $email . '>',
+            'Reply-To: ' . $name . ' <' . $email . '>',
+        );
+
+        add_filter('wp_mail_content_type', 'set_html_content_type');
+        $result = wp_mail($contact_email, $subject, $body, $headers);
+
+        // reset content-type to avoid conflicts
+        remove_filter('wp_mail_content_type', 'set_html_content_type');
+        
+        if($result){
+            Response(json_encode(array(
+                'status' => 'success',
+                'message' => "Gửi thành công!",
+            )));
+        } else {
+            Response(json_encode(array(
+                'status' => 'error',
+                'message' => 'Gửi thất bại, vui lòng liên lạc ' . $phone . ' để được trợ giúp!',
+            )));
+        }
+    }
+    exit;
+}
+
+function upgrade_account(){
+    $level_id = getRequest('level_id');
+    $price = get_field('price', $level_id);
+
+    global $wpdb, $nl_checkout, $current_user;
+    
+    // Insert into Order
+    $result = $wpdb->insert( $wpdb->prefix . 'orders', array(
+        'user_id' => $current_user->ID,
+        'level_id' => $level_id,
+        'payment_method' => 'Nganluong',
+        'discount' => 0,
+        'total_amount' => $price,
+        'affiliate_id' => '',
+        'updated_date' => date('Y-m-d H:i:s'),
+    ), array(
+        '%d',
+        '%d',
+        '%s',
+        '%d',
+        '%d',
+        '%s',
+        '%s',
+    ) );
+    
+    if($result){
+        $order_code = $wpdb->insert_id;
+        $receiver = "info@batdongsan.vn";
+        $return_url = get_page_link(get_option('online_payment_result'));
+        $url = $nl_checkout->buildCheckoutUrl($return_url, $receiver, '', $order_code, $price);
+
+        Response(json_encode(array(
+            'status' => 'success',
+            'message' => "Kiểm tra hợp lệ, chúng tôi sẽ chuyển sang cổng thanh toán Ngân Lượng ngay bây giờ.",
+            'redirect_url' => $url,
+        )));
+    } else {
+        Response(json_encode(array(
+            'status' => 'error',
+            'message' => 'Xảy ra lỗi, vui lòng thử lại hoặc liên hệ quản trị viên để được trợ giúp!',
+        )));
+    }
+
+    exit;
+}

@@ -180,7 +180,7 @@ function city_change(id){
                 url: ajaxurl, type: "POST", dataType: "json", cache: false,
                 data: {
                     action: 'get_ddldistrict',
-                    city_id: id,
+                    city_id: id
                 },
                 success: function (response, textStatus, XMLHttpRequest) {
                     $("#district").empty().append('<option value="">- Quận/ Huyện -</option>').append(response.data);
@@ -205,7 +205,7 @@ function district_change(id){
                 url: ajaxurl, type: "POST", dataType: "json", cache: false,
                 data: {
                     action: 'get_ddlward',
-                    district_id: id,
+                    district_id: id
                 },
                 success: function (response, textStatus, XMLHttpRequest) {
                     $("#ward").empty().append('<option value="">- Phường/Xã -</option>').append(response.data);
@@ -280,28 +280,54 @@ jQuery(document).ready(function ($) {
     $(window).load(function(){
         $("#district").prop("disabled", true);
         $("#ward").prop("disabled", true);
-        var city_id = $('#city').val() === "" ? 0 : $('#city').val();
-        var district_id = $('#district').attr('data-val') === "" ? 0 : $('#district').attr('data-val');
-        var ward_id = $('#ward').attr('data-val') === "" ? 0 : $('#ward').attr('data-val');
-        try {
-            if(typeof city_id !== undefined && city_id !== 0 && city_id.toString().trim().length !== 0){
-                city_change(city_id);
-                district_change(district_id);
-                setTimeout(function(){
-                    $('#district').val(district_id);
-                    $('#ward').val(ward_id);
-                }, 1000);
-                setTimeout(function(){
-                    $('#district').val(district_id);
-                    $('#ward').val(ward_id);
-                }, 2000);
-                setTimeout(function(){
-                    $('#district').val(district_id);
-                    $('#ward').val(ward_id);
-                }, 3000);
-            }
-        } catch (e) {
-            console.log(e);
+        var city_id = $('#city').val();
+        var district_id = $('#district').attr('data-val');
+        var ward_id = $('#ward').attr('data-val');
+        if(city_id.toString().trim().length > 0){
+            jQuery.ajax({
+                url: ajaxurl, type: "POST", dataType: "json", cache: false,
+                data: {
+                    action: 'get_ddldistrict',
+                    city_id: city_id
+                },
+                success: function (response, textStatus, XMLHttpRequest) {
+                    $("#district").empty().append('<option value="">- Quận/ Huyện -</option>').append(response.data);
+                    $("#district").prop("disabled", false);
+                    if(district_id.toString().trim().length > 0){
+                        setTimeout(function(){
+                            $('#district').val(district_id);
+                        }, 1000);
+                    }
+                },
+                error: function (MLHttpRequest, textStatus, errorThrown) {
+                    console.log(errorThrown);
+                },
+                complete: function () {
+                }
+            });
+        }
+        if(district_id.toString().trim().length > 0){
+            jQuery.ajax({
+                url: ajaxurl, type: "POST", dataType: "json", cache: false,
+                data: {
+                    action: 'get_ddlward',
+                    district_id: district_id
+                },
+                success: function (response, textStatus, XMLHttpRequest) {
+                    $("#ward").empty().append('<option value="">- Phường/Xã -</option>').append(response.data);
+                    $("#ward").prop("disabled", false);
+                    if(ward_id.toString().trim().length > 0){
+                        setTimeout(function(){
+                            $('#ward').val(ward_id);
+                        }, 1000);
+                    }
+                },
+                error: function (MLHttpRequest, textStatus, errorThrown) {
+                    console.log(errorThrown);
+                },
+                complete: function () {
+                }
+            });
         }
     });
     

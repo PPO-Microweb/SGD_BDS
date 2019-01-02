@@ -252,7 +252,14 @@ function my_show_extra_profile_fields($user) {
             <th><label>Giới hạn số tin đăng</label></th>
             <td>
                 <input type="text" name="limit_posting" value="<?php echo esc_attr(get_the_author_meta('limit_posting', $user->ID)) ?>" placeholder="20" style="width:200px" /><br/>
-                <p class="description">Start: 20, Biz: 100, Pro: 200,...</p>
+                <p class="description">Start: 10, Biz: 50, Pro: 200,...</p>
+            </td>
+        </tr>
+        <tr>
+            <th><label>Giới hạn số tin VIP</label></th>
+            <td>
+                <input type="text" name="limit_postvip" value="<?php echo esc_attr(get_the_author_meta('limit_postvip', $user->ID)) ?>" placeholder="0" style="width:200px" /><br/>
+                <p class="description">Start: 0, Biz: 10, Pro: 50,...</p>
             </td>
         </tr>
     </table>
@@ -262,7 +269,8 @@ function my_show_extra_profile_fields($user) {
 function my_save_extra_profile_fields($user_id) {
     $user_fields = array(
         "user_country", "bds_segment1", "bds_segment2", "bds_segment3", 
-        "bds_location1", "bds_location2", "bds_location3", "limit_posting",
+        "bds_location1", "bds_location2", "bds_location3", 
+        "limit_posting", "limit_postvip",
     );
 
     if (!current_user_can('edit_user', $user_id))

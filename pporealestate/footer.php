@@ -74,10 +74,10 @@
 
 <!-- SUPPORT -->
 <section id="floating-buttons">
-    <a href="http://fb.com/msg/<?php echo get_option(SHORT_NAME . "_messenger_id") ?>" class="cta cta-messenger" rel="nofollow"><i></i></a>
-    <a href="http://zalo.me/<?php echo get_option(SHORT_NAME . "_zalo_phone") ?>" class="cta cta-zalo" rel="nofollow"><i></i></a>
-    <a href="#" class="cta cta-support" rel="nofollow"><i class="fa fa-question"></i></a>
-    <a href="tel:<?php echo get_option(SHORT_NAME . "_hotline") ?>" class="cta cta-phone" rel="nofollow"><i class="fa fa-phone"></i></a>
+    <a href="http://fb.com/msg/<?php echo get_option(SHORT_NAME . "_messenger_id") ?>" title="Chat qua Facebook" class="cta cta-messenger" rel="nofollow"><i></i></a>
+    <a href="http://zalo.me/<?php echo get_option(SHORT_NAME . "_zalo_phone") ?>" title="Chat qua Zalo" class="cta cta-zalo" rel="nofollow"><i></i></a>
+    <a href="#" class="cta cta-support" rel="nofollow" title="Trợ giúp"><i class="fa fa-question"></i></a>
+    <a href="tel:<?php echo get_option(SHORT_NAME . "_hotline") ?>" title="Hotline tư vấn" class="cta cta-phone" rel="nofollow"><i class="fa fa-phone"></i></a>
     <div class="wrap-bookmarks">
         <div class="title-bookmarks">
             Chúng tôi có thể giúp gì cho bạn?
@@ -143,55 +143,19 @@
     <div class="container">
         <h3 class="title"><span class="glyphicon glyphicon-th" aria-hidden="true"></span> Các loại BĐS</h3>
         <ul>
-            <li><a href="http://datnenhanoi.batdongsan.vn" rel="nofollow" style="background:#4F3629">Đất nền</a></li>
-            <li><a href="http://datvanghanoi.batdongsan.vn" rel="nofollow" style="background:#FEC300">Đất vàng</a></li>
-            <li><a href="http://thocuhanoi.batdongsan.vn" rel="nofollow" style="background:#D3530E">Thổ cư</a></li>
-            <li><a href="http://nhamatphohanoi.batdongsan.vn" rel="nofollow" style="background:#025A78">Nhà mặt phố</a></li>
-            <li><a href="http://bietthuhanoi.batdongsan.vn" rel="nofollow" style="background:#003399">Biệt thự</a></li>
-            <li><a href="http://nhacohanoi.batdongsan.vn" rel="nofollow" style="background:#996633">Nhà cổ</a></li>
-            <li><a href="http://nhatrohanoi.batdongsan.vn" rel="nofollow" style="background:#118AE9">Nhà trọ</a></li>
-            <li><a href="http://luxuryhomehanoi.batdongsan.vn" rel="nofollow" style="background:#85001D">Luxury Home</a></li>
-            <li><a href="http://canhobinhdanhanoi.batdongsan.vn" rel="nofollow" style="background:#FDBE56">Căn hộ bình dân</a></li>
-            <li><a href="http://canhotapthehanoi.batdongsan.vn" rel="nofollow" style="background:#DAA404">Căn hộ tập thể</a></li>
-            <li><a href="http://canhotunhanhanoi.batdongsan.vn" rel="nofollow" style="background:#660033">Căn hộ tư nhân</a></li>
-            <li><a href="http://nhaoxahoihanoi.batdongsan.vn" rel="nofollow" style="background:#FFFF00">Nhà ở xã hội</a></li>
-            <li><a href="http://canhocaocaphanoi.batdongsan.vn" rel="nofollow" style="background:#181C4B">Căn hộ cao cấp</a></li>
-            <li><a href="http://condotelhanoi.batdongsan.vn" rel="nofollow" style="background:#393060">Condotel</a></li>
-            <li><a href="http://officetelhanoi.batdongsan.vn" rel="nofollow" style="background:#0033CC">Officetel</a></li>
-            <li><a href="http://hometelhanoi.batdongsan.vn" rel="nofollow" style="background:#003263">Hometel</a></li>
-            <li><a href="http://penhousehanoi.batdongsan.vn" rel="nofollow" style="background:#1C3248">Penthouse</a></li>
-            <li><a href="http://shophousehanoi.batdongsan.vn" rel="nofollow" style="background:#4D5B41">Shophouse</a></li>
-            <li><a href="http://bietthunghiduonghanoi.batdongsan.vn" rel="nofollow" style="background:#005260">Biệt thự nghỉ dưỡng</a></li>
-            <li><a href="http://homestayhanoi.batdongsan.vn" rel="nofollow" style="background:#FF3300">Homestay</a></li>
-            <li><a href="http://timesharehanoi.batdongsan.vn" rel="nofollow" style="background:#0070C0">Time share</a></li>
-            <li><a href="http://apartmenthanoi.batdongsan.vn" rel="nofollow" style="background:#CC0066">Apartment</a></li>
-            <li><a href="http://duonglaohanoi.batdongsan.vn" rel="nofollow" style="background:#DAA435">Dưỡng lão</a></li>
-            <li><a href="http://kidhousehanoi.batdongsan.vn" rel="nofollow" style="background:#FF0000">Kid House</a></li>
-            <li><a href="http://thuongmaihanoi.batdongsan.vn" rel="nofollow" style="background:#00B5C4">BĐS thương mại</a></li>
-            <li><a href="http://khachsanhanoi.batdongsan.vn" rel="nofollow" style="background:#F28226">Khách sạn</a></li>
-            <li><a href="http://nhahanghanoi.batdongsan.vn" rel="nofollow" style="background:#C00000">Nhà hàng</a></li>
-            <li><a href="http://resorthanoi.batdongsan.vn" rel="nofollow" style="background:#0070C0">Resort</a></li>
-            <li><a href="http://trangtraihanoi.batdongsan.vn" rel="nofollow" style="background:#36A800">Trang trại</a></li>
-            <li><a href="http://khobaihanoi.batdongsan.vn" rel="nofollow" style="background:#788494">Kho bãi nhà xưởng</a></li>
-            <li><a href="http://khucongnghiep.batdongsan.vn" rel="nofollow" style="background:#173660">Khu công nghiệp</a></li>
-            <li><a href="http://khudothihanoi.batdongsan.vn" rel="nofollow" style="background:#F28226">Khu đô thị</a></li>
-            <li><a href="http://tinyhousehanoi.batdongsan.vn" rel="nofollow" style="background:#7030A0">Tiny House</a></li>
-            <li><a href="http://mobilehomehanoi.batdongsan.vn" rel="nofollow" style="background:#FF0066">Mobile House</a></li>
-            <li><a href="http://smarthomehanoi.batdongsan.vn" rel="nofollow" style="background:#507BAF">Smart House</a></li>
-            <li><a href="http://vanphonghanoi.batdongsan.vn" rel="nofollow" style="background:#09086E">Văn phòng</a></li>
-            <li><a href="http://vanphongaohanoi.batdongsan.vn" rel="nofollow" style="background:#0D61A1">Văn phòng ảo</a></li>
-            <li><a href="http://coworkinghanoi.batdongsan.vn" rel="nofollow" style="background:#808000">Coworking Space</a></li>
-            <li><a href="http://duanhanoi.batdongsan.vn" rel="nofollow" style="background:#C00000">Dự án bất động sản</a></li>
+            <?php foreach(list_site_loai_bds() as $bds): ?>
+            <li><a href="<?php echo $bds['url'] ?>" rel="nofollow" style="background:<?php echo $bds['bgcolor'] ?>;color:<?php echo $bds['color'] ?>"><?php echo $bds['name'] ?></a></li>
+            <?php endforeach; ?>
             <li><a href="javascript://" style="background:#808080"><span class="glyphicon glyphicon-plus"></span></a></li>
         </ul>
     </div>
 </div>
 
 <!-- HOTLINE -->
-<div class="callus">
+<!--<div class="callus">
     <i class="glyphicon glyphicon-earphone"></i>
-    <a href="tel:<?php echo get_option(SHORT_NAME . "_hotline") ?>"><?php echo get_option(SHORT_NAME . "_hotline") ?></a>
-</div>
+    <a href="tel:<?php // echo get_option(SHORT_NAME . "_hotline") ?>"><?php // echo get_option(SHORT_NAME . "_hotline") ?></a>
+</div>-->
 
 <!--POPUP-->
 <div id="myModal" class="modal fade" role="dialog">

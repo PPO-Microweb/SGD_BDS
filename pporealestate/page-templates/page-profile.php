@@ -46,28 +46,60 @@ if(empty($twitterURL)) $twitterURL = get_option(SHORT_NAME . "_twitterURL");
                     <div class="col-md-10 col-sm-9">
                         <div class="info">
                             <h1 class="name"><?php echo $display_name; ?></h1>
-                            <h3 class="login"><?php echo $author->user_login ?></h3>
-                            <div class="social_footer">
-                                <ul>
-                                    <li class="facebook"><a target="_self" href="<?php echo $fbURL; ?>"><i class="fa fa-facebook"></i></a></li>
-                                    <li class="gplus"><a target="_self" href="<?php echo $googlePlusURL; ?>"><i class="fa fa-google-plus"></i></a></li>
-                                    <li class="twitter"><a target="_self" href="<?php echo $twitterURL; ?>"><i class="fa fa-twitter"></i></a></li>
-                                    <li class="website"><a href="<?php echo $website; ?>" target="_blank"><i class="fa fa-link"></i></a></li>
-                                    <li class="email"><a href="mailto:<?php echo $author->user_email; ?>"><i class="fa fa-envelope"></i></a></li>
-                                    <li class="phone"><a href="tel:<?php echo $phone; ?>"><i class="fa fa-phone"></i></a></li>
-                                </ul>
-                            </div>
+                            <h3 class="login">(<?php echo $author->user_login ?>)</h3>
+                            <div class="description">- Bạn có thể thay ảnh đại diện tại <a href="https://en.gravatar.com/" target="_blank" rel="nofollow" style="color:blue">Gravatar</a>.</div>
+                            <div class="description">- Thay đổi địa chỉ Email cần liên hệ <a href="<?php echo get_page_link(get_option(SHORT_NAME . "_pagecontact")); ?>" target="_blank" style="color:blue">Administrator</a>.</div>
+                            <div class="description">- Thay đổi mật khẩu <a href="<?php echo get_page_link(get_option(SHORT_NAME . "_pagelostpassword")); ?>" target="_blank" style="color:blue">tại đây</a>.</div>
+                        </div>
+                        <div class="level">
+                            <span>Loại tài khoản: </span>
+                            <?php
+                            $current_limit_posting = get_the_author_meta( 'limit_posting', $author->ID );
+                            if($current_limit_posting < 50){
+                                echo '<strong style="color:#00AF50">Start</strong>';
+                                echo '<a href="'.get_page_link(get_option(SHORT_NAME . "_pageUpgradeAccount")).'" class="btn btn-primary btn-upgrade">Nâng cấp</a>';
+                            } else if($current_limit_posting < 200){
+                                echo '<strong style="color:#0071C1">Biz</strong>';
+                                echo '<a href="'.get_page_link(get_option(SHORT_NAME . "_pageUpgradeAccount")).'" class="btn btn-primary btn-upgrade">Nâng cấp</a>';
+                            } else {
+                                echo '<strong style="color:#FF3300">Pro</strong>';
+                            }
+                            ?>
                         </div>
                     </div>
+                </div>
+                <div class="user-location-active">
+                    <?php
+                    $bds_segment1 = get_the_author_meta( 'bds_segment1', $author->ID );
+                    $bds_segment2 = get_the_author_meta( 'bds_segment2', $author->ID );
+                    $bds_segment3 = get_the_author_meta( 'bds_segment3', $author->ID );
+                    $bds_location1 = get_the_author_meta( 'bds_location1', $author->ID );
+                    $bds_location2 = get_the_author_meta( 'bds_location2', $author->ID );
+                    $bds_location3 = get_the_author_meta( 'bds_location3', $author->ID );
+                    $html_output = "";
+                    if(!empty($bds_segment1) and !empty($bds_location1)){
+                        $html_output .=  '<div class="segment">' . $bds_segment1 . '</div>';
+                        $html_output .=  '<div class="location">' . $bds_location1 . '</div>';
+                        $html_output .=  '<div class="clearfix"></div>';
+                    }
+                    if(!empty($bds_segment2) and !empty($bds_location2)){
+                        $html_output .=  '<div class="segment">' . $bds_segment2 . '</div>';
+                        $html_output .=  '<div class="location">' . $bds_location2 . '</div>';
+                        $html_output .=  '<div class="clearfix"></div>';
+                    }
+                    if(!empty($bds_segment3) and !empty($bds_location3)){
+                        $html_output .=  '<div class="segment">' . $bds_segment3 . '</div>';
+                        $html_output .=  '<div class="location">' . $bds_location3 . '</div>';
+                        $html_output .=  '<div class="clearfix"></div>';
+                    }
+                    echo $html_output;
+                    ?>
                 </div>
             </div>
             
             <div class="row">
-                <div class="col-sm-10">
+                <div class="col-sm-12">
                     <h3 class="user-block-title">Thông tin cá nhân</h3>
-                    <p class="description">- Bạn có thể thay ảnh đại diện tại <a href="https://en.gravatar.com/" target="_blank">Gravatar</a>.</p>
-                    <p class="description">- Thay đổi địa chỉ Email cần liên hệ <a href="<?php echo get_page_link(get_option(SHORT_NAME . "_pagecontact")); ?>" target="_blank">Administrator</a>.</p>
-                    <p class="description">- Thay đổi mật khẩu <a href="<?php echo get_page_link(get_option(SHORT_NAME . "_pagelostpassword")); ?>" target="_blank">tại đây</a>.</p>
                     <form action="" method="post" class="form" id="frmChangeProfile">
                         <div class="row">
                             <div class="col-sm-6">
@@ -97,13 +129,23 @@ if(empty($twitterURL)) $twitterURL = get_option(SHORT_NAME . "_twitterURL");
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Địa chỉ email</label>
+                                    <input type="text" value="<?php echo $author->user_email; ?>" class="form-control" disabled />
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="twitter">Twitter username (Không bao gồm @)</label>
+                                    <input type="text" id="twitter" name="twitter" value="<?php echo $twitterURL; ?>" class="form-control" placeholder="username" />
+                                </div>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label for="googleplus">Google+ URL</label>
                             <input type="text" id="googleplus" name="googleplus" value="<?php echo $googlePlusURL; ?>" class="form-control" />
-                        </div>
-                        <div class="form-group">
-                            <label for="twitter">Twitter username (Không bao gồm @)</label>
-                            <input type="text" id="twitter" name="twitter" value="<?php echo $twitterURL; ?>" class="form-control" placeholder="username" />
                         </div>
                         <div class="form-group">
                             <label for="facebook">Facebook profile URL</label>
@@ -121,7 +163,7 @@ if(empty($twitterURL)) $twitterURL = get_option(SHORT_NAME . "_twitterURL");
             </div>
         </div>
     
-        <div class="cat-sidebar sidebar col-md-4 col-sm-6">
+        <div class="cat-sidebar sidebar col-md-4 col-sm-6" style="position:inherit">
             <?php get_sidebar('user') ?>
         </div>
     </div>

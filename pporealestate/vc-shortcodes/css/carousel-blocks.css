@@ -1,6 +1,6 @@
 .carousel-blocks-widget{margin-bottom: 30px}
 .carousel-blocks-widget .widget-title{
-    border-left: 5px solid #FF3300;
+    border-left: 5px solid #ff6600;
     color: #333;
     text-transform: uppercase;
     padding-left: 10px;
@@ -10,7 +10,7 @@
 }
 .carousel-blocks-widget .owl-carousel .owl-stage-outer{padding-bottom: 5px}
 .carousel-blocks-widget .item{
-    background: #FF3300;
+    background: #ff6600;
     padding: 15px;
     border: 1px solid #ddd;
     -webkit-box-shadow: 0px 2px 10px -5px rgba(0,0,0,0.5);
@@ -53,7 +53,7 @@
 }
 .carousel-blocks-widget .item .xem-block:hover{
     background: #fff;
-    color: #014380
+    color: #0054a0
 }
 .carousel-blocks-widget .owl-controls .owl-nav{
     position: absolute;

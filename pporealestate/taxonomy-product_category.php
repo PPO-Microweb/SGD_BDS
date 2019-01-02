@@ -43,22 +43,24 @@ get_header();
             </div>
         </div>
         <div class="cat-sidebar sidebar col-md-4 col-sm-6">
+            <?php get_template_part('template/widget-district-list'); ?>
             <?php get_template_part('template', 'sidebarsearch'); ?>
-            <div class="widget child_category">
-                <?php
-                $ancestors = get_ancestors($term_id, $taxonomy); // Get a list of ancestors
-                $ancestors = array_reverse($ancestors); //Reverse the array to put the top level ancestor first
-                $ancestors[0] ? $top_term_id = $ancestors[0] : $top_term_id = $term_id; //Check if there is an ancestor, else use id of current term
+            <?php
+            $ancestors = get_ancestors($term_id, $taxonomy); // Get a list of ancestors
+            $ancestors = array_reverse($ancestors); //Reverse the array to put the top level ancestor first
+            $ancestors[0] ? $top_term_id = $ancestors[0] : $top_term_id = $term_id; //Check if there is an ancestor, else use id of current term
 
-                $term = get_term($top_term_id, $taxonomy); //Get the term
-                $parent = $term->term_id; // id of top level ancestor
-                $args = array(
-                    'child_of' => $parent,
-                    'taxonomy' => 'product_category',
-                    'hide_empty' => 0,
-                );
-                $terms = get_terms($taxonomy, $args);
-                ?>
+            $term = get_term($top_term_id, $taxonomy); //Get the term
+            $parent = $term->term_id; // id of top level ancestor
+            $args = array(
+                'child_of' => $parent,
+                'taxonomy' => 'product_category',
+                'hide_empty' => 1,
+            );
+            $terms = get_terms($taxonomy, $args);
+            if(count($terms) > 0):
+            ?>
+            <div class="widget child_category">
                 <h3 class="widget-title"><?php echo $term->name ?></h3>
                 <div class="child_content">
                     <ul class="child">
@@ -70,6 +72,7 @@ get_header();
                     </ul>
                 </div>
             </div>
+            <?php endif; ?>
             <?php if ( is_active_sidebar( 'sidebar_product' ) ) { dynamic_sidebar( 'sidebar_product' ); } ?>
         </div>
     </div>

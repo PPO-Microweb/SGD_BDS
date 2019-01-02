@@ -26,7 +26,7 @@
     padding: 0 15px 15px
 }
 .service-item-widget .btn{
-    background: #014380;
+    background: #0054a0;
     text-transform: uppercase;
     text-align: center;
     color: #fff;
@@ -35,5 +35,5 @@
     display: block;
 }
 .service-item-widget .btn:hover{
-    background: #FF3300
+    background: #ff6600
 }

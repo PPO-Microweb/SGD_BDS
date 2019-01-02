@@ -29,6 +29,7 @@
             </div>
         </div>
         <div class="right sidebar col-md-4 hidden-sm hidden-xs">
+            <?php get_template_part('template/widget-district-list'); ?>
             <?php get_sidebar(); ?>
         </div>
     </div>
