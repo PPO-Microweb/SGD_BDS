@@ -1,14 +1,13 @@
 <?php
 /*
-  Template Name: Favorites
+  Template Name: Manage Posts
  */
 if (!is_user_logged_in()) {
     wp_redirect( home_url('/login/') );
 }
 get_header(); 
 
-global $wpdb, $current_user;
-$favorites = $wpdb->prefix . 'favorites';
+global $current_user;
 $user_id = $current_user->ID;
 ?>
 <div class="container main_content">
@@ -30,13 +29,19 @@ $user_id = $current_user->ID;
                 </div>
                 <div class="list_product">
                     <?php
-                    $result = $wpdb->get_results($wpdb->prepare( "SELECT * FROM $favorites WHERE user_id=%d", $user_id ));
-                    if(!empty($result)){
-                        foreach ($result as $value) :
-                            $post_id = $value->post_id;
-                            include THEME_DIR . '/template/favorite_item.php';
-                        endforeach;
-                    }
+                    $products_per_page = intval(get_option(SHORT_NAME . "_product_pager"));
+                    $loop = new WP_Query(array(
+                        'post_type' => 'product',
+                        'posts_per_page' => $products_per_page,
+                        'author' => $user_id,
+                        'orderby' => array('meta_value_num', 'post_date'),
+                        'meta_key' => 'not_in_vip',
+                        'order' => 'DESC',
+                    ));
+                    while ($loop->have_posts()) : $loop->the_post();
+                        get_template_part('template', 'product_item3');
+                    endwhile;
+                    getpagenavi(array('query' => $loop));
                     ?>
                 </div>
             </div>

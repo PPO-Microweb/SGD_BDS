@@ -43,18 +43,27 @@ get_header();
         </div>
 HTML;
         global $wpdb;
-//        $result = $wpdb->update( $wpdb->prefix . 'orders', array(
-//            'payment_status' => 1,
-//            'nl_payment_id' => $payment_id,
-//            'nl_payment_type' => $payment_type,
-//            'nl_secure_code' => $secure_code,
-//        ), array('ID' => $order_code), array('%d', '%s', '%s', '%s'), array('%d'));
+        $tblOrders = $wpdb->prefix . 'orders';
+        $order = $wpdb->get_row( "SELECT * FROM {$tblOrders} WHERE ID = {$order_code}" );
+        if($order->order_status != 2){
+            $result = $wpdb->update( $tblOrders, array(
+                'order_status' => 2,
+                'payment_status' => 1,
+                'nl_payment_id' => $payment_id,
+                'nl_payment_type' => $payment_type,
+                'nl_secure_code' => $secure_code,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_date' => date('Y-m-d H:i:s'),
+            ), array('ID' => $order_code), array('%d', '%d', '%s', '%s', '%s'), array('%d'));
 
-        if ($result) {
-            $customer_info = isset($_SESSION['CUSTOMER_INFO']) ? $_SESSION['CUSTOMER_INFO'] : array();
-            $coupon_amount = isset($_SESSION['coupon_amount']) ? $_SESSION['coupon_amount'] : 0;
-
-//            sendInvoiceToEmail($customer_info, $coupon_amount, $order_code);
+            if ($result) {
+                update_usermeta($transaction_info, 'limit_posting', get_field('limit_posting', $order->level_id));
+                update_usermeta($transaction_info, 'limit_postvip', get_field('limit_postvip', $order->level_id));
+                $today = date('Y/m/d');
+                $expiry_date = date("Y/m/d", strtotime("$today+1 years"));
+                update_usermeta($current_user->ID, 'user_expiry', $expiry_date);
+                sendInvoiceToEmail($transaction_info, $order_code);
+            }
         }
     } else {
         $return_url = get_page_link(get_option('online_payment_result'));

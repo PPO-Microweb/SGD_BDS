@@ -680,3 +680,53 @@ HTML;
 HTML;
     endforeach;
 }
+
+/**
+ * Send invoice to email
+ * 
+ * @global WPDB $wpdb
+ * @param int $uid
+ * @param int $$order_code Order ID
+ */
+function sendInvoiceToEmail($uid, $order_code){
+    global $wpdb;
+    
+//    $referrer = $_COOKIE['ap_id'];
+    $admin_email = get_option("info_email");
+    if (!is_email($admin_email)) {
+        $admin_email = get_settings('admin_email');
+    }
+    $tblOrders = $wpdb->prefix . 'orders';
+    $order = $wpdb->get_row( "SELECT * FROM {$tblOrders} WHERE ID = {$order_code}" );
+    $customer = get_user_by('ID', $uid);
+    $display_name = $customer->user_lastname . ' ' . $customer->user_firstname;
+    if(empty($display_name)){
+        $display_name = $customer->display_name;
+    }
+    $attributes = array(
+        'customer' => $customer,
+        'order' => $order,
+        'admin_email' => $admin_email,
+    );
+    $bill_html = get_template_html( 'template/mail-order', $attributes );
+    $subject = "Thông tin thanh toán #{$order_code}";
+
+    add_filter( 'wp_mail_content_type', 'set_html_content_type' );
+    wp_mail( $customer->user_email, $subject, $bill_html, array(
+        'From: Hanoi Realtor Pro <' . $admin_email . '>',
+        'Reply-To: Hanoi Realtor Pro <' . $admin_email . '>',
+    ));
+    wp_mail( $admin_email, $subject, $bill_html, array(
+        'From: ' . $display_name . ' <' . $customer->user_email . '>',
+        'Reply-To: ' . $display_name . ' <' . $customer->user_email . '>',
+    ));
+
+//    $tblAffiliates = $wpdb->prefix . 'affiliates_tbl';
+//    if($referrer and !empty($referrer)){
+//        $ref_email = $wpdb->get_var( "SELECT email FROM $tblAffiliates WHERE refid = '$referrer'" );
+//        wp_mail( $ref_email, $subject . " - For Sales", $bill_html);
+//    }
+
+    // reset content-type to avoid conflicts
+    remove_filter( 'wp_mail_content_type', 'set_html_content_type' );
+}

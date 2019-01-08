@@ -18,6 +18,7 @@ include 'includes/project.php';
 include 'includes/feedback.php';
 include 'includes/question-answer.php';
 include 'includes/supplier.php';
+include 'includes/organization.php';
 include 'includes/user-level.php';
 include 'includes/favorites.php';
 include 'includes/widgets/ads.php';
@@ -55,8 +56,9 @@ if (is_admin()) {
     include 'includes/orders.php';
     
     // Add filter
-    add_filter('acf/settings/show_admin', '__return_false');
+//    add_filter('acf/settings/show_admin', '__return_false');
     add_filter('acf/settings/show_updates', '__return_false');
+    add_filter('display_post_states', 'ppo_custom_post_states');
 
     // Add action
     add_action('admin_menu', 'custom_remove_menu_pages');
@@ -462,39 +464,24 @@ function get_template_html($template_name, $attributes = null) {
     return $html;
 }
 
-## Add custom script to Admin Footer
-
-function admin_add_custom_js() {
-    ?>
-    <script type="text/javascript">/* <![CDATA[ */
-        jQuery(function ($) {
-            var area = new Array();
-
-            $.each(area, function (index, id) {
-                //tinyMCE.execCommand('mceAddControl', false, id);
-                tinyMCE.init({
-                    selector: "textarea#" + id,
-                    height: 400
-                });
-                $("#newmeta-submit").click(function () {
-                    tinyMCE.triggerSave();
-                });
-            });
-
-            $(".submit input[type='submit']").click(function () {
-                if (typeof tinyMCE != 'undefined') {
-                    tinyMCE.triggerSave();
-                }
-            });
-
-        });
-        /* ]]> */
-    </script>
-    <?php
-
+## Add css, js into Admin Footer
+function ppo_admin_add_custom_footer(){
+?>
+<style type="text/css">
+    .user-profile-picture, #profile-page #wordpress-seo, #profile-page #wordpress-seo+.form-table{display: none;visibility: hidden}
+    #your-profile .user-rich-editing-wrap,
+    #your-profile .user-syntax-highlighting-wrap,
+    #your-profile .user-admin-color-wrap,
+    #your-profile .user-comment-shortcuts-wrap,
+    #your-profile .show-admin-bar,
+    #your-profile .user-language-wrap{display: none;visibility: hidden}
+    #your-profile .yoast-settings{display: none;visibility: hidden}
+    #duplicate-post-notice, #vc_license-activation-notice, #js_composer-update{display: none;visibility: hidden}
+</style>
+<?php
 }
 
-add_action('admin_print_footer_scripts', 'admin_add_custom_js', 99);
+add_action('admin_print_footer_scripts', 'ppo_admin_add_custom_footer', 99);
 
 /* ----------------------------------------------------------------------------------- */
 # Custom search
@@ -841,4 +828,60 @@ function validate_user_limit_posting(){
         return true;
     }
     return false;
+}
+/**
+ * Kiểm tra giới hạn số tin VIP của thành viên
+ * @return bool TRUE là hợp lệ, FALSE là không hợp lệ
+ */
+function validate_user_limit_postvip(){
+    global $current_user;
+    get_currentuserinfo();
+    $limit_postvip = esc_attr(get_the_author_meta('limit_postvip', $current_user->ID));
+    $args = array(
+        'post_type' => 'product',
+        'meta_query' => array(
+            'relation' => 'AND',
+            array(
+                'key' => 'not_in_vip',
+                'value' => '1',
+                'compare' => '!='
+            ),
+            array(
+                'key' => 'end_time',
+                'value' => date('Y/m/d', strtotime("today")),
+                'compare' => '>=',
+                'type' => 'DATE'
+            )
+        ),
+        'posts_per_page' => -1,
+    );
+    $query = new WP_Query($args);
+    if($query->found_posts < $limit_postvip){
+        return true;
+    }
+    return false;
+}
+
+function ppo_custom_post_states($states) { 
+    global $post; 
+    if( in_array($post->ID, array(
+        get_option(SHORT_NAME . "_pagelogin"),
+        get_option(SHORT_NAME . "_pageregister"),
+        get_option(SHORT_NAME . "_pagelostpassword"),
+        get_option(SHORT_NAME . "_pageprofile"),
+        get_option(SHORT_NAME . "_pageUpgradeAccount"),
+        get_option("online_payment_result"),
+        get_option(SHORT_NAME . "_pageManagePosts"),
+        get_option(SHORT_NAME . "_pageFavorites"),
+        get_option(SHORT_NAME . "_pageCompare"),
+        get_option(SHORT_NAME . "_pageposter"),
+        get_option(SHORT_NAME . "_pagesale"),
+        get_option(SHORT_NAME . "_pagesign"),
+        get_option(SHORT_NAME . "_pagecontact"),
+    )) ) {
+
+        $states[] = __('Không xóa'); 
+
+    }
+    return $states;
 }

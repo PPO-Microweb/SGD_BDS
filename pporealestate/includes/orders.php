@@ -108,12 +108,12 @@ HTML;
             <h2>Orders List</h2>
             <ul class="subsubsub">
 HTML;
-                echo '<li><a class="', (!isset($_GET['status'])) ? 'current' : '' ,'" href="?page=nvt_orders">Tracking</a> | </li>';
-                echo '<li><a class="', (isset($_GET['status']) && $_GET['status'] == '0') ? 'current' : '' ,'" href="?page=nvt_orders&status=0">Pending</a> | </li>';
-                echo '<li><a class="', (isset($_GET['status']) && $_GET['status'] == '1') ? 'current' : '' ,'" href="?page=nvt_orders&status=1">Progressing</a> | </li>';
-                echo '<li><a class="', (isset($_GET['status']) && $_GET['status'] == '2') ? 'current' : '' ,'" href="?page=nvt_orders&status=2">Completed</a> | </li>';
-                echo '<li><a class="', (isset($_GET['status']) && $_GET['status'] == '3') ? 'current' : '' ,'" href="?page=nvt_orders&status=3">Cancelled</a> | </li>';
-                echo '<li><a class="', (isset($_GET['status']) && $_GET['status'] == 'all') ? 'current' : '' ,'" href="?page=nvt_orders&status=all">All</a></li>';
+                echo '<li><a class="', (!isset($_GET['status'])) ? 'current' : '' ,'" href="?post_type=user_level&page=nvt_orders">Tracking</a> | </li>';
+                echo '<li><a class="', (isset($_GET['status']) && $_GET['status'] == '0') ? 'current' : '' ,'" href="?post_type=user_level&page=nvt_orders&status=0">Pending</a> | </li>';
+                echo '<li><a class="', (isset($_GET['status']) && $_GET['status'] == '1') ? 'current' : '' ,'" href="?post_type=user_level&page=nvt_orders&status=1">Progressing</a> | </li>';
+                echo '<li><a class="', (isset($_GET['status']) && $_GET['status'] == '2') ? 'current' : '' ,'" href="?post_type=user_level&page=nvt_orders&status=2">Completed</a> | </li>';
+                echo '<li><a class="', (isset($_GET['status']) && $_GET['status'] == '3') ? 'current' : '' ,'" href="?post_type=user_level&page=nvt_orders&status=3">Cancelled</a> | </li>';
+                echo '<li><a class="', (isset($_GET['status']) && $_GET['status'] == 'all') ? 'current' : '' ,'" href="?post_type=user_level&page=nvt_orders&status=all">All</a></li>';
         echo <<<HTML
             </ul>
             <form action="" method="get">

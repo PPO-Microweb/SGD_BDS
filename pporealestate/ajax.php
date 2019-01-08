@@ -137,7 +137,11 @@ function api_push_product() {
  * 
  */
 function push_to_batdongsan_vn($api_url, $post_id){
-    $product = get_post($post_id);
+    Response(json_encode(array(
+        'status' => 'error',
+        'message' => 'Tính năng này chưa hoạt động!',
+    )));
+    /*$product = get_post($post_id);
     if($product){
         $loai_tin = "";
         $category = "";
@@ -259,7 +263,7 @@ function push_to_batdongsan_vn($api_url, $post_id){
             'status' => 'error',
             'message' => 'Không hợp lệ!',
         )));
-    }
+    }*/
 }
 
 //THANH PHO - QUAN HUYEN - PHUONG XA
@@ -566,47 +570,171 @@ HTML;
     exit;
 }
 
-function upgrade_account(){
-    $level_id = getRequest('level_id');
-    $price = get_field('price', $level_id);
-
-    global $wpdb, $nl_checkout, $current_user;
-    
-    // Insert into Order
-    $result = $wpdb->insert( $wpdb->prefix . 'orders', array(
-        'user_id' => $current_user->ID,
-        'level_id' => $level_id,
-        'payment_method' => 'Nganluong',
-        'discount' => 0,
-        'total_amount' => $price,
-        'affiliate_id' => '',
-        'updated_date' => date('Y-m-d H:i:s'),
-    ), array(
-        '%d',
-        '%d',
-        '%s',
-        '%d',
-        '%d',
-        '%s',
-        '%s',
-    ) );
-    
-    if($result){
-        $order_code = $wpdb->insert_id;
-        $receiver = "info@batdongsan.vn";
-        $return_url = get_page_link(get_option('online_payment_result'));
-        $url = $nl_checkout->buildCheckoutUrl($return_url, $receiver, '', $order_code, $price);
-
+function ppo_delete_post(){
+    $post_id = intval(getRequest('post_id'));
+    if (!is_user_logged_in()) {
         Response(json_encode(array(
-            'status' => 'success',
-            'message' => "Kiểm tra hợp lệ, chúng tôi sẽ chuyển sang cổng thanh toán Ngân Lượng ngay bây giờ.",
-            'redirect_url' => $url,
+            'status' => 'error',
+            'message' => 'Bạn chưa đăng nhập vào tài khoản!',
+            'redirect_url' => home_url('/login/'),
         )));
-    } else {
+    } else if(!get_post($post_id)){
         Response(json_encode(array(
             'status' => 'error',
             'message' => 'Xảy ra lỗi, vui lòng thử lại hoặc liên hệ quản trị viên để được trợ giúp!',
         )));
+    } else {
+        $result = wp_delete_post( $post_id );
+        if(!$result){
+            Response(json_encode(array(
+                'status' => 'error',
+                'message' => 'Xảy ra lỗi, vui lòng thử lại hoặc liên hệ quản trị viên để được trợ giúp!',
+            )));
+        } else {
+            Response(json_encode(array(
+                'status' => 'success',
+                'message' => 'Đã xóa bài viết thành công!',
+            )));
+        }
+    }
+    exit;
+}
+
+function ppo_upvip_post(){
+    $post_id = intval(getRequest('post_id'));
+    if (!is_user_logged_in()) {
+        Response(json_encode(array(
+            'status' => 'error',
+            'message' => 'Bạn chưa đăng nhập vào tài khoản!',
+            'redirect_url' => home_url('/login/'),
+        )));
+    } else if(!get_post($post_id)){
+        Response(json_encode(array(
+            'status' => 'error',
+            'message' => 'Xảy ra lỗi, vui lòng thử lại hoặc liên hệ quản trị viên để được trợ giúp!',
+        )));
+    } else if(!validate_user_limit_postvip()) {
+        Response(json_encode(array(
+            'status' => 'error',
+            'message' => 'Bạn đã đế giới hạn số tin VIP trong tài khoản. Hãy nâng cấp tài khoản để hưởng nhiều ưu đãi hơn!',
+        )));
+    } else {
+        $result = update_post_meta( $post_id, 'not_in_vip', '1' );
+        if(!$result){
+            Response(json_encode(array(
+                'status' => 'error',
+                'message' => 'Xảy ra lỗi, vui lòng thử lại hoặc liên hệ quản trị viên để được trợ giúp!',
+            )));
+        } else {
+            Response(json_encode(array(
+                'status' => 'success',
+                'message' => 'Đã nâng VIP bài viết thành công!',
+            )));
+        }
+    }
+    exit;
+}
+
+function ppo_downvip_post(){
+    $post_id = intval(getRequest('post_id'));
+    if (!is_user_logged_in()) {
+        Response(json_encode(array(
+            'status' => 'error',
+            'message' => 'Bạn chưa đăng nhập vào tài khoản!',
+            'redirect_url' => home_url('/login/'),
+        )));
+    } else if(!get_post($post_id)){
+        Response(json_encode(array(
+            'status' => 'error',
+            'message' => 'Xảy ra lỗi, vui lòng thử lại hoặc liên hệ quản trị viên để được trợ giúp!',
+        )));
+    } else {
+        $result = update_post_meta( $post_id, 'not_in_vip', '0' );
+        if(!$result){
+            Response(json_encode(array(
+                'status' => 'error',
+                'message' => 'Xảy ra lỗi, vui lòng thử lại hoặc liên hệ quản trị viên để được trợ giúp!',
+            )));
+        } else {
+            Response(json_encode(array(
+                'status' => 'success',
+                'message' => 'Đã xóa VIP cho bài viết thành công!',
+            )));
+        }
+    }
+    exit;
+}
+
+function upgrade_account(){
+    $level_id = intval(getRequest('level_id'));
+    $price = get_field('price', $level_id);
+
+    if (!is_user_logged_in()) {
+        Response(json_encode(array(
+            'status' => 'error',
+            'message' => 'Bạn chưa đăng nhập vào tài khoản!',
+            'redirect_url' => home_url('/login/'),
+        )));
+    } elseif(empty ($level_id) or $level_id <= 0) {
+        Response(json_encode(array(
+            'status' => 'error',
+            'message' => 'Xảy ra lỗi, vui lòng thử lại hoặc liên hệ quản trị viên để được trợ giúp!',
+        )));
+    } else {
+        global $wpdb, $nl_checkout, $current_user;
+        
+        $limit_posting = get_field('limit_posting', $level_id);
+        $current_limit_posting = get_the_author_meta( 'limit_posting', $current_user->ID );
+        $tblOrders = $wpdb->prefix . 'orders';
+        if($current_limit_posting >= $limit_posting){
+            Response(json_encode(array(
+                'status' => 'error',
+                'message' => 'Bạn không thể hạ cấp, nếu bạn cho rằng đây là lỗi hãy liên hệ với chúng tôi để được trợ giúp!',
+            )));
+        } else {
+            $order_code = 0;
+            $order = $wpdb->get_row( "SELECT * FROM {$tblOrders} WHERE user_id={$current_user->ID} AND level_id={$level_id} LIMIT 1" );
+            if($order and $order->payment_status == 0){
+                $order_code = $order->ID;
+            } else {
+                // Insert into Order
+                $result = $wpdb->insert( $tblOrders, array(
+                    'user_id' => $current_user->ID,
+                    'level_id' => $level_id,
+                    'payment_method' => 'Nganluong',
+                    'discount' => 0,
+                    'total_amount' => $price,
+                    'affiliate_id' => '',
+                    'updated_date' => date('Y-m-d H:i:s'),
+                ), array(
+                    '%d',
+                    '%d',
+                    '%s',
+                    '%d',
+                    '%d',
+                    '%s',
+                    '%s',
+                ) );
+                $order_code = $wpdb->insert_id;
+            }
+
+            if($order_code > 0){
+                $receiver = "info@batdongsan.vn";
+                $return_url = get_page_link(get_option('online_payment_result'));
+                $url = $nl_checkout->buildCheckoutUrl($return_url, $receiver, $current_user->ID, $order_code, $price);
+
+                Response(json_encode(array(
+                    'status' => 'success',
+                    'message' => "Kiểm tra hợp lệ, chúng tôi sẽ chuyển sang cổng thanh toán Ngân Lượng ngay bây giờ.",
+                    'redirect_url' => $url,
+                )));
+            } else {
+                Response(json_encode(array(
+                    'status' => 'error',
+                    'message' => 'Xảy ra lỗi, vui lòng thử lại hoặc liên hệ quản trị viên để được trợ giúp!',
+                )));
+            }
+        }
     }
 
     exit;

@@ -16,7 +16,7 @@ class NL_Checkout {
     // Mã merchante site 
     private $merchant_site_code = '57912'; // Biến này được nganluong.vn cung cấp khi bạn đăng ký merchant site
     // Mật khẩu bảo mật
-    private $secure_pass = 'a1675d7924ae3982c2c3ea9c8c479953'; // Biến này được nganluong.vn cung cấp khi bạn đăng ký merchant site
+    private $secure_pass = '514995a26dd6aa896c4c6ca264217f87'; // Biến này được nganluong.vn cung cấp khi bạn đăng ký merchant site
     
     public function __construct($merchant_site_code, $secure_pass) {
         $this->merchant_site_code = $merchant_site_code;
@@ -108,7 +108,7 @@ if(!function_exists("nganluong_init")){
     function nganluong_init(){
         global $nl_checkout;
         $merchant_site_code = "57912";
-        $secure_pass = "a1675d7924ae3982c2c3ea9c8c479953";
+        $secure_pass = "514995a26dd6aa896c4c6ca264217f87";
         $nl_checkout = new NL_Checkout($merchant_site_code, $secure_pass);
     }
 }

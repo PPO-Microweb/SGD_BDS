@@ -26,6 +26,7 @@ $termchildren3 = get_terms(array(
 $prices = get_categories(array(
     'type' => 'product',
     'taxonomy' => 'product_price',
+    'hide_empty' => 1,
 ));
 $projects = new WP_Query(array(
     'post_type' => 'project',
@@ -35,14 +36,17 @@ $projects = new WP_Query(array(
 $purposes = get_categories(array(
     'type' => 'product',
     'taxonomy' => 'product_purpose',
+    'hide_empty' => 1,
 ));
 $areas = get_categories(array(
     'type' => 'product',
     'taxonomy' => 'product_acreage',
+    'hide_empty' => 1,
 ));
 $specials = get_categories(array(
     'type' => 'product',
     'taxonomy' => 'product_special',
+    'hide_empty' => 1,
 ));
 ?>
 <h3 class="form-title hide">Tìm bất động sản</h3>
@@ -174,8 +178,18 @@ $specials = get_categories(array(
                 <div class="col-md-2 col-sm-3 col-xs-6">
                     <ul class="tab_select">
                         <li>
-                            <select name="street" id="street" >
-                                <option value="">- Đường phố -</option>
+                            <select name="purpose" id="product_purpose" >
+                                <option value="">- Phù hợp để -</option>
+                                <?php
+                                $purposeID = intval(getRequest('product_purpose'));
+                                foreach ($purposes as $purpose) :
+                                    if ($purposeID == $purpose->term_id) {
+                                        echo "<option value=\"{$purpose->term_id}\" selected>{$purpose->name}</option>";
+                                    } else {
+                                        echo "<option value=\"{$purpose->term_id}\">{$purpose->name}</option>";
+                                    }
+                                endforeach;
+                                ?>
                             </select>
                         </li>
                         <li>

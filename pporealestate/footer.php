@@ -177,6 +177,31 @@
     </div>
 </div>
 
+<?php
+/*$current_page_id = get_queried_object_id();
+$page_login_id = get_option(SHORT_NAME . "_pagelogin");
+$page_register_id = get_option(SHORT_NAME . "_pageregister");
+$page_lostpassword_id = get_option(SHORT_NAME . "_pagelostpassword");
+if (!is_user_logged_in() and ! in_array($current_page_id, array($page_login_id, $page_register_id, $page_lostpassword_id))) :
+?>
+<div id="welcome-bar">
+    <div class="logo hidden-xs">
+        <img alt="<?php bloginfo('sitename'); ?>" src="<?php echo get_option('sitelogo'); ?>" />
+    </div>
+    <div class="content">
+        <div class="title hidden-xs">Điểm đến của các Nhà môi giới chuyên nghiệp</div>
+        <div class="subtitle">
+            Website này chỉ dành cho các Nhà môi giới Bất động sản TP. Hà Nội<br/>
+            Nếu bạn là Đối tượng phù hợp thì hãy <strong>Đăng ký/Đăng nhập</strong> để tiếp tục truy cập.
+        </div>
+        <div class="btns">
+            <a href="<?php echo get_page_link($page_login_id); ?>" class="btn btn-signin">Đăng nhập</a>
+            <a href="<?php echo get_page_link($page_register_id); ?>" class="btn btn-signup">Chưa có tài khoản?</a>
+        </div>
+    </div>
+</div>
+<?php endif;*/ ?>
+
 <div id="scrollToTop"><i class="fa fa-angle-up" aria-hidden="true"></i></div>
 <div id="fb-root"></div>
 <?php wp_footer(); ?>

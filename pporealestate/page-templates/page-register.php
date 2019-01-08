@@ -35,6 +35,9 @@ if(getRequestMethod() == 'POST'){
             array_push($msg['warning'], "Đăng ký lỗi. Vui lòng liên hệ <a href='mailto:" . get_option( 'admin_email' ) . "'>quản trị website</a>!");
         }else{
             array_push($msg['success'], "Đăng ký thành công!");
+            $today = date('Y/m/d');
+            $expiry_date = date("Y/m/d", strtotime("$today+1 years"));
+            update_usermeta($user_id, 'user_expiry', $expiry_date);
             update_usermeta($user_id, 'limit_posting', '10');
             update_usermeta($user_id, 'limit_postvip', '0');
             //Set up the Password change nag.
@@ -122,7 +125,7 @@ if(getRequestMethod() == 'POST'){
             <!--./news-block-->
         </div>
         <div class="right sidebar col-md-4 col-sm-4 col-xs-12"> 
-            <?php get_sidebar(); ?>
+            <?php get_template_part('template/widget-district-list'); ?>
         </div>
     </div>
 </div>

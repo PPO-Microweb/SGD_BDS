@@ -55,7 +55,7 @@ get_header();
             </div>
         </div>
         <div class="right sidebar col-md-4 col-sm-4 col-xs-12">
-            <?php get_sidebar(); ?>
+            <?php get_template_part('template/widget-district-list'); ?>
         </div>
     </div>
 </div>

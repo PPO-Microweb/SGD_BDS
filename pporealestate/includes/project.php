@@ -84,6 +84,21 @@ function create_project_taxonomies() {
         ),
         'rewrite' => array('slug' => 'loai-du-an', 'with_front' => false),
     ));
+    register_taxonomy('project_level', 'project', array(
+        'hierarchical' => true,
+        'public' => true,
+        'show_ui' => true,
+        'query_var' => true,
+        'labels' => array(
+            'name' => __('Hạng dự án'),
+            'singular_name' => __('Hạng dự án'),
+            'add_new' => __('Add New'),
+            'add_new_item' => __('Thêm mới Hạng dự án'),
+            'new_item' => __('Hạng dự án mới'),
+            'search_items' => __('Tìm kiếm Hạng dự án'),
+        ),
+        'rewrite' => array('slug' => 'hang-du-an', 'with_front' => false),
+    ));
 }
 
 add_action('init', 'create_project_taxonomies');
@@ -91,6 +106,11 @@ add_action('init', 'create_project_taxonomies');
 /* ----------------------------------------------------------------------------------- */
 # Meta box
 /* ----------------------------------------------------------------------------------- */
+$list_city = get_province();
+$temp_city = array('' => '- Chọn Tỉnh/Thành phố -');
+foreach ($list_city as $ct) {
+    $temp_city[$ct->provinceid] = $ct->name;
+}
 $project_meta_box = array(
     'id' => 'project-meta-box',
     'title' => 'Thông tin dự án',
@@ -111,6 +131,30 @@ $project_meta_box = array(
             'id' => 'project_area',
             'type' => 'text',
             'std' => '',
+        ),
+        array(
+            'name' => 'Thành phố',
+            'desc' => '',
+            'id' => 'city',
+            'type' => 'select',
+            'std' => '',
+            'options' =>$temp_city,
+        ),
+        array(
+            'name' => 'Quận / Huyện',
+            'desc' => '',
+            'id' => 'district',
+            'type' => 'select',
+            'std' => '',
+            'options' =>'',
+        ),
+        array(
+            'name' => 'Phường/Xã',
+            'desc' => '',
+            'id' => 'ward',
+            'type' => 'select',
+            'std' => '',
+            'options' =>'',
         ),
         array(
             'name' => 'Khu vực',
@@ -172,3 +216,48 @@ function project_save_data($post_id) {
     custom_save_meta_box($project_meta_box, $post_id);
     return $post_id;
 }
+
+// ADD NEW COLUMN  
+function project_columns_head($defaults) {
+    unset($defaults['comments']);
+    unset($defaults['date']);
+    $defaults['cat'] = __('Loại dự án', SHORT_NAME);
+    $defaults['level'] = __('Hạng dự án', SHORT_NAME);
+    $defaults['date'] = __('Ngày đăng');
+    return $defaults;
+}
+
+// SHOW THE COLUMN
+function project_columns_content($column_name, $post_id) {
+    switch ($column_name) {
+        case 'cat':
+            $taxonomy = 'project_category';
+            $terms = get_the_terms($post_id, $taxonomy);
+            if(is_array($terms)){
+                foreach ($terms as $key => $term) {
+                    echo '<a href="' . get_edit_tag_link($term->term_id, $taxonomy) . '" target="_blank">' . $term->name . '</a>';
+                    if($key < count($terms) - 1){
+                        echo ", ";
+                    }
+                }
+            }
+            break;
+        case 'level':
+            $taxonomy = 'project_level';
+            $terms = get_the_terms($post_id, $taxonomy);
+            if(is_array($terms)){
+                foreach ($terms as $key => $term) {
+                    echo '<a href="' . get_edit_tag_link($term->term_id, $taxonomy) . '" target="_blank">' . $term->name . '</a>';
+                    if($key < count($terms) - 1){
+                        echo ", ";
+                    }
+                }
+            }
+            break;
+        default:
+            break;
+    }
+}
+
+add_filter('manage_project_posts_columns', 'project_columns_head');  
+add_action('manage_project_posts_custom_column', 'project_columns_content', 10, 2); 

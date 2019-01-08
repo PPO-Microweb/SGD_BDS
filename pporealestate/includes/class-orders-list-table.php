@@ -166,7 +166,7 @@ class WPOrders_List_Table extends WP_List_Table {
                     $attributes = $class . $style;
 
                     //links
-                    $viewlink = '?page=nvt_orders&action=view-detail&order_id=' . (int) $rec->ID;
+                    $viewlink = '?post_type=user_level&page=nvt_orders&action=view-detail&order_id=' . (int) $rec->ID;
 
                     //Display the cell
                     switch ($column_name) {

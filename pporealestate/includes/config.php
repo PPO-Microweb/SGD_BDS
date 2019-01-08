@@ -29,7 +29,7 @@ if (!defined('MAX_LIMIT_POSTING'))
 
 function get_api_urls(){
     return array(
-        'http://www.batdongsan.vn/api/v1/realestatepost' => 'Batdongsan.vn',
+//        'http://www.batdongsan.vn/api/v1/realestatepost' => 'Batdongsan.vn',
         // Danh sach 30 quan/huyen
         'https://badinh.batdongsan.vn/wp-json/api/v1' => 'Quận Ba Đình',
         'https://bactuliem.batdongsan.vn/wp-json/api/v1' => 'Quận Bắc Từ Liêm',
@@ -635,6 +635,12 @@ $options = array(
         array("name" => "Kết quả Thanh toán",
             "desc" => "",
             "id" => "online_payment_result",
+            "std" => '',
+            "type" => "select",
+            "options" => $page_list),
+        array("name" => "Quản lý tin đăng",
+            "desc" => "",
+            "id" => SHORT_NAME . "_pageManagePosts",
             "std" => '',
             "type" => "select",
             "options" => $page_list),

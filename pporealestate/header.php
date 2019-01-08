@@ -101,6 +101,9 @@
                                     </li>
                                     <?php else: ?>
                                     <li>
+                                        <a title="Quản lý tin đăng" href="<?php echo get_page_link(get_option(SHORT_NAME . "_pageManagePosts")); ?>"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Quản lý tin đăng</a>
+                                    </li>
+                                    <li>
                                         <a title="Danh sách Yêu thích" href="<?php echo get_page_link(get_option(SHORT_NAME . "_pageFavorites")); ?>"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span> Yêu thích</a>
                                     </li>
                                     <li>

@@ -49,9 +49,9 @@ if(empty($twitterURL)) $twitterURL = get_option(SHORT_NAME . "_twitterURL");
                             <h3 class="login">(<?php echo $author->user_login ?>)</h3>
                             <div class="description">- Bạn có thể thay ảnh đại diện tại <a href="https://en.gravatar.com/" target="_blank" rel="nofollow" style="color:blue">Gravatar</a>.</div>
                             <div class="description">- Thay đổi địa chỉ Email cần liên hệ <a href="<?php echo get_page_link(get_option(SHORT_NAME . "_pagecontact")); ?>" target="_blank" style="color:blue">Administrator</a>.</div>
-                            <div class="description">- Thay đổi mật khẩu <a href="<?php echo get_page_link(get_option(SHORT_NAME . "_pagelostpassword")); ?>" target="_blank" style="color:blue">tại đây</a>.</div>
                         </div>
                         <div class="level">
+                            <div class="user_expiry">Hết hạn: <?php echo date('d/m/Y', strtotime(get_the_author_meta( 'user_expiry', $author->ID ))) ?></div>
                             <span>Loại tài khoản: </span>
                             <?php
                             $current_limit_posting = get_the_author_meta( 'limit_posting', $author->ID );
