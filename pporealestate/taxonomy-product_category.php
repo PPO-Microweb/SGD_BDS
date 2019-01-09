@@ -1,6 +1,5 @@
 <?php 
-$sell_cat = intval(get_option(SHORT_NAME . "_cat_sell"));
-$rent_cat = intval(get_option(SHORT_NAME . "_cat_rent"));
+$trantype = getRequest('trantype');
 $taxonomy = 'product_category';
 $term = get_queried_object();
 $term_id = $term->term_id;
@@ -21,20 +20,21 @@ get_header();
                     <div class="list-header">
                         <h1 class="span-title">
                             <?php
-                            if($sell_cat == $term_id){
-                                _e('Bất động sản cần bán', SHORT_NAME);
-                            } else if($rent_cat == $term_id){
-                                _e('Bất động sản cho thuê', SHORT_NAME);
-                            } else {
-                                single_cat_title();
+                            if($trantype == 'sell'){
+                                _e('Cần bán', SHORT_NAME);
+                            } else if($trantype == 'rent'){
+                                _e('Cho thuê', SHORT_NAME);
+                            } else if($trantype == 'invest'){
+                                _e('Đầu tư', SHORT_NAME);
                             }
+                            single_cat_title();
                             ?>
                         </h1>
                     </div>
                 </div>
                 <div class="list_product">
                     <?php 
-                    while (have_posts()) : the_post(); 
+                    while (have_posts()) : the_post();
                         get_template_part('template', 'product_item');
                     endwhile;
                     getpagenavi();

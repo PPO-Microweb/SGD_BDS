@@ -85,6 +85,7 @@ function api_push_product() {
                 'district' => get_post_meta($post_id, 'district', true),
                 'ward' => get_post_meta($post_id, 'ward', true),
                 'street' => get_post_meta($post_id, 'street', true),
+                'trantype' => get_post_meta($post_id, 'trantype', true),
                 'price' => get_post_meta($post_id, 'price', true),
                 'currency' => get_post_meta($post_id, 'currency', true),
                 'unitPrice' => get_post_meta($post_id, 'unitPrice', true),
@@ -554,6 +555,25 @@ HTML;
 
         // reset content-type to avoid conflicts
         remove_filter('wp_mail_content_type', 'set_html_content_type');
+        
+        global $wpdb;
+        $tblCustomers = $wpdb->prefix . 'customers';
+        $customer = $wpdb->get_row( "SELECT * FROM {$tblCustomers} WHERE phone='{$tel}' LIMIT 1" );
+        if(!$customer){
+            $result = $wpdb->insert( $tblCustomers, array(
+                'fullname' => $name,
+                'phone' => $tel,
+                'email' => $email,
+                'message' => $message,
+                'updated_date' => date('Y-m-d H:i:s'),
+            ), array(
+                '%s',
+                '%s',
+                '%s',
+                '%s',
+                '%s',
+            ) );
+        }
         
         if($result){
             Response(json_encode(array(

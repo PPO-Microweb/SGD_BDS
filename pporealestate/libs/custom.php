@@ -282,6 +282,7 @@ function removeBBCode($code){
 /**
  * Get short content from full contents
  * 
+ * @param string $contents Full content
  * @param integer $length 
  * @return string
  */
@@ -289,7 +290,7 @@ function get_short_content($contents, $length){
     $short = "";
     $contents = strip_tags($contents);
     if (strlen($contents) >= $length) {
-        $text = explode(" ", substr($contents, 0, $length));
+        $text = explode(" ", mb_substr($contents, 0, $length));
         for ($i = 0; $i < count($text) - 1; $i++) {
             if($i == count($text) - 2){
                 $short .= $text[$i];
@@ -300,6 +301,23 @@ function get_short_content($contents, $length){
         $short .= "...";
     } else {
         $short = $contents;
+    }
+    return $short;
+}
+/**
+ * Get short string from full text
+ * 
+ * @param string $str Full text
+ * @param integer $length 
+ * @return string
+ */
+function get_short_string($str, $length){
+    $short = "";
+    $str = strip_tags($str);
+    if (strlen($str) >= $length) {
+        $short = mb_substr($str, 0, $length) . "...";
+    } else {
+        $short = $str;
     }
     return $short;
 }

@@ -50,6 +50,7 @@ function create_product_post_type() {
         ),
         'rewrite' => array('slug' => 'nha-dat', 'with_front' => false),
         'can_export' => true,
+        'has_archive' => true,
         'description' => __('Product description here.'),
         'taxonomies' => array('post_tag'),
     ));
@@ -198,6 +199,18 @@ $product_meta_box2 = array(
     'context' => 'normal',
     'priority' => 'high',
     'fields' => array(
+        array(
+            'name' => 'Dạng tin đăng',
+            'desc' => '',
+            'id' => 'trantype',
+            'type' => 'radio',
+            'std' => '',
+            'options' => array(
+                'sell' => 'Bán',
+                'rent' => 'Cho thuê',
+                'invest' => 'Đầu tư',
+            ),
+        ),
         array(
             'name' => 'Giá',
             'desc' => 'Ví dụ: 77000',
@@ -479,6 +492,7 @@ function products_where($where) {
 
 // ADD NEW COLUMN  
 function product_columns_head($defaults) {
+    unset($defaults['ratings']);
     unset($defaults['comments']);
     unset($defaults['date']);
     $defaults['cat'] = __('Loại BĐS', SHORT_NAME);

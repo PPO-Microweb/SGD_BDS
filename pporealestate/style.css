@@ -1921,7 +1921,7 @@ h3.block-title{
 .single_product .short_info .project-meta{
     position: absolute;
     right: 10px;
-    bottom: 10px;
+    top: 10px;
     color: #fff;
     font-size: 18px
 }
@@ -2407,7 +2407,7 @@ h3.block-title{
     position: absolute;
     top: 15px;
     right: 15px;
-    min-width: 200px;
+    min-width: 240px;
 }
 .user-info .biographical_info{
     margin-top: 15px;

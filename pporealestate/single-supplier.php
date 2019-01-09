@@ -11,7 +11,8 @@
         <div class="left col-md-8 col-sm-8 col-xs-12">
             <div class="single_product">
                 <h1 class="title_product"><?php the_title(); ?></h1>
-                <div class="description">
+                <?php if(function_exists('the_ratings')) { the_ratings(); } ?>
+                <div class="description mt15">
                     <div class="main_des pdb30">
                         <?php the_content();?>
                     </div>

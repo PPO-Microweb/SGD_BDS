@@ -352,23 +352,19 @@ get_header();
                                     <label class="text">Loại BĐS <span>(*)</span></label>
                                 </div>
                                 <div class="col-sm-7">
-                                    <select name="category" id="category" class="required select" required>
-                                        <?php
-                                        $term_id = 0;
-                                        if(!empty($categories)){
-                                            $term_id = $categories[0]->term_id;
-                                        }
-                                        $categories = get_categories(array(
-                                            'hide_empty' => 0,
-                                            'post_type' => 'product',
-                                            'taxonomy' => 'product_category',
-                                            'parent' => $term_id,
-                                        ));
-                                        foreach ($categories as $category) :
-                                            echo "<option value=\"{$category->name}\">{$category->name}</option>";
-                                        endforeach;
-                                        ?>
-                                    </select>
+                                    <?php
+                                    wp_dropdown_categories(array(
+                                        'name' => 'category', 
+                                        'taxonomy' => 'product_category', 
+                                        'selected' => getRequest('category'),
+                                        'hierarchical' => true,
+                                        'hide_empty' => false,
+                                        'value_field' => 'name',
+                                        'class' => 'required select',
+                                        'id' => 'category',
+                                        'required' => 'required',
+                                    ));
+                                    ?>
                                 </div>
                             </div>
                         </div>

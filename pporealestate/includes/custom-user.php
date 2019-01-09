@@ -216,6 +216,7 @@ add_action('personal_options_update', 'my_save_extra_profile_fields');
 add_action('edit_user_profile_update', 'my_save_extra_profile_fields');
 
 function my_show_extra_profile_fields($user) {
+    $districts = get_district(PROVINCE_ID);
 ?>
     <h3>Extra profile information</h3>
     <table class="form-table">
@@ -336,22 +337,85 @@ function my_show_extra_profile_fields($user) {
         <tr>
             <th><label>Phân khúc/Địa bàn (1)</label></th>
             <td>
-                <input type="text" name="bds_segment1" value="<?php echo esc_attr(get_the_author_meta('bds_segment1', $user->ID)) ?>" placeholder="Phân khúc" style="width:200px;margin-right: 10px" />
-                <input type="text" name="bds_location1" value="<?php echo esc_attr(get_the_author_meta('bds_location1', $user->ID)) ?>" placeholder="Địa bàn" style="width:200px" />
+                <?php
+                wp_dropdown_categories(array(
+                    'name' => 'bds_segment1', 
+                    'taxonomy' => 'product_category', 
+                    'selected' => esc_attr(get_the_author_meta('bds_segment1', $user->ID)),
+                    'hierarchical' => true,
+                    'hide_empty' => false,
+                    'value_field' => 'term_id',
+                    'class' => '',
+                    'id' => '',
+                ));
+                ?>
+                <select name="bds_location1" id="bds_location1" style="width: 15em;margin-left:10px">
+                    <?php
+                    foreach ($districts as $district) {
+                        if (esc_attr(get_the_author_meta('bds_location1', $user->ID)) == $district) {
+                            echo '<option value="' . $district->districtid . '" selected="selected">' . $district->name . '</option>';
+                        } else {
+                            echo '<option value="' . $district->districtid . '">' . $district->name . '</option>';
+                        }
+                    }
+                    ?>
+                </select>
             </td>
         </tr>
         <tr>
             <th><label>Phân khúc/Địa bàn (2)</label></th>
             <td>
-                <input type="text" name="bds_segment2" value="<?php echo esc_attr(get_the_author_meta('bds_segment2', $user->ID)) ?>" placeholder="Phân khúc" style="width:200px;margin-right: 10px" />
-                <input type="text" name="bds_location2" value="<?php echo esc_attr(get_the_author_meta('bds_location2', $user->ID)) ?>" placeholder="Địa bàn" style="width:200px" />
+                <?php
+                wp_dropdown_categories(array(
+                    'name' => 'bds_segment2', 
+                    'taxonomy' => 'product_category', 
+                    'selected' => esc_attr(get_the_author_meta('bds_segment2', $user->ID)),
+                    'hierarchical' => true,
+                    'hide_empty' => false,
+                    'value_field' => 'term_id',
+                    'class' => '',
+                    'id' => '',
+                ));
+                ?>
+                <select name="bds_location2" id="bds_location2" style="width: 15em;margin-left:10px">
+                    <?php
+                    foreach ($districts as $district) {
+                        if (esc_attr(get_the_author_meta('bds_location2', $user->ID)) == $district) {
+                            echo '<option value="' . $district->districtid . '" selected="selected">' . $district->name . '</option>';
+                        } else {
+                            echo '<option value="' . $district->districtid . '">' . $district->name . '</option>';
+                        }
+                    }
+                    ?>
+                </select>
             </td>
         </tr>
         <tr>
             <th><label>Phân khúc/Địa bàn (3)</label></th>
             <td>
-                <input type="text" name="bds_segment3" value="<?php echo esc_attr(get_the_author_meta('bds_segment3', $user->ID)) ?>" placeholder="Phân khúc" style="width:200px;margin-right: 10px" />
-                <input type="text" name="bds_location3" value="<?php echo esc_attr(get_the_author_meta('bds_location3', $user->ID)) ?>" placeholder="Địa bàn" style="width:200px" />
+                <?php
+                wp_dropdown_categories(array(
+                    'name' => 'bds_segment3', 
+                    'taxonomy' => 'product_category', 
+                    'selected' => esc_attr(get_the_author_meta('bds_segment3', $user->ID)),
+                    'hierarchical' => true,
+                    'hide_empty' => false,
+                    'value_field' => 'term_id',
+                    'class' => '',
+                    'id' => '',
+                ));
+                ?>
+                <select name="bds_location3" id="bds_location3" style="width: 15em;margin-left:10px">
+                    <?php
+                    foreach ($districts as $district) {
+                        if (esc_attr(get_the_author_meta('bds_location3', $user->ID)) == $district) {
+                            echo '<option value="' . $district->districtid . '" selected="selected">' . $district->name . '</option>';
+                        } else {
+                            echo '<option value="' . $district->districtid . '">' . $district->name . '</option>';
+                        }
+                    }
+                    ?>
+                </select>
             </td>
         </tr>
     </table>

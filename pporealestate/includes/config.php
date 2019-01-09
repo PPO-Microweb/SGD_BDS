@@ -24,6 +24,8 @@ if (!defined('MENU_NAME'))
     define('MENU_NAME', SHORT_NAME . "_settings");
 if (!defined('THEME_VER'))
     define('THEME_VER', "1.0");
+if (!defined('PROVINCE_ID'))
+    define('PROVINCE_ID', '01');
 if (!defined('MAX_LIMIT_POSTING'))
     define('MAX_LIMIT_POSTING', 200);
 
@@ -464,22 +466,7 @@ $options = array(
             "desc" => "",
         ),
         array("type" => "open"),
-        array("name" => "BĐS cần bán",
-            "desc" => "Điền ID danh mục",
-            "id" => SHORT_NAME . "_cat_sell",
-            "std" => '',
-            "type" => "text"),
-        array("name" => "BĐS cho thuê",
-            "desc" => "Điền ID danh mục",
-            "id" => SHORT_NAME . "_cat_rent",
-            "std" => '',
-            "type" => "text"),
-        array("name" => "BĐS đầu tư",
-            "desc" => "Điền ID danh mục",
-            "id" => SHORT_NAME . "_cat_invest",
-            "std" => '',
-            "type" => "text"),
-        array("name" => "Phân trang sản phẩm",
+        array("name" => "Số lượng tin hiển thị",
             "desc" => "Số lượng sản phẩm hiển thị trên 1 trang. Ví dụ: 24",
             "id" => SHORT_NAME . "_product_pager",
             "std" => '12',

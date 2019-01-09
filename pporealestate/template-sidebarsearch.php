@@ -1,26 +1,7 @@
 <?php
-$catID = intval(getRequest('category'));
 $list_city = get_province();
 $directions = direction_list();
 $rooms = room_list();
-// Can ban
-$categories = get_terms(array(
-    'taxonomy' => 'product_category',
-    'hide_empty' => 1,
-    'parent' => intval(get_option(SHORT_NAME . "_cat_sell")),
-));
-// Cho thue
-$categories2 = get_terms(array(
-    'taxonomy' => 'product_category',
-    'hide_empty' => 1,
-    'parent' => intval(get_option(SHORT_NAME . "_cat_rent")),
-));
-// Cho thue
-$categories3 = get_terms(array(
-    'taxonomy' => 'product_category',
-    'hide_empty' => 1,
-    'parent' => intval(get_option(SHORT_NAME . "_cat_invest")),
-));
 $areas = get_categories(array(
     'type' => 'product',
     'taxonomy' => 'product_acreage',
@@ -47,45 +28,9 @@ $specials = get_categories(array(
     'hide_empty' => 1,
 ));
 ?>
-<div class="hide hidden" id="categories-sales">
-    <option value="<?php echo get_option(SHORT_NAME . "_cat_sell") ?>">- Loại nhà đất -</option>
-    <?php
-    foreach ($categories as $category) :
-        if ($catID == $category->term_id) {
-            echo "<option value=\"{$category->term_id}\" selected>{$category->name}</option>";
-        } else {
-            echo "<option value=\"{$category->term_id}\">{$category->name}</option>";
-        }
-    endforeach;
-    ?>
-</div>
-<div class="hide hidden" id="categories-rent">
-    <option value="<?php echo get_option(SHORT_NAME . "_cat_rent") ?>">- Loại nhà đất -</option>
-    <?php
-    foreach ($categories2 as $category) :
-        if ($catID == $category->term_id) {
-            echo "<option value=\"{$category->term_id}\" selected>{$category->name}</option>";
-        } else {
-            echo "<option value=\"{$category->term_id}\">{$category->name}</option>";
-        }
-    endforeach;
-    ?>
-</div>
-<div class="hide hidden" id="categories-invest">
-    <option value="<?php echo get_option(SHORT_NAME . "_cat_invest") ?>">- Loại nhà đất -</option>
-    <?php
-    foreach ($categories3 as $category) :
-        if ($catID == $category->term_id) {
-            echo "<option value=\"{$category->term_id}\" selected>{$category->name}</option>";
-        } else {
-            echo "<option value=\"{$category->term_id}\">{$category->name}</option>";
-        }
-    endforeach;
-    ?>
-</div>
 <div class="widget box-search pb10">
     <ul class="nav nav-tabs responsive" id="boxTab">
-        <li class="test-class active"><a data-id="sales" href="#tab1">Cần Bán</a></li>
+        <li class="test-class active"><a data-id="sell" href="#tab1">Cần Bán</a></li>
         <li class="test-class"><a data-id="rent" href="#tab2">Cho Thuê</a></li>
         <li class="test-class"><a data-id="invest" href="#tab3">Đầu Tư</a></li>
     </ul>
@@ -94,18 +39,18 @@ $specials = get_categories(array(
             <form method="get" action="<?php bloginfo('siteurl') ?>">
                 <ul class="tab_select">
                     <li>
-                        <select name="category" id="category" >
-                            <option value="<?php echo get_option(SHORT_NAME . "_cat_sell") ?>">- Loại nhà đất -</option>
-                            <?php
-                            foreach ($categories as $category) :
-                                if ($catID == $category->term_id) {
-                                    echo "<option value=\"{$category->term_id}\" selected>{$category->name}</option>";
-                                } else {
-                                    echo "<option value=\"{$category->term_id}\">{$category->name}</option>";
-                                }
-                            endforeach;
-                            ?>
-                        </select>
+                        <?php
+                        wp_dropdown_categories(array(
+                            'show_option_all' => __('- Loại nhà đất -', SHORT_NAME),
+                            'name' => 'category', 
+                            'taxonomy' => 'product_category', 
+                            'selected' => getRequest('category'),
+                            'hierarchical' => true,
+                            'value_field' => 'term_id',
+                            'class' => '',
+                            'id' => 'category',
+                        ));
+                        ?>
                     </li>
                     <li>
                         <select name="city" id="ddlCity" >
@@ -220,6 +165,7 @@ $specials = get_categories(array(
                     </li>
                     <li class="btnsearch">
                         <input type="hidden" name="s" value="" />
+                        <input type="hidden" name="trantype" value="sell" />
                         <input type="submit" value="Tìm kiếm" class="btnSearch"/>
                         <div class="clear"></div>
                     </li>

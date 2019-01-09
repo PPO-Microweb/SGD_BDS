@@ -54,9 +54,10 @@ if (is_admin()) {
     }
     
     include 'includes/orders.php';
+    include 'includes/customers.php';
     
     // Add filter
-//    add_filter('acf/settings/show_admin', '__return_false');
+    add_filter('acf/settings/show_admin', '__return_false');
     add_filter('acf/settings/show_updates', '__return_false');
     add_filter('display_post_states', 'ppo_custom_post_states');
 
@@ -516,6 +517,7 @@ function custom_search_filter($query) {
     if (!is_admin() && $query->is_main_query()) {
         if ($query->is_search) {
             $category = getRequest('category');
+            $trantype = getRequest('trantype');
             $price = getRequest('price');
             $city = getRequest('city');
             $district = getRequest('district');
@@ -573,6 +575,12 @@ function custom_search_filter($query) {
                     'terms'    => array( $area ),
 		);
             }
+            if(!empty($trantype)){
+                $meta_query[] = array(
+                    'key'     => 'trantype',
+                    'value'   => $trantype,
+		);
+            }
             if(!empty($city)){
                 $meta_query[] = array(
                     'key'     => 'city',
@@ -628,8 +636,10 @@ function custom_search_filter($query) {
             $products_per_page = intval(get_option(SHORT_NAME . "_product_pager"));
             $query->set('posts_per_page', $products_per_page);
         }
-        if ($query->is_tax and is_tax('product_category')) {
+        if ( ($query->is_tax and is_tax('product_category')) or is_post_type_archive( 'product' )) {
+            $trantype = getRequest('trantype');
             $meta_query = array(
+                'relation' => 'AND',
                 array(
                     'key' => 'end_time',
                     'value' => date('Y/m/d', strtotime("today")),
@@ -637,6 +647,12 @@ function custom_search_filter($query) {
                     'type' => 'DATE'
                 )
             );
+            if(!empty($trantype)){
+                $meta_query[] = array(
+                    'key'     => 'trantype',
+                    'value'   => $trantype,
+		);
+            }
             
             $query->set('orderby', array('meta_value_num', 'post_date'));
             $query->set('meta_key', 'not_in_vip');

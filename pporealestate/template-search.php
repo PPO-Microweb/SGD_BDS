@@ -2,27 +2,6 @@
 $list_city = get_province();
 $directions = direction_list();
 $rooms = room_list();
-// Can ban
-$termchildren = get_terms(array(
-    'hide_empty' => 1,
-    'post_type' => 'product',
-    'taxonomy' => 'product_category',
-    'parent' => intval(get_option(SHORT_NAME . "_cat_sell"))
-));
-// Cho thue
-$termchildren2 = get_terms(array(
-    'hide_empty' => 1,
-    'post_type' => 'product',
-    'taxonomy' => 'product_category',
-    'parent' => intval(get_option(SHORT_NAME . "_cat_rent"))
-));
-// Dau tu
-$termchildren3 = get_terms(array(
-    'hide_empty' => 1,
-    'post_type' => 'product',
-    'taxonomy' => 'product_category',
-    'parent' => intval(get_option(SHORT_NAME . "_cat_invest"))
-));
 $prices = get_categories(array(
     'type' => 'product',
     'taxonomy' => 'product_price',
@@ -51,34 +30,10 @@ $specials = get_categories(array(
 ?>
 <h3 class="form-title hide">Tìm bất động sản</h3>
 <ul class="nav nav-tabs responsive" id="myTab">
-    <li class="test-class active"><a data-id="sales" href="#tab1"><span>Cần bán</span></a></li>
+    <li class="test-class active"><a data-id="sell" href="#tab1"><span>Cần bán</span></a></li>
     <li class="test-class"><a data-id="rent" href="#tab2"><span>Cho thuê</span></a></li>
     <li class="test-class"><a data-id="invest" href="#tab3"><span>Đầu tư</span></a></li>
 </ul>
-<div class="hide hidden" id="categories-sales">
-    <option value="<?php echo get_option(SHORT_NAME . "_cat_sell") ?>">- Loại nhà đất -</option>
-    <?php
-    foreach ($termchildren as $child) :
-        echo "<option value=\"{$child->term_id}\">{$child->name}</option>";
-    endforeach;
-    ?>
-</div>
-<div class="hide hidden" id="categories-rent">
-    <option value="<?php echo get_option(SHORT_NAME . "_cat_rent") ?>">- Loại nhà đất -</option>
-    <?php
-    foreach ($termchildren2 as $child) :
-        echo "<option value=\"{$child->term_id}\">{$child->name}</option>";
-    endforeach;
-    ?>
-</div>
-<div class="hide hidden" id="categories-invest">
-    <option value="<?php echo get_option(SHORT_NAME . "_cat_invest") ?>">- Loại nhà đất -</option>
-    <?php
-    foreach ($termchildren3 as $child) :
-        echo "<option value=\"{$child->term_id}\">{$child->name}</option>";
-    endforeach;
-    ?>
-</div>
 <div class="tab-content top-content-search responsive">
     <div class="tab-pane active">
         <form method="get" action="<?php bloginfo('siteurl') ?>">
@@ -86,14 +41,18 @@ $specials = get_categories(array(
                 <div class="col-md-2 col-sm-3 col-xs-6">
                     <ul class="tab_select">
                         <li>
-                            <select name="category" id="category" >
-                                <option value="<?php echo get_option(SHORT_NAME . "_cat_sell") ?>">- Loại nhà đất -</option>
-                                <?php
-                                foreach ($termchildren as $child) :
-                                    echo "<option value=\"{$child->term_id}\">{$child->name}</option>";
-                                endforeach;
-                                ?>
-                            </select>
+                            <?php
+                            wp_dropdown_categories(array(
+                                'show_option_all' => __('- Loại nhà đất -', SHORT_NAME),
+                                'name' => 'category', 
+                                'taxonomy' => 'product_category', 
+                                'selected' => getRequest('category'),
+                                'hierarchical' => true,
+                                'value_field' => 'term_id',
+                                'class' => '',
+                                'id' => 'category',
+                            ));
+                            ?>
                         </li>
                         <li>
                             <select name="price" id="price" >
@@ -229,6 +188,7 @@ $specials = get_categories(array(
                         <li>
                             <input type="submit" value="Tìm kiếm" class="btnSearch"/>
                             <input type="hidden" name="s" value="" />
+                            <input type="hidden" name="trantype" value="sell" />
                         </li>
                     </ul>
                 </div>

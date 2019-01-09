@@ -70,6 +70,7 @@ function api_post_product(WP_REST_Request $request) {
     $district = $request->get_param('district');
     $ward = $request->get_param('ward');
     $street = $request->get_param('street');
+    $trantype = $request->get_param('trantype');
     $price = $request->get_param('price');
     $currency = $request->get_param('currency');
     $unitPrice = $request->get_param('unitPrice');
@@ -128,6 +129,7 @@ function api_post_product(WP_REST_Request $request) {
             update_post_meta($post_id, 'district', $district);
             update_post_meta($post_id, 'ward', $ward);
             update_post_meta($post_id, 'street', $street);
+            update_post_meta($post_id, 'trantype', $trantype);
             update_post_meta($post_id, 'price', $price);
             update_post_meta($post_id, 'currency', $currency);
             update_post_meta($post_id, 'unitPrice', $unitPrice);

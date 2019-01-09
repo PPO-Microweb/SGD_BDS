@@ -16,6 +16,7 @@
                     <?php echo get_post_meta(get_the_ID(), "khu_vuc", true); ?><br/>
                     <span class="bold-red">Trạng thái: </span>
                     <?php echo project_status()[get_post_meta(get_the_ID(), "status", true)]; ?>
+                    <?php if(function_exists('the_ratings')) { the_ratings(); } ?>
                     <div class="project-meta">
                         <div class="price">Giá <?php echo get_post_meta(get_the_ID(), "project_price", true); ?></div>
                         <div class="area">DT <?php echo get_post_meta(get_the_ID(), "project_area", true); ?></div>
@@ -109,6 +110,7 @@
                         </a>
                     </div>
                     <div class="name"><?php echo get_the_title($supplier_id); ?></div>
+                    <?php if(function_exists('the_ratings_results')) { echo the_ratings_results($supplier_id); } ?>
                     <a href="<?php echo get_permalink($supplier_id) ?>" class="xem-them">Xem thêm</a>
                 </div>
             </div>

@@ -66,18 +66,24 @@ if(empty($twitterURL)) $twitterURL = get_option(SHORT_NAME . "_twitterURL");
                     $bds_location3 = get_the_author_meta( 'bds_location3', $author->ID );
                     $html_output = "";
                     if(!empty($bds_segment1) and !empty($bds_location1)){
-                        $html_output .=  '<div class="segment">' . $bds_segment1 . '</div>';
-                        $html_output .=  '<div class="location">' . $bds_location1 . '</div>';
+                        $term = get_term( $bds_segment1, 'product_category');
+                        $location = get_district_by_id($bds_location1);
+                        $html_output .=  '<div class="segment" title="'.$term->name.'">' . get_short_string($term->name, 12) . '</div>';
+                        $html_output .=  '<div class="location">' . $location->name . '</div>';
                         $html_output .=  '<div class="clearfix"></div>';
                     }
                     if(!empty($bds_segment2) and !empty($bds_location2)){
-                        $html_output .=  '<div class="segment">' . $bds_segment2 . '</div>';
-                        $html_output .=  '<div class="location">' . $bds_location2 . '</div>';
+                        $term = get_term( $bds_segment2, 'product_category');
+                        $location = get_district_by_id($bds_location2);
+                        $html_output .=  '<div class="segment" title="'.$term->name.'">' . get_short_string($term->name, 12) . '</div>';
+                        $html_output .=  '<div class="location">' . $location->name . '</div>';
                         $html_output .=  '<div class="clearfix"></div>';
                     }
                     if(!empty($bds_segment3) and !empty($bds_location3)){
-                        $html_output .=  '<div class="segment">' . $bds_segment3 . '</div>';
-                        $html_output .=  '<div class="location">' . $bds_location3 . '</div>';
+                        $term = get_term( $bds_segment3, 'product_category');
+                        $location = get_district_by_id($bds_location3);
+                        $html_output .=  '<div class="segment" title="'.$term->name.'">' . get_short_string($term->name, 12) . '</div>';
+                        $html_output .=  '<div class="location">' . $location->name . '</div>';
                         $html_output .=  '<div class="clearfix"></div>';
                     }
                     echo $html_output;

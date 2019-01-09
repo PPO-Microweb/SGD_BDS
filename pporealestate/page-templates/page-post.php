@@ -12,7 +12,7 @@ if (isset($_POST['bntSave'])) {
     get_currentuserinfo();
     
     if(validate_user_limit_posting()){
-        $loaitin = intval(getRequest('loai_tin'));
+        $trantype = getRequest('trantype');
         $category = intval(getRequest('category'));
         $city = getRequest('city');
         $district = getRequest('district');
@@ -61,7 +61,7 @@ if (isset($_POST['bntSave'])) {
             'post_status' => 'draft',
             'post_author' => $current_user->ID,
     //        'tax_input' => array(
-    //            'product_category' => array($loaitin, $category),
+    //            'product_category' => array($category),
     //            'product_purpose' => $purpose_cat,
     //            'product_special' => $special_cat,
     //        ),
@@ -70,7 +70,7 @@ if (isset($_POST['bntSave'])) {
         if ($post_id > 0) {
             $notify = "Bạn đã đăng dự án thành công!";
             // update terms
-            wp_set_object_terms($post_id, array($loaitin, $category), 'product_category');
+            wp_set_object_terms($post_id, array($category), 'product_category');
             wp_set_object_terms($post_id, $purpose_cat, 'product_purpose');
             wp_set_object_terms($post_id, $special_cat, 'product_special');
             // update meta data
@@ -78,6 +78,7 @@ if (isset($_POST['bntSave'])) {
             update_post_meta($post_id, 'district', $district);
             update_post_meta($post_id, 'ward', $ward);
             update_post_meta($post_id, 'street', $street);
+            update_post_meta($post_id, 'trantype', $trantype);
             update_post_meta($post_id, 'price', $price);
             update_post_meta($post_id, 'currency', $currency);
             update_post_meta($post_id, 'unitPrice', $unitPrice);
@@ -129,7 +130,11 @@ if (isset($_POST['bntSave'])) {
 $directions = direction_list();
 $unitcurrencies = unitCurrency_list();
 $unitPrices = unitPrice_list();
-$categories = get_categories(array('hide_empty' => 0, 'post_type' => 'product', 'taxonomy' => 'product_category', 'parent' => 0));
+$trantypes = array(
+    'sell' => 'Bán',
+    'rent' => 'Cho thuê',
+    'invest' => 'Đầu tư',
+);
 
 get_header();
 ?>
@@ -168,9 +173,9 @@ get_header();
                             <div class="col-sm-4">
                                 <?php
                                 $count = 0;
-                                foreach ($categories as $category) : ?>
-                                    <input <?php echo ($count==0)?'checked':''; ?> type="radio" id="loai_bds_<?php echo $category->term_id; ?>" onclick="ShowType(<?php echo $category->term_id; ?>);" value="<?php echo $category->term_id; ?>" name="loai_tin" class="radio" />
-                                    <label for="loai_bds_<?php echo $category->term_id; ?>" class="radio_type"><?php echo $category->name; ?></label>
+                                foreach ($trantypes as $key => $value) : ?>
+                                    <input <?php echo ($count==0)?'checked':''; ?> type="radio" id="loai_bds_<?php echo $key; ?>" value="<?php echo $key; ?>" name="trantype" class="radio" />
+                                    <label for="loai_bds_<?php echo $key; ?>" class="radio_type"><?php echo $value; ?></label>
                                 <?php
                                     $count++;
                                 endforeach;
@@ -369,23 +374,19 @@ get_header();
                                         <label class="text">Loại BĐS <span>(*)</span></label>
                                     </div>
                                     <div class="col-sm-7">
-                                        <select name="category" id="category" class="required select" required>
-                                            <?php
-                                            $term_id = 0;
-                                            if(!empty($categories)){
-                                                $term_id = $categories[0]->term_id;
-                                            }
-                                            $categories = get_categories(array(
-                                                'hide_empty' => 0,
-                                                'post_type' => 'product',
-                                                'taxonomy' => 'product_category',
-                                                'parent' => $term_id,
-                                            ));
-                                            foreach ($categories as $category) :
-                                                echo "<option value=\"{$category->term_id}\">{$category->name}</option>";
-                                            endforeach;
-                                            ?>
-                                        </select>
+                                        <?php
+                                        wp_dropdown_categories(array(
+                                            'name' => 'category', 
+                                            'taxonomy' => 'product_category', 
+                                            'selected' => getRequest('category'),
+                                            'hierarchical' => true,
+                                            'hide_empty' => false,
+                                            'value_field' => 'term_id',
+                                            'class' => 'required select',
+                                            'id' => 'category',
+                                            'required' => 'required',
+                                        ));
+                                        ?>
                                     </div>
                                 </div>
                             </div>
