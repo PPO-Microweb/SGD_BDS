@@ -7,8 +7,11 @@ if (!is_user_logged_in()) {
     exit;
 }
 global $current_user;
+$current_account_level = get_the_author_meta( 'account_level', $current_user->ID );
 $current_limit_posting = get_the_author_meta( 'limit_posting', $current_user->ID );
-if($current_limit_posting >= MAX_LIMIT_POSTING){
+$user_level_max = intval(get_option(SHORT_NAME . "_user_level_max"));
+$max_limit_posting = get_field( 'limit_posting', $user_level_max );
+if($current_limit_posting >= $max_limit_posting){
     wp_redirect( home_url('/profile/') );
     exit;
 }
@@ -65,10 +68,10 @@ get_header();
                             <?php the_content(); ?>
                         </div>
                         <div class="footer">
-                            <?php if($current_limit_posting == $limit_posting): ?>
+                            <?php if($current_account_level == get_the_ID()): ?>
                             <button type="button" class="btn btn-lg btn-buy" disabled>Hiện tại</button>
                             <?php elseif($current_limit_posting > $limit_posting): ?>
-                            <button type="button" class="btn btn-lg btn-buy" disabled>Hiện tại</button>
+                            <button type="button" class="btn btn-lg btn-buy" disabled>Nâng cấp</button>
                             <?php else: ?>
                             <form action="" method="post" id="frmUserLevel_<?php the_ID() ?>">
                                 <button type="submit" class="btn btn-lg btn-buy">Nâng cấp</button>

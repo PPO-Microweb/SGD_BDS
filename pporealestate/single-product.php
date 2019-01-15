@@ -23,7 +23,7 @@
                         <?php endif; ?>
                     </ul>
                     <?php if( get_field('gallery') ) : ?>
-                    <div id="product-gallery" class="product-gallery">
+                    <div id="product-gallery" class="product-gallery ui-tabs-panel">
                         <div class="owl-carousel">
                             <?php
                             $gallery = get_field('gallery');
@@ -35,12 +35,12 @@
                     </div>
                     <?php endif; ?>
                     <?php if( get_field('video') ) : ?>
-                    <div id="product-video" class="post-video">
+                    <div id="product-video" class="post-video ui-tabs-panel">
                         <?php the_field('video') ?>
                     </div>
                     <?php endif; ?>
                     <?php if( get_field('maps') ) : ?>
-                    <div id="product-maps" class="post-maps">
+                    <div id="product-maps" class="post-maps ui-tabs-panel">
                         <?php the_field('maps') ?>
                     </div>
                     <?php endif; ?>
@@ -237,6 +237,11 @@
                         </a>
                     </div>
                     <div class="name"><?php echo $display_name; ?></div>
+                    <div class="user-rating text-center">
+                        <div class="ratings">
+                            <?php echo ppo_user_ratings($author->ID); ?>
+                        </div>
+                    </div>
                     <p>
                         <strong>M: </strong><?php echo $phone; ?><br/>
                         <strong>E: </strong><?php echo $contact_email; ?><br/>

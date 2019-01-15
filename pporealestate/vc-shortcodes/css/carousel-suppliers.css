@@ -30,14 +30,22 @@
 }
 .carousel-suppliers-widget .entry .entry-title, .supplier_list .entry .entry-title{
     color: #0054a0;
-    padding: 10px;
+    padding: 10px 10px 5px;
     margin-bottom: 0;
     font-size: 16px;
     text-align: center;
-    min-height: 58px
+    /*min-height: 58px*/
 }
 .carousel-suppliers-widget .entry .entry-title a, .supplier_list .entry .entry-title a{color: #0054a0}
 .carousel-suppliers-widget .entry .entry-title a:hover, .supplier_list .entry .entry-title a:hover{color: #ff6600}
+.carousel-suppliers-widget .entry .ratings, .supplier_list .entry .ratings{
+    padding: 0 15px 10px;
+    text-align: center
+}
+.carousel-suppliers-widget .entry .ratings img, .supplier_list .entry .ratings img{
+    width: auto;
+    display: inline-block
+}
 .carousel-suppliers-widget .owl-controls .owl-nav{
     position: absolute;
     top: -46px;
@@ -52,3 +60,22 @@
     text-align: center
 }
 .carousel-suppliers-widget .owl-controls .owl-next{text-align: right}
+.supplier_list .col-xs-6:nth-child(4n+1){
+    clear: both
+}
+@media (max-width:991px){
+    .supplier_list .col-xs-6:nth-child(3n+1){
+        clear: both
+    }
+    .supplier_list .col-xs-6:nth-child(4n+1){
+        clear: inherit
+    }
+}
+@media (max-width:767px){
+    .supplier_list .col-xs-6:nth-child(2n+1){
+        clear: both
+    }
+    .supplier_list .col-xs-6:nth-child(3n+1){
+        clear: inherit
+    }
+}

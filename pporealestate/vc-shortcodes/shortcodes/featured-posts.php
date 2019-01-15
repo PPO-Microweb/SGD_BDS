@@ -48,7 +48,7 @@ function ppo_shortcode_featured_posts($atts) {
         $title = get_the_title();
         $permalink = get_permalink();
         $thumbnail_url = get_the_post_thumbnail_url(get_the_ID(), '275x150');
-        $no_image_url = get_template_directory_uri() . "/images/no_image.png";
+        $no_image_url = get_template_directory_uri() . "/assets/images/no_image.png";
         $date = date($date_format, strtotime($post->post_date));
         $excerpt = "";
         if($instance['show_description'] == 1){

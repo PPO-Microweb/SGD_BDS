@@ -57,6 +57,7 @@ HTML;
             ), array('ID' => $order_code), array('%d', '%d', '%s', '%s', '%s'), array('%d'));
 
             if ($result) {
+                update_usermeta($transaction_info, 'account_level', $order->level_id);
                 update_usermeta($transaction_info, 'limit_posting', get_field('limit_posting', $order->level_id));
                 update_usermeta($transaction_info, 'limit_postvip', get_field('limit_postvip', $order->level_id));
                 $today = date('Y/m/d');

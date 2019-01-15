@@ -68,7 +68,12 @@ class Project_List_Widget extends WP_Widget {
                         <a href="<?php the_permalink(); ?>" rel="bookmark" itemprop="url" 
                            onclick="ga('send', 'event', 'Dự án', 'Xem dự án', '<?php the_title(); ?>');"><?php the_title(); ?></a>
                     </h3>
-                    <p class="location"><?php echo $khu_vuc ?></p>
+                    <?php
+                    if(function_exists('the_ratings_results')) {
+                        echo '<div class="ratings">'. the_ratings_results(get_the_ID()) . '</div>';
+                    }
+                    ?>
+                    <div class="location"><?php echo $khu_vuc ?></div>
                 </div>
             </div>
             <?php

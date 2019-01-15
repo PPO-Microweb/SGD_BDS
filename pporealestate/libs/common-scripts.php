@@ -8,9 +8,11 @@ function ppo_register_scripts(){
     wp_enqueue_media();
     
     ## Register All Styles
+    wp_register_style('font-awesome', 'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
     wp_register_style('chosen-template', get_template_directory_uri() . '/libs/css/chosen.min.css');
     wp_register_style('colorpicker-template', get_template_directory_uri() . '/libs/css/colorpicker.css');
     
+    wp_enqueue_style('font-awesome');
     wp_enqueue_style('chosen-template');
     wp_enqueue_style('colorpicker-template');
     

@@ -3,7 +3,7 @@
 if (!class_exists('WP_List_Table'))
     require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
 
-class WP_Customers_List_Table extends WP_List_Table {
+class User_Sort_List_Table extends WP_List_Table {
 
     /**
      * Constructor, we override the parent to pass our own arguments
@@ -11,8 +11,8 @@ class WP_Customers_List_Table extends WP_List_Table {
      */
     function __construct() {
         parent::__construct(array(
-            'singular' => 'wp_list_customer', //Singular label
-            'plural' => 'wp_list_customers', //plural label, also this well be one of the table css class
+            'singular' => 'wp_list_user', //Singular label
+            'plural' => 'wp_list_users', //plural label, also this well be one of the table css class
             'ajax' => false //We won't support Ajax for this table
         ));
     }
@@ -24,7 +24,31 @@ class WP_Customers_List_Table extends WP_List_Table {
     function extra_tablenav($which) {
         if ($which == "top") {
             //The code that goes before the table is here
-            //echo"Hello, I'm before the table";
+            echo '<div class="ppo-users-filter">';
+            wp_dropdown_categories(array(
+                'show_option_all' => '- Phân khúc -',
+                'name' => 'bds_segment', 
+                'taxonomy' => 'product_category', 
+                'selected' => getRequest('bds_segment'),
+                'hierarchical' => true,
+                'hide_empty' => false,
+                'value_field' => 'term_id',
+                'class' => '',
+                'id' => '',
+            ));
+            echo '<select name="location">';
+            echo '<option value="">- Địa bàn -</option>';
+            $districts = get_district(PROVINCE_ID);
+            foreach ($districts as $district) {
+                if(getRequest('location') == $district->districtid){
+                    echo '<option value="' . $district->districtid . '" selected>' . $district->name . '</option>';
+                } else {
+                    echo '<option value="' . $district->districtid . '">' . $district->name . '</option>';
+                }
+            }
+            echo '</select>';
+            echo '<input type="submit" name="finduser" id="finduser" class="button button-primary" value="Tìm">';
+            echo '</div>';
         }
         if ($which == "bottom") {
             //The code that goes after the table is there
@@ -38,14 +62,14 @@ class WP_Customers_List_Table extends WP_List_Table {
      */
     function get_columns() {
         return $columns = array(
-            'col_customers_cb' => '<input type="checkbox" class="cb-customers-select-all" />',
-//            'col_customers_id' => __('ID', SHORT_NAME),
-            'col_customers_name' => __('Họ và tên', SHORT_NAME),
-            'col_customers_phone' => __('Số điện thoại', SHORT_NAME),
-            'col_customers_email' => __('Địa chỉ Email', SHORT_NAME),
-            'col_customers_message' => __('Nội dung', SHORT_NAME),
-            'col_customers_date' => __('Ngày gửi', SHORT_NAME),
-//            'col_customers_options' => __('Tùy chọn', SHORT_NAME)
+//            'col_users_cb' => '<input type="checkbox" class="cb-users-select-all" />',
+            'col_users_id' => __('ID', SHORT_NAME),
+            'col_users_name' => __('Họ và tên', SHORT_NAME),
+            'col_users_phone' => __('Số điện thoại', SHORT_NAME),
+            'col_users_email' => __('Địa chỉ Email', SHORT_NAME),
+            'col_users_post_count' => __('Số bài đăng', SHORT_NAME),
+            'col_users_rating' => __('Đánh giá', SHORT_NAME),
+//            'col_users_options' => __('Tùy chọn', SHORT_NAME)
         );
     }
 
@@ -55,9 +79,8 @@ class WP_Customers_List_Table extends WP_List_Table {
      */
     public function get_sortable_columns() {
         return $sortable = array(
-            'col_customers_id' => array('ID', true),
-            'col_customers_name' => array('fullname', false),
-            'col_customers_date' => array('created_at', false),
+            'col_users_id' => array('ID', true),
+            'col_users_post_count' => array('post_count', false),
         );
     }
 
@@ -67,16 +90,31 @@ class WP_Customers_List_Table extends WP_List_Table {
     function prepare_items() {
         global $wpdb;
         $screen = get_current_screen();
-        $tblCustomers = $wpdb->prefix . 'customers';
+        $tblUsers = $wpdb->users;
+        $tblPosts = $wpdb->posts;
+        $tblPostMeta = $wpdb->postmeta;
+        $tbl_term_relationships = $wpdb->prefix . 'term_relationships';
 
-        $this->process_bulk_action();
+//        $this->process_bulk_action();
         
         /* -- Preparing your query -- */
-        $query = "SELECT * FROM $tblCustomers ";
+        $query = "SELECT U.ID, U.user_email, U.display_name, (SELECT COUNT(P2.ID) FROM $tblPosts P2 ";
+        $query_join = "";
+        $query_conditions = "";
+        if (getRequest('location')) {
+            $query_join .= "INNER JOIN $tblPostMeta AS mt1 ON P2.ID = mt1.post_id ";
+            $query_conditions .= "AND (mt1.meta_key='district' AND mt1.meta_value='" . getRequest('location') . "') ";
+        }
+        if (getRequest('bds_segment')) {
+            $query_join .= "INNER JOIN $tbl_term_relationships AS T ON P2.ID = T.object_id ";
+            $query_conditions .= "AND T.term_taxonomy_id='" . getRequest('bds_segment') . "' ";
+        }
+        $query .= "$query_join WHERE P2.post_author=U.ID AND P2.post_type='product' $query_conditions ";
+        $query .= ") AS post_count FROM $tblUsers U ";
 
         /* -- Ordering parameters -- */
         //Parameters that are going to be used to order the result
-        $orderby = !empty($_GET["orderby"]) ? mysql_real_escape_string($_GET["orderby"]) : 'ID';
+        $orderby = !empty($_GET["orderby"]) ? mysql_real_escape_string($_GET["orderby"]) : 'post_count';
         $order = !empty($_GET["order"]) ? mysql_real_escape_string($_GET["order"]) : 'DESC';
         if (!empty($orderby) & !empty($order)) {
             $query.=' ORDER BY ' . $orderby . ' ' . $order;
@@ -149,21 +187,29 @@ class WP_Customers_List_Table extends WP_List_Table {
 
                     //Display the cell
                     switch ($column_name) {
-                        case "col_customers_cb": echo '<th ' . $attributes . '>' . $this->column_cb($rec) . '</th>';
-                            break;
-//                        case "col_customers_id": echo '<td ' . $attributes . '>' . $rec->ID . '</td>';
+//                        case "col_users_cb": echo '<th ' . $attributes . '>' . $this->column_cb($rec) . '</th>';
 //                            break;
-                        case "col_customers_name": echo '<td ' . $attributes . '>' . $rec->fullname . '</td>';
+                        case "col_users_id": echo '<td ' . $attributes . '>' . $rec->ID . '</td>';
                             break;
-                        case "col_customers_phone": echo '<td ' . $attributes . '>' . $rec->phone . '</td>';
+                        case "col_users_name":
+                            echo '<td ' . $attributes . '>';
+                            echo '<a href="user-edit.php?user_id='.$rec->ID.'" target="_blank">';
+                            echo $rec->display_name;
+                            echo '</a>';
+                            echo '</td>';
                             break;
-                        case "col_customers_email": echo '<td ' . $attributes . '>' . $rec->email . '</td>';
+                        case "col_users_phone": echo '<td ' . $attributes . '>' . get_the_author_meta( 'phone', $rec->ID ) . '</td>';
                             break;
-                        case "col_customers_message": echo '<td ' . $attributes . '>' . $rec->message . '</td>';
+                        case "col_users_email": echo '<td ' . $attributes . '>' . $rec->user_email . '</td>';
                             break;
-                        case "col_customers_date": echo '<td ' . $attributes . '>' . $rec->created_at . '</td>';
+                        case "col_users_post_count": echo '<td ' . $attributes . '>' . $rec->post_count . '</td>';
                             break;
-//                        case "col_customers_options": 
+                        case "col_users_rating": echo '<td ' . $attributes . '>';
+                            echo '<div class="ratings">';
+                            echo ppo_user_ratings($rec->ID);
+                            echo '</div></td>';
+                            break;
+//                        case "col_users_options": 
 //                            echo '<td ' . $attributes . '>';
 //                            echo '</td>';
 //                            break;
@@ -177,14 +223,15 @@ class WP_Customers_List_Table extends WP_List_Table {
     }
     
     function get_bulk_actions() {
-        return array(
-            'delete'   => __('Delete', SHORT_NAME),
-        );
+        return false;
+//        return array(
+//            'delete'   => __('Delete', SHORT_NAME),
+//        );
     }
     
     function process_bulk_action() {
         global $wpdb;
-        $tblCustomers = $wpdb->prefix . 'customers';
+        $tblUsers = $wpdb->users;
         
         // security check!
         if (isset($_POST['_wpnonce']) && !empty($_POST['_wpnonce'])) {
@@ -196,12 +243,12 @@ class WP_Customers_List_Table extends WP_List_Table {
         }
 
         $action = $this->current_action();
-        $wp_list_customers = getRequest('wp_list_order');
+        $wp_list_users = getRequest('wp_list_order');
         
         switch ($action) {
             case "delete":
-                foreach ($wp_list_customers as $id) {
-                    $query = "DELETE FROM $tblCustomers WHERE ID = $id";
+                foreach ($wp_list_users as $id) {
+                    $query = "DELETE FROM $tblUsers WHERE ID = $id";
                     $wpdb->query($query); 
                 }
                 break;
@@ -223,23 +270,23 @@ class WP_Customers_List_Table extends WP_List_Table {
 }
 
 ################################################################################
-add_action('admin_print_footer_scripts', 'customers_bulk_actions_select_all', 99);
+add_action('admin_print_footer_scripts', 'users_bulk_actions_select_all', 99);
 
-function customers_bulk_actions_select_all() {
+function users_bulk_actions_select_all() {
     echo <<<HTML
 <style type="text/css">
-    #col_customers_cb{width: 30px;}
-    #col_customers_id{width: 50px;}
+    #col_users_cb{width: 30px;}
+    #col_users_id{width: 50px;}
 </style>
 <script type="text/javascript">/* <![CDATA[ */
 jQuery(function($){
-    $("input.cb-customers-select-all").click(function(){
+    $("input.cb-users-select-all").click(function(){
         if($(this).is(':checked')){
             $("input[name='wp_list_order[]']").attr('checked', 'checked');
-            $("input.cb-customers-select-all").attr('checked', 'checked');
+            $("input.cb-users-select-all").attr('checked', 'checked');
         }else{
             $("input[name='wp_list_order[]']").removeAttr('checked');
-            $("input.cb-customers-select-all").removeAttr('checked');
+            $("input.cb-users-select-all").removeAttr('checked');
         }
     });
 });

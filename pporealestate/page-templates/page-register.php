@@ -37,9 +37,11 @@ if(getRequestMethod() == 'POST'){
             array_push($msg['success'], "Đăng ký thành công!");
             $today = date('Y/m/d');
             $expiry_date = date("Y/m/d", strtotime("$today+1 years"));
+            $user_level_default = intval(get_option(SHORT_NAME . "_user_level_default"));
             update_usermeta($user_id, 'user_expiry', $expiry_date);
-            update_usermeta($user_id, 'limit_posting', '10');
-            update_usermeta($user_id, 'limit_postvip', '0');
+            update_usermeta($user_id, 'account_level', $user_level_default);
+            update_usermeta($user_id, 'limit_posting', get_field('limit_posting', $user_level_default));
+            update_usermeta($user_id, 'limit_postvip', get_field('limit_postvip', $user_level_default));
             //Set up the Password change nag.
             update_user_option( $user_id, 'default_password_nag', true, true ); 
             // notification for user

@@ -53,7 +53,7 @@ function ppo_shortcode_list_posts($atts) {
         if($instance['image_size'] == 'none'){
             $thumbnail_url = get_the_post_thumbnail_url(get_the_ID(), $instance['image_size']);
         }
-        $no_image_url = get_template_directory_uri() . "/images/no_image.png";
+        $no_image_url = get_template_directory_uri() . "/assets/images/no_image.png";
         $date = date($date_format, strtotime($post->post_date));
         $time = get_the_time($time_format);
         $description = get_short_content(get_the_excerpt(), 300);

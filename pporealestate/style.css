@@ -43,6 +43,21 @@ ul,li{
     height:128px;left:50%;position:absolute;top:50%;width:128px;margin:0 auto;
 }
 
+.ui-widget{
+    font-family: inherit!important;
+    font-size: inherit!important
+}
+.ui-helper-reset{
+    line-height: inherit!important
+}
+
+.starrr{display:inline-block}
+.user-rating{margin: 5px 0}
+.user-rating .display-rating i, .user-rating .ratings i, .starrr i{font-size:18px;padding:0 1px;color:#FF941A}
+.user-rating .set-rating{display: none}
+.user-rating:hover .set-rating, .user-rating:hover .set-rating.hide{display: block!important}
+.user-rating:hover .display-rating{display: none}
+
 /* Custom contact-form-7 */
 .wpcf7 .wpcf7-form-control{
     width: 100%;
@@ -672,7 +687,8 @@ section > article > .vc_row.fullwidth > .vc_column_container > .vc_column-inner 
     font-weight: bold
 }
 .product-grid-container .item{margin-bottom: 30px}
-.product-grid-container .item .row-pro h4{min-height: 42px}
+.product-grid-container .item .row-pro .ratings{margin-bottom: 10px}
+.product-grid-container .col-xs-6:nth-child(3n+1){clear: both}
 .list_product .item_product{
     background: #fff;
     border: 1px solid #dedede;
@@ -749,6 +765,7 @@ section > article > .vc_row.fullwidth > .vc_column_container > .vc_column-inner 
 .list_product .item_product .row-pro{
     position: relative
 }
+.list_product .item_product .row-pro .ratings{margin-bottom: 10px}
 .list_product .item_product .row-pro .manage-tools{
     position: absolute;
     top: 10px;
@@ -1156,18 +1173,23 @@ section > article > .vc_row.fullwidth > .vc_column_container > .vc_column-inner 
     margin-bottom: 15px
 }
 #accordion{
+    font-family: inherit;
     -webkit-box-shadow: 0px 2px 10px -5px rgba(0,0,0,0.5);
     -moz-box-shadow: 0px 2px 10px -5px rgba(0,0,0,0.5);
     box-shadow: 0px 2px 10px -5px rgba(0,0,0,0.5)
 }
-.accordion-title{
+#accordion .accordion-title{
     font-size: 16px;
     font-weight: 500;
     margin: 0;
+    padding: 0;
+    border: none;
+    border-radius: 0;
     background: #fff;
     position: relative
 }
-.accordion-title a{
+#accordion .accordion-title .ui-accordion-header-icon{display: none}
+#accordion .accordion-title a{
     color: #333;
     padding: 15px 30px 15px 15px;
     display: block;
@@ -1176,7 +1198,7 @@ section > article > .vc_row.fullwidth > .vc_column_container > .vc_column-inner 
     -moz-transition: border 200ms ease-out;
     transition: border 200ms ease-out;
 }
-.accordion-title a span{
+#accordion .accordion-title a span{
     background: #0054a0;
     color: #fff;
     margin-right: 15px;
@@ -1186,9 +1208,9 @@ section > article > .vc_row.fullwidth > .vc_column_container > .vc_column-inner 
     text-align: center;
     border-radius: 50%
 }
-.accordion-title a:hover{color: #ff6600}
-.accordion-title a:hover:after{border-color: #ff6600}
-.accordion-title a:after{
+#accordion .accordion-title a:hover{color: #ff6600}
+#accordion .accordion-title a:hover:after{border-color: #ff6600}
+#accordion .accordion-title a:after{
     width: 16px;
     height: 16px;
     text-align: center;
@@ -1206,21 +1228,23 @@ section > article > .vc_row.fullwidth > .vc_column_container > .vc_column-inner 
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
-.accordion-title.ui-accordion-header-active a:after{
+#accordion .accordion-title.ui-accordion-header-active a:after{
     content: "\2212";
     color: #ff6600
 }
-.accordion-title.ui-accordion-header-active a {
+#accordion .accordion-title.ui-accordion-header-active a {
     border-top: 3px solid #dddddd;
     border-bottom: 1px solid #eeeeee;
     color: #ff6600;
 }
-.accordion-title.ui-accordion-header-active a span{
+#accordion .accordion-title.ui-accordion-header-active a span{
     background-color: #ff6600
 }
-.ui-accordion-content {
+#accordion .ui-accordion-content {
     padding: 15px;
-    background-color: #fff
+    background-color: #fff;
+    border-radius: 0;
+    border: none;
 }
 
 /************************************************/
@@ -1298,7 +1322,8 @@ section > article > .vc_row.fullwidth > .vc_column_container > .vc_column-inner 
 }
 .sidebar .widget.popular-users-widget .item h3{
     color: #0054a0;
-    font-size: 20px
+    font-size: 20px;
+    margin-bottom: 10px
 }
 .sidebar .widget.popular-users-widget .item .xem-them{
     margin-top: 10px;
@@ -1348,6 +1373,9 @@ section > article > .vc_row.fullwidth > .vc_column_container > .vc_column-inner 
     font-weight: bold;
     font-size: 18px;
     color: #0054a0;
+    text-align: center
+}
+.sidebar .widget.widget-product-owner .ratings{
     text-align: center
 }
 .sidebar .widget.widget-product-owner .xem-them{
@@ -1734,6 +1762,11 @@ section > article > .vc_row.fullwidth > .vc_column_container > .vc_column-inner 
     width: 100%;
     float:left;
 }
+.slideproject .ratings {margin-bottom: 5px}
+.slideproject .ratings img {
+    width: auto;
+    float: none
+}
 .slideproject h4 {
     float: left;
     line-height: 18px;
@@ -1876,22 +1909,40 @@ h3.block-title{
     font: bold 20px arial;
     margin: 0 0 10px;
 }
-.single_product .product-tabs{margin-bottom: 15px}
+.single_product .product-tabs{
+    margin-bottom: 15px;
+    background: none;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    font-family: inherit;
+}
 .single_product .product-tabs ul.ui-tabs-nav {
-    margin-bottom: 10px
+    margin-bottom: 10px;
+    padding: 0;
+    border-radius: 0;
+    border: none;
+    background: none;
 }
 .single_product .product-tabs ul.ui-tabs-nav li{
     display: inline-block;
-    margin-right: 20px
+    margin-right: 20px;
+    margin-top: 0;
+    background: none;
+    border: none;
 }
 .single_product .product-tabs ul.ui-tabs-nav li a{
     color: #000;
     font-size: 18px;
     font-weight: bold;
+    padding: 0;
     display: block
 }
 .single_product .product-tabs ul.ui-tabs-nav li.ui-tabs-active a{
     color: #0054a0
+}
+.single_product .product-tabs .ui-tabs-panel{
+    padding: 0
 }
 .single_product .short_info{
     margin-bottom: 15px;
@@ -3073,6 +3124,8 @@ ul.list-pu li{
 @media (max-width:767px){
     .top_link{padding: 0}
     .item_archive .img{width: 100%;margin-bottom: 10px}
+    .product-grid-container .col-xs-6:nth-child(3n+1){clear: inherit}
+    .product-grid-container .col-xs-6:nth-child(2n+1){clear: inherit}
     .list_product .item_product .col-sm-4{width: 36%;float: left}
     .list_product .item_product .col-sm-8{width: 64%;float: left}
     ul.list-pu li{width: 40%}

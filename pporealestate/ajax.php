@@ -323,6 +323,20 @@ function change_user_profile(){
     $twitter = getRequest('twitter');
     $facebook = getRequest('facebook');
     $description = getRequest('description');
+    $workplace_address = getRequest('workplace_address');
+    $gender = getRequest('gender');
+    $family_status = getRequest('family_status');
+    $user_city = getRequest('user_city');
+    $user_country = getRequest('user_country');
+    $dob = getRequest('dob');
+    $edu = getRequest('edu');
+    $user_exp = getRequest('user_exp');
+    $bds_segment1 = getRequest('bds_segment1');
+    $bds_segment2 = getRequest('bds_segment2');
+    $bds_segment3 = getRequest('bds_segment3');
+    $bds_location1 = getRequest('bds_location1');
+    $bds_location2 = getRequest('bds_location2');
+    $bds_location3 = getRequest('bds_location3');
     
     if (!is_user_logged_in()) {
         Response(json_encode(array(
@@ -352,10 +366,24 @@ function change_user_profile(){
         );
 
         wp_update_user($user_fields);
-        update_user_meta( $user_id, 'phone', $phone );
-        update_user_meta( $user_id, 'googleplus', $googleplus );
-        update_user_meta( $user_id, 'twitter', $twitter );
-        update_user_meta( $user_id, 'facebook', $facebook );
+        update_usermeta( $user_id, 'phone', $phone );
+        update_usermeta( $user_id, 'googleplus', $googleplus );
+        update_usermeta( $user_id, 'twitter', $twitter );
+        update_usermeta( $user_id, 'facebook', $facebook );
+        update_usermeta( $user_id, 'workplace_address', $workplace_address );
+        update_usermeta( $user_id, 'gender', $gender );
+        update_usermeta( $user_id, 'family_status', $family_status );
+        update_usermeta( $user_id, 'user_city', $user_city );
+        update_usermeta( $user_id, 'user_country', $user_country );
+        update_usermeta( $user_id, 'dob', $dob );
+        update_usermeta( $user_id, 'edu', $edu );
+        update_usermeta( $user_id, 'user_exp', $user_exp );
+        update_usermeta( $user_id, 'bds_segment1', $bds_segment1 );
+        update_usermeta( $user_id, 'bds_segment2', $bds_segment2 );
+        update_usermeta( $user_id, 'bds_segment3', $bds_segment3 );
+        update_usermeta( $user_id, 'bds_location1', $bds_location1 );
+        update_usermeta( $user_id, 'bds_location2', $bds_location2 );
+        update_usermeta( $user_id, 'bds_location3', $bds_location3 );
 
         Response(json_encode(array(
             'status' => 'success',
@@ -735,7 +763,9 @@ function upgrade_account(){
                     '%s',
                     '%s',
                 ) );
-                $order_code = $wpdb->insert_id;
+                if($result){
+                    $order_code = $wpdb->insert_id;
+                }
             }
 
             if($order_code > 0){
@@ -757,5 +787,56 @@ function upgrade_account(){
         }
     }
 
+    exit;
+}
+/**
+ * Add rating for user
+ */
+function add_user_rating(){
+    $ip = $_SERVER['REMOTE_ADDR'];
+    $value = getRequest('value');
+    $user_id = intval(getRequest('user_id'));
+    $user = get_user_by( 'ID', $user_id );
+    if($user){
+        global $wpdb;
+        $tbl_user_ratings = $wpdb->prefix . 'user_ratings';
+        $rating = $wpdb->get_row( "SELECT * FROM {$tbl_user_ratings} WHERE rating_userid={$user_id} AND rating_ip='{$ip}'" );
+        if($rating and isset($_COOKIE["rated_user_" . $user_id])){
+            Response(json_encode(array(
+                'status' => 'success',
+                'message' => 'Bạn đã đánh giá thành viên này!',
+            )));
+        } else {
+            $result = $wpdb->insert( $tbl_user_ratings, array(
+                'rating_userid' => $user_id,
+                'rating_rating' => $value,
+                'rating_timestamp' => strtotime('now'),
+                'rating_ip' => $ip,
+            ), array(
+                '%d',
+                '%d',
+                '%s',
+                '%s',
+            ) );
+            if($result){
+                setcookie("rated_user_" . $user_id, $value, time()+3600*24, '/', '');  /* expire in 1 day */
+                Response(json_encode(array(
+                    'status' => 'success',
+                    'message' => 'Cám ơn đánh giá của bạn!',
+                    'rating' => ppo_user_ratings($user_id),
+                )));
+            } else {
+                Response(json_encode(array(
+                    'status' => 'error',
+                    'message' => 'Xảy ra lỗi!',
+                )));
+            }
+        }
+    } else {
+        Response(json_encode(array(
+            'status' => 'error',
+            'message' => 'Xảy ra lỗi!',
+        )));
+    }
     exit;
 }

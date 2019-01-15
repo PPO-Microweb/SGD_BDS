@@ -61,6 +61,10 @@ function ppo_shortcode_project_carousel($atts) {
         if(!empty($project_status)){
             $project_status_html = '<span class="status status-'.$project_status.'">'.$project_status_list[$project_status].'</span>';
         }
+        $ratings_results = "";
+        if(function_exists('the_ratings_results')) {
+            $ratings_results = '<div class="ratings">'. the_ratings_results(get_the_ID()) . '</div>';
+        }
         $html_output .= <<<HTML
             <div class="entry" itemscope="" itemtype="http://schema.org/Article">
                 <a class="thumbnail" href="{$permalink}" onclick="ga('send', 'event', 'Dự án', 'Xem dự án', '{$title}');">
@@ -70,6 +74,7 @@ function ppo_shortcode_project_carousel($atts) {
                 <h3 class="entry-title" itemprop="name">
                     <a href="{$permalink}" itemprop="url" onclick="ga('send', 'event', 'Dự án', 'Xem dự án', '{$title}');">{$title}</a>
                 </h3>
+                {$ratings_results}
                 <p class="location">{$khu_vuc}</p>
                 {$excerpt}
             </div>

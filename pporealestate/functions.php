@@ -29,6 +29,7 @@ include 'includes/widgets/project-list.php';
 include 'includes/widgets/popular-users.php';
 include 'includes/shortcodes.php';
 include 'includes/custom-user.php';
+include 'includes/cronjob.php';
 include 'includes/api.php';
 include 'ajax.php';
 
@@ -55,9 +56,11 @@ if (is_admin()) {
     
     include 'includes/orders.php';
     include 'includes/customers.php';
+    include 'includes/user-search.php';
+    include 'includes/user-sort.php';
     
     // Add filter
-    add_filter('acf/settings/show_admin', '__return_false');
+//    add_filter('acf/settings/show_admin', '__return_false');
     add_filter('acf/settings/show_updates', '__return_false');
     add_filter('display_post_states', 'ppo_custom_post_states');
 
@@ -72,7 +75,7 @@ if (is_admin()) {
 function custom_remove_menu_pages() {
     remove_menu_page('edit-comments.php');
     remove_menu_page('plugins.php');
-    remove_menu_page('tools.php');
+//    remove_menu_page('tools.php');
     remove_menu_page('wpseo_dashboard');
     remove_menu_page('vc-general');
     remove_menu_page('itsec');
@@ -248,11 +251,11 @@ add_action('widgets_init', 'ppo_widgets_init');
 /* ----------------------------------------------------------------------------------- */
 function ppo_enqueue_scripts() {
     // Common stylesheet
+    wp_enqueue_style( SHORT_NAME . '-jquery-ui', '//code.jquery.com/ui/1.11.4/themes/start/jquery-ui.min.css', array(), '1.11.4' );
     wp_enqueue_style( SHORT_NAME . '-bootstrap', get_template_directory_uri() . '/assets/css/bootstrap.min.css', array(), '3.3.7' );
     wp_enqueue_style( SHORT_NAME . '-font-awesome', get_template_directory_uri() . '/assets/css/font-awesome.min.css', array(), '4.7.0' );
     wp_enqueue_style( SHORT_NAME . '-animate', get_template_directory_uri() . '/assets/css/animate.min.css', array(), THEME_VER );
     wp_enqueue_style( SHORT_NAME . '-excoloSlider', get_template_directory_uri() . '/assets/css/jquery.excoloSlider.css', array(), '1.1.0' );
-//    wp_enqueue_style( SHORT_NAME . '-jquery-ui', '//code.jquery.com/ui/1.11.4/themes/start/jquery-ui.css', array(), '1.11.4' );
     wp_enqueue_style( SHORT_NAME . '-wp-default', get_template_directory_uri() . '/assets/css/wp-default.css', array(), THEME_VER );
     wp_enqueue_style( SHORT_NAME . '-owl-carousel', get_template_directory_uri() . '/assets/css/owl.carousel.min.css', array(), THEME_VER );
     wp_enqueue_style( SHORT_NAME . '-fancybox', get_template_directory_uri() . '/assets/fancybox/jquery.fancybox.min.css', array(), '3.2.10' );
@@ -311,6 +314,7 @@ function ppo_enqueue_scripts() {
     wp_enqueue_script( SHORT_NAME . '-owl-carousel', get_template_directory_uri() . '/assets/js/owl.carousel.min.js', array( ), THEME_VER, true );
     wp_enqueue_script( SHORT_NAME . '-fancybox', get_template_directory_uri() . '/assets/fancybox/jquery.fancybox.min.js', array( 'jquery' ), '3.2.10', true );
     wp_enqueue_script( SHORT_NAME . '-toastr', get_template_directory_uri() . '/assets/js/toastr.min.js', array( ), '2.1.3', true );
+    wp_enqueue_script( SHORT_NAME . '-starrr', get_template_directory_uri() . '/assets/js/starrr.min.js', array( ), THEME_VER, true );
     wp_enqueue_script( SHORT_NAME . '-custom', get_template_directory_uri() . '/assets/js/custom.js', array( ), THEME_VER, true );
     wp_enqueue_script( SHORT_NAME . '-ajax', get_template_directory_uri() . '/assets/js/ajax.min.js', array( ), THEME_VER, true );
     wp_enqueue_script( SHORT_NAME . '-app', get_template_directory_uri() . '/assets/js/app.min.js', array( ), THEME_VER, true );
@@ -469,7 +473,8 @@ function get_template_html($template_name, $attributes = null) {
 function ppo_admin_add_custom_footer(){
 ?>
 <style type="text/css">
-    .user-profile-picture, #profile-page #wordpress-seo, #profile-page #wordpress-seo+.form-table{display: none;visibility: hidden}
+    /*.user-profile-picture,*/ 
+    #profile-page #wordpress-seo, #profile-page #wordpress-seo+.form-table{display: none;visibility: hidden}
     #your-profile .user-rich-editing-wrap,
     #your-profile .user-syntax-highlighting-wrap,
     #your-profile .user-admin-color-wrap,
@@ -478,6 +483,8 @@ function ppo_admin_add_custom_footer(){
     #your-profile .user-language-wrap{display: none;visibility: hidden}
     #your-profile .yoast-settings{display: none;visibility: hidden}
     #duplicate-post-notice, #vc_license-activation-notice, #js_composer-update{display: none;visibility: hidden}
+    .user-search-wrap .tablenav.top .bulkactions{display: none}
+    .wp_list_users .ratings i{font-size:18px;padding:0 1px;color:#FF941A}
 </style>
 <?php
 }
@@ -824,7 +831,6 @@ function get_product_permission($permission){
  */
 function validate_user_limit_posting(){
     global $current_user;
-    get_currentuserinfo();
     $limit_posting = esc_attr(get_the_author_meta('limit_posting', $current_user->ID));
     $args = array(
         'post_type' => 'product',
@@ -851,7 +857,6 @@ function validate_user_limit_posting(){
  */
 function validate_user_limit_postvip(){
     global $current_user;
-    get_currentuserinfo();
     $limit_postvip = esc_attr(get_the_author_meta('limit_postvip', $current_user->ID));
     $args = array(
         'post_type' => 'product',
@@ -876,6 +881,15 @@ function validate_user_limit_postvip(){
         return true;
     }
     return false;
+}
+function validate_user_expiry(){
+    global $current_user;
+    $today = strtotime('today');
+    $expiry = strtotime(get_the_author_meta('user_expiry', $current_user->ID));
+    if($today > $expiry){
+        return false;
+    }
+    return true;
 }
 
 function ppo_custom_post_states($states) { 

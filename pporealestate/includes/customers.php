@@ -55,7 +55,7 @@ function theme_customers_page() {
 HTML;
 
     //Prepare Table of elements
-    $wp_list_table = new WPOrders_List_Table();
+    $wp_list_table = new WP_Customers_List_Table();
     $wp_list_table->prepare_items();
     //Table of elements
     $wp_list_table->display();

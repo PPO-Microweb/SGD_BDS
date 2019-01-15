@@ -55,7 +55,7 @@ class PopularUsers_Widget extends WP_Widget {
         echo '<div class="widget-content">';
         foreach($users as $user):
             $permalink = get_author_posts_url( $user->ID );
-            $display_name = $user->user_lastname . ' ' . $user->user_firstname;
+            $display_name = trim($user->user_lastname . ' ' . $user->user_firstname);
             if(empty($display_name)){
                 $display_name = $user->display_name;
             }
@@ -83,6 +83,7 @@ class PopularUsers_Widget extends WP_Widget {
                 $color = $rand[rand(0,15)].$rand[rand(0,15)].$rand[rand(0,15)].$rand[rand(0,15)].$rand[rand(0,15)].$rand[rand(0,15)];
                 $avatar = '<span class="avatar-bg" style="background:#'.$color.'"><span class="avatar-first-char">'. strtoupper($first_char).'</span></span>';
             }
+            $ratings = ppo_user_ratings($author->ID);
             echo <<<HTML
             <div class="item" itemscope="" itemtype="http://schema.org/Person">
                 <div class="row">
@@ -93,6 +94,11 @@ class PopularUsers_Widget extends WP_Widget {
                     </div>
                     <div class="col-sm-8">
                         <h3 itemprop="name">{$display_name}</h3>
+                        <div class="user-rating">
+                            <div class="ratings">
+                                {$ratings}
+                            </div>
+                        </div>
                         <ul class="socials">
                             <li class="facebook"><a target="_self" href="{$fbURL}"><i class="fa fa-facebook"></i></a></li>
                             <li class="gplus"><a target="_self" href="{$googlePlusURL}"><i class="fa fa-google-plus"></i></a></li>
@@ -101,7 +107,7 @@ class PopularUsers_Widget extends WP_Widget {
                             <li class="email"><a href="mailto:{$user->user_email}"><i class="fa fa-envelope"></i></a></li>
                             <li class="phone"><a href="tel:{$phone}"><i class="fa fa-phone"></i></a></li>
                         </ul>
-                        <a href="{$permalink}" class="xem-them">Xem thêm</a>
+                        <!--<a href="{$permalink}" class="xem-them">Xem thêm</a>-->
                     </div>
                 </div>
             </div>

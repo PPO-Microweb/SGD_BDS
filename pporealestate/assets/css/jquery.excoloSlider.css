@@ -49,8 +49,9 @@
 
 .slider .slide-container {
     height: auto !important;
-    width: 347px !important;
-    /*min-height: 275px !important;*/
+    width: 100% !important;
+/*    width: 347px !important;*/
+    min-height: 320px !important;
 }
 
     .slider .slide-container .slide-wrapper {

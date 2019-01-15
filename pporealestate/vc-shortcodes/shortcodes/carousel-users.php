@@ -47,7 +47,7 @@ function ppo_shortcode_carousel_users($atts) {
     $users = get_users( $args );
     foreach($users as $user):
         $permalink = get_author_posts_url( $user->ID );
-        $display_name = $user->user_lastname . ' ' . $user->user_firstname;
+        $display_name = trim($user->user_lastname . ' ' . $user->user_firstname);
         if(empty($display_name)){
             $display_name = $user->display_name;
         }
@@ -68,12 +68,18 @@ function ppo_shortcode_carousel_users($atts) {
             $color = $rand[rand(0,15)].$rand[rand(0,15)].$rand[rand(0,15)].$rand[rand(0,15)].$rand[rand(0,15)].$rand[rand(0,15)];
             $avatar = '<span class="avatar-bg" style="background:#'.$color.'"><span class="avatar-first-char">'. strtoupper($first_char).'</span></span>';
         }
+        $ratings = ppo_user_ratings($user->ID);
         $html_output .= <<<HTML
         <div class="item" itemscope="" itemtype="http://schema.org/Person">
             <a class="avatar" href="{$permalink}" onclick="ga('send', 'event', 'Thành viên', 'Xem thành viên', '{$display_name}');">
                 {$avatar}
             </a>
             <h3 itemprop="name">{$display_name}</h3>
+            <div class="user-rating text-center">
+                <div class="ratings">
+                    {$ratings}
+                </div>
+            </div>
             <p><strong>M: </strong>{$phone}</p>
             <p><strong>E: </strong>{$user->user_email}</p>
             <p><strong>W: </strong>{$website}</p>

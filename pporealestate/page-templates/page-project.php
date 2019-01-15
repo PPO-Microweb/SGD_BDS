@@ -64,20 +64,26 @@ $levels = get_terms(array(
                         <?php endforeach; ?>
                     </select>
                 </div>
-                <div class="form-group">
+<!--                <div class="form-group">
                     <select name="city" id="ddlCity" class="form-control">
                         <option value="">- Thành phố -</option>
                         <?php
-                        $list_city = get_province();
-                        foreach ($list_city as $c) {
-                            echo '<option value="' . $c->provinceid . '">' . $c->name . '</option>';
-                        }
+//                        $list_city = get_province();
+//                        foreach ($list_city as $c) {
+//                            echo '<option value="' . $c->provinceid . '">' . $c->name . '</option>';
+//                        }
                         ?>
                     </select>
-                </div>
+                </div>-->
                 <div class="form-group">
                     <select name="district" id="ddlDistrict" class="form-control">
                         <option value="">- Quận/ Huyện -</option>
+                        <?php
+                        $list_district = get_district(PROVINCE_ID);
+                        foreach ($list_district as $district) {
+                            echo '<option value="' . $district->districtid . '">' . $district->name . '</option>';
+                        }
+                        ?>
                     </select>
                 </div>
                 <div class="form-group">

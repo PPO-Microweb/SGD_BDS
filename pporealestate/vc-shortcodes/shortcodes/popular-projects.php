@@ -61,6 +61,10 @@ function ppo_shortcode_popular_projects($atts) {
         if(!empty($project_status)){
             $project_status_html = '<span class="status status-'.$project_status.'">'.$project_status_list[$project_status].'</span>';
         }
+        $ratings_results = "";
+        if(function_exists('the_ratings_results')) {
+            $ratings_results = '<div class="ratings">'. the_ratings_results(get_the_ID()) . '</div>';
+        }
         $html_output .= <<<HTML
 <div class="col-md-3 col-sm-6 col-xs-6">
     <div class="entry" itemscope="" itemtype="http://schema.org/Article">
@@ -71,6 +75,7 @@ function ppo_shortcode_popular_projects($atts) {
         <h3 class="entry-title" itemprop="name">
             <a href="{$permalink}" itemprop="url" onclick="ga('send', 'event', 'Dự án', 'Xem dự án', '{$title}');">{$title}</a>
         </h3>
+        {$ratings_results}
         <p class="location">{$khu_vuc}</p>
         {$excerpt}
     </div>

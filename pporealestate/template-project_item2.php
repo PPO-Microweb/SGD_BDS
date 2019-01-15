@@ -23,6 +23,11 @@ if(!empty($project_status)){
         <h4>
             <a title="<?php the_title(); ?>" href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
         </h4>
+        <?php
+        if(function_exists('the_ratings_results')) {
+            echo '<div class="ratings">'. the_ratings_results(get_the_ID()) . '</div>';
+        }
+        ?>
         <div class="date"><span class="glyphicon glyphicon-calendar"></span> <?php the_time('d/m/Y'); ?> </div>
         <div class="location">
             <label>Khu vực: </label>

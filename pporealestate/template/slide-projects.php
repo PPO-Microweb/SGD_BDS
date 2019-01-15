@@ -25,11 +25,16 @@
                         ?>
                             <div>
                                 <a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>" class="thumb">
-                                    <img src="<?php the_post_thumbnail_url('347x232') ?>" alt="<?php the_title(); ?>" />
+                                    <img src="<?php the_post_thumbnail_url('400x250') ?>" alt="<?php the_title(); ?>" />
                                     <?php echo $project_status_html ?>
                                 </a>
                                 <h4><a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>"><?php the_title(); ?></a></h4>
-                                <p><?php echo get_post_meta(get_the_ID(), "khu_vuc", true); ?></p>
+                                <?php
+                                if(function_exists('the_ratings_results')) {
+                                    echo '<div class="ratings">'. the_ratings_results(get_the_ID()) . '</div>';
+                                }
+                                ?>
+                                <div><?php echo get_post_meta(get_the_ID(), "khu_vuc", true); ?></div>
                             </div>
                             <?php
                         endwhile;
@@ -50,7 +55,7 @@
                                 <img class="avatar" src="<?php the_post_thumbnail_url('104x69') ?>" alt="<?php the_title(); ?>" /></a>
                             <div class="info_project">
                                 <a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>"><?php the_title(); ?></a>
-                                <p><?php echo get_post_meta(get_the_ID(), "vi_tri", true); ?></p>
+                                <p><?php echo get_post_meta(get_the_ID(), "khu_vuc", true); ?></p>
                             </div>
                         </div>
                         <?php

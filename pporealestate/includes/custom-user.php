@@ -200,6 +200,16 @@ if (!function_exists('country_list')) {
     }
 
 }
+function family_status(){
+    return array(
+        'notmarried' => 'Chưa lập gia đình', 
+        'married' => 'Đã lập gia đình', 
+        'divorced' => 'Đã ly hôn',
+    );
+}
+function gender_list(){
+    return array('male' => 'Nam', 'female' => 'Nữ');
+}
 function user_exp_list() {
     return array(
         0 => 'Chưa có',
@@ -207,6 +217,65 @@ function user_exp_list() {
         2 => '2 năm',
         3 => '3 năm',
         'n' => 'Nhiều năm'
+    );
+}
+function education_list(){
+    return array(
+        'phothong' => 'Phổ thông',
+        'daihoc' => 'Đại học',
+        'saudaihoc' => 'Sau đại học',
+    );
+}
+function chuyen_nganh_list(){
+    return array(
+        'quantrikd' => 'Quản trị kinh doanh',
+        'marketing' => 'Marketing & Quảng cáo',
+        'phapluat' => 'Pháp luật',
+        'thietkekientruc' => 'Thiết kế và Kiến trúc',
+        'taichinhnganhang' => 'Tài chính và Ngân hàng',
+    );
+}
+function get_certificates(){
+    return array(
+        'moigioibds' => 'Môi giới BĐS',
+        'dinhgiabds' => 'Định giá BĐS',
+        'quanlysanbds' => 'Quản lý Sàn BĐS',
+        'dautubds' => 'Đầu tư BĐS',
+        'tiepthibds' => 'Tiếp thị BĐS',
+    );
+}
+function get_languages(){
+    return array(
+        'english' => 'Tiếng Anh',
+        'french' => 'Tiếng Pháp',
+        'russian' => 'Tiếng Nga',
+        'german' => 'Tiếng Đức',
+        'korean' => 'Tiếng Hàn',
+        'chinese' => 'Tiếng Trung',
+        'japanese' => 'Tiếng Nhật',
+    );
+}
+function get_jobs(){
+    return array(
+        'moigioi' => 'Môi giới BĐS',
+        'tuvan' => 'Tư vấn BĐS',
+        'dautu' => 'Đầu tư BĐS',
+        'tiepthi' => 'Tiếp thị BĐS',
+        'kinhdoanh' => 'Kinh doanh BĐS',
+        'luatsu' => 'Luật sư BĐS',
+        'kientrucsu' => 'Kiến trúc sư',
+        'cntt' => 'Công nghệ thông tin',
+    );
+}
+function get_regency_list(){
+    return array(
+        'nhanvien' => 'Nhân viên',
+        'chuyengia' => 'Chuyên gia',
+        'truongnhom' => 'Trưởng nhóm',
+        'giamdoc' => 'Giám đốc',
+        'chudoanhnghiep' => 'Chủ doanh nghiệp',
+        'khoinghiep' => 'Khởi nghiệp',
+        'tudo' => 'Tự do',
     );
 }
 
@@ -225,8 +294,7 @@ function my_show_extra_profile_fields($user) {
             <td>
                 <select name="gender" id="gender" style="width: 15em;">
                     <?php
-                    $genders = array('male' => 'Nam', 'female' => 'Nữ');
-                    foreach ($genders as $key => $value) {
+                    foreach (gender_list() as $key => $value) {
                         if (esc_attr(get_the_author_meta('gender', $user->ID)) == $key) {
                             echo '<option value="' . $key . '" selected="selected">' . $value . '</option>';
                         } else {
@@ -242,12 +310,7 @@ function my_show_extra_profile_fields($user) {
             <td>
                 <select name="family_status" id="family_status" style="width: 15em;">
                     <?php
-                    $family_status = array(
-                        'notmarried' => 'Chưa lập gia đình', 
-                        'married' => 'Đã lập gia đình', 
-                        'divorced' => 'Đã ly hôn',
-                    );
-                    foreach ($family_status as $key => $value) {
+                    foreach (family_status() as $key => $value) {
                         if (esc_attr(get_the_author_meta('family_status', $user->ID)) == $key) {
                             echo '<option value="' . $key . '" selected="selected">' . $value . '</option>';
                         } else {
@@ -309,6 +372,29 @@ function my_show_extra_profile_fields($user) {
             </td>
         </tr>
         <tr>
+            <th><label for="account_level">Cấp bậc tài khoản</label></th>
+            <td>
+                <select name="account_level" id="account_level" style="width: 15em;">
+                    <?php
+                    $levels = new WP_Query(array(
+                        'post_type' => 'user_level',
+                        'showposts' => -1,
+                        'post_status' => 'publish',
+                        'order' => 'asc'
+                    ));
+                    while ($levels->have_posts()) : $levels->the_post();
+                        if (esc_attr(get_the_author_meta('account_level', $user->ID)) == get_the_ID()) {
+                            echo '<option value="' . get_the_ID() . '" selected="selected">' . get_the_title() . '</option>';
+                        } else {
+                            echo '<option value="' . get_the_ID() . '">' . get_the_title() . '</option>';
+                        }
+                    endwhile;
+                    wp_reset_query();
+                    ?>
+                </select>
+            </td>
+        </tr>
+        <tr>
             <th><label>Giới hạn số tin đăng</label></th>
             <td>
                 <input type="text" name="limit_posting" value="<?php echo esc_attr(get_the_author_meta('limit_posting', $user->ID)) ?>" placeholder="20" style="width:210px" /><br/>
@@ -352,7 +438,7 @@ function my_show_extra_profile_fields($user) {
                 <select name="bds_location1" id="bds_location1" style="width: 15em;margin-left:10px">
                     <?php
                     foreach ($districts as $district) {
-                        if (esc_attr(get_the_author_meta('bds_location1', $user->ID)) == $district) {
+                        if (esc_attr(get_the_author_meta('bds_location1', $user->ID)) == $district->districtid) {
                             echo '<option value="' . $district->districtid . '" selected="selected">' . $district->name . '</option>';
                         } else {
                             echo '<option value="' . $district->districtid . '">' . $district->name . '</option>';
@@ -380,7 +466,7 @@ function my_show_extra_profile_fields($user) {
                 <select name="bds_location2" id="bds_location2" style="width: 15em;margin-left:10px">
                     <?php
                     foreach ($districts as $district) {
-                        if (esc_attr(get_the_author_meta('bds_location2', $user->ID)) == $district) {
+                        if (esc_attr(get_the_author_meta('bds_location2', $user->ID)) == $district->districtid) {
                             echo '<option value="' . $district->districtid . '" selected="selected">' . $district->name . '</option>';
                         } else {
                             echo '<option value="' . $district->districtid . '">' . $district->name . '</option>';
@@ -408,7 +494,7 @@ function my_show_extra_profile_fields($user) {
                 <select name="bds_location3" id="bds_location3" style="width: 15em;margin-left:10px">
                     <?php
                     foreach ($districts as $district) {
-                        if (esc_attr(get_the_author_meta('bds_location3', $user->ID)) == $district) {
+                        if (esc_attr(get_the_author_meta('bds_location3', $user->ID)) == $district->districtid) {
                             echo '<option value="' . $district->districtid . '" selected="selected">' . $district->name . '</option>';
                         } else {
                             echo '<option value="' . $district->districtid . '">' . $district->name . '</option>';
@@ -427,7 +513,7 @@ function my_save_extra_profile_fields($user_id) {
         "gender", "family_status", "user_city", "user_country", "user_exp",
         "bds_segment1", "bds_segment2", "bds_segment3", 
         "bds_location1", "bds_location2", "bds_location3", 
-        "limit_posting", "limit_postvip", 
+        "account_level", "limit_posting", "limit_postvip", 
     );
 
     if (!current_user_can('edit_user', $user_id))

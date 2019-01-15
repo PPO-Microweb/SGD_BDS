@@ -620,7 +620,7 @@ function get_wards_by_id($wardID) {
 function show_member_list($users){
     foreach($users as $user):
         $permalink = get_author_posts_url( $user->ID );
-        $display_name = $user->user_lastname . ' ' . $user->user_firstname;
+        $display_name = trim($user->user_lastname . ' ' . $user->user_firstname);
         if(empty($display_name)){
             $display_name = $user->display_name;
         }
@@ -637,6 +637,7 @@ function show_member_list($users){
             $color = $rand[rand(0,15)].$rand[rand(0,15)].$rand[rand(0,15)].$rand[rand(0,15)].$rand[rand(0,15)].$rand[rand(0,15)];
             $avatar = '<span class="avatar-bg" style="background:#'.$color.'"><span class="avatar-first-char">'. strtoupper($first_char).'</span></span>';
         }
+        $ratings = ppo_user_ratings($user->ID);
         $bds_segment1 = get_the_author_meta( 'bds_segment1', $user->ID );
         $bds_segment2 = get_the_author_meta( 'bds_segment2', $user->ID );
         $bds_segment3 = get_the_author_meta( 'bds_segment3', $user->ID );
@@ -650,6 +651,11 @@ function show_member_list($users){
                     {$avatar}
                 </a>
                 <h3 itemprop="name">{$display_name}</h3>
+                <div class="user-rating text-center">
+                    <div class="ratings">
+                        {$ratings}
+                    </div>
+                </div>
                 <p><strong>M: </strong>{$phone}</p>
                 <p><strong>E: </strong>{$user->user_email}</p>
                 <p><strong>W: </strong>{$website}</p>
@@ -705,7 +711,7 @@ function sendInvoiceToEmail($uid, $order_code){
     $tblOrders = $wpdb->prefix . 'orders';
     $order = $wpdb->get_row( "SELECT * FROM {$tblOrders} WHERE ID = {$order_code}" );
     $customer = get_user_by('ID', $uid);
-    $display_name = $customer->user_lastname . ' ' . $customer->user_firstname;
+    $display_name = trim($customer->user_lastname . ' ' . $customer->user_firstname);
     if(empty($display_name)){
         $display_name = $customer->display_name;
     }
@@ -735,4 +741,49 @@ function sendInvoiceToEmail($uid, $order_code){
 
     // reset content-type to avoid conflicts
     remove_filter( 'wp_mail_content_type', 'set_html_content_type' );
+}
+/**
+ * Display star rating of user
+ * @param int $user_id
+ * @return string HTML output
+ */
+function ppo_user_ratings($user_id) {
+    global $wpdb;
+    $tbl_user_ratings = $wpdb->prefix . 'user_ratings';
+    $user_rate = $wpdb->get_row("SELECT COUNT(rating_userid) as count_total, SUM(rating_rating) as rate_total FROM {$tbl_user_ratings} WHERE rating_userid={$user_id}");
+    $rating = $user_rate->rate_total/$user_rate->count_total;
+    $rating_round = round($rating * 2) / 2;
+    if ($rating_round == 0) {
+        return '<i class="fa fa-star-o"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i>';
+    }
+    if ($rating_round <= 0.5 && $rating_round > 0) {
+        return '<i class="fa fa-star-half-o"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i>';
+    }
+    if ($rating_round <= 1 && $rating_round > 0.5) {
+        return '<i class="fa fa-star"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i>';
+    }
+    if ($rating_round <= 1.5 && $rating_round > 1) {
+        return '<i class="fa fa-star"></i><i class="fa fa-star-half-o"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i>';
+    }
+    if ($rating_round <= 2 && $rating_round > 1.5) {
+        return '<i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i>';
+    }
+    if ($rating_round <= 2.5 && $rating_round > 2) {
+        return '<i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-half-o"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i>';
+    }
+    if ($rating_round <= 3 && $rating_round > 2.5) {
+        return '<i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i>';
+    }
+    if ($rating_round <= 3.5 && $rating_round > 3) {
+        return '<i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-half-o"></i><i class="fa fa-star-o"></i>';
+    }
+    if ($rating_round <= 4 && $rating_round > 3.5) {
+        return '<i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i>';
+    }
+    if ($rating_round <= 4.5 && $rating_round > 4) {
+        return '<i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-half-o"></i>';
+    }
+    if ($rating_round <= 5 && $rating_round > 4.5) {
+        return '<i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>';
+    }
 }

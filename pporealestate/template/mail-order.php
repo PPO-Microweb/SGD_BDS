@@ -2,7 +2,7 @@
 $order = $attributes['order'];
 $customer = $attributes['customer'];
 $currency = "VNĐ";
-$display_name = $customer->user_lastname . ' ' . $customer->user_firstname;
+$display_name = trim($customer->user_lastname . ' ' . $customer->user_firstname);
 if(empty($display_name)){
     $display_name = $customer->display_name;
 }

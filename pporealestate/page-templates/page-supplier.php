@@ -31,7 +31,11 @@ get_header();
                     $title = get_the_title();
                     $permalink = get_permalink();
                     $thumbnail_url = get_the_post_thumbnail_url(get_the_ID(), 'full');
-                    $no_image_url = get_template_directory_uri() . "/images/no_image.png";
+                    $no_image_url = get_template_directory_uri() . "/assets/images/no_image.png";
+                    $ratings_results = "";
+                    if(function_exists('the_ratings_results')) {
+                        $ratings_results = '<div class="ratings">'. the_ratings_results(get_the_ID()) . '</div>';
+                    }
                     echo <<<HTML
                     <div class="col-md-3 col-sm-4 col-xs-6">
                         <div class="entry" itemscope="" itemtype="http://schema.org/Article">
@@ -41,6 +45,7 @@ get_header();
                             <h3 class="entry-title" itemprop="name">
                                 <a href="{$permalink}" itemprop="url" onclick="ga('send', 'event', 'Nhà cung cấp', 'Xem nhà cung cấp', '{$title}');">{$title}</a>
                             </h3>
+                            {$ratings_results}
                         </div>
                     </div>
 HTML;

@@ -33,7 +33,13 @@ if(!empty($project_status)){
             </div>
         </div>
         <div class="share-pro">
-            <div class="pull-left"></div>
+            <div class="pull-left">
+                <?php
+                if(function_exists('the_ratings_results')) {
+                    echo '<div class="ratings">'. the_ratings_results(get_the_ID()) . '</div>';
+                }
+                ?>
+            </div>
             <div class="pull-right">
                 <span class="price">
                     <?php echo get_post_meta(get_the_ID(), "project_price", true); ?>

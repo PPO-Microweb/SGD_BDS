@@ -67,11 +67,12 @@
                         <ul>
                             <?php
                             global $current_user;
-                            $limit_posting = 0;
+                            $current_account_level = intval(get_option(SHORT_NAME . "_user_level_default"));
+                            $user_level_max = intval(get_option(SHORT_NAME . "_user_level_max"));
                             if(is_user_logged_in()){
-                                $limit_posting = get_the_author_meta( 'limit_posting', $current_user->ID );
+                                $current_account_level = get_the_author_meta( 'account_level', $current_user->ID );
                             }
-                            if (is_user_logged_in() and $limit_posting < MAX_LIMIT_POSTING):
+                            if (is_user_logged_in() and $current_account_level != $user_level_max):
                             ?>
                             <li class="upgrade">
                                 <a title="Nâng cấp Tài khoản" href="<?php echo get_page_link(get_option(SHORT_NAME . "_pageUpgradeAccount")); ?>">Nâng cấp</a>
@@ -104,12 +105,15 @@
                                         <a title="Quản lý tin đăng" href="<?php echo get_page_link(get_option(SHORT_NAME . "_pageManagePosts")); ?>"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Quản lý tin đăng</a>
                                     </li>
                                     <li>
+                                        <a title="Tin theo dõi" href="<?php echo get_page_link(get_option(SHORT_NAME . "_pageFollowPosts")); ?>"><span class="glyphicon glyphicon-record" aria-hidden="true"></span> Tin theo dõi</a>
+                                    </li>
+                                    <li>
                                         <a title="Danh sách Yêu thích" href="<?php echo get_page_link(get_option(SHORT_NAME . "_pageFavorites")); ?>"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span> Yêu thích</a>
                                     </li>
                                     <li>
                                         <a title="Tài khoản" href="<?php echo get_page_link(get_option(SHORT_NAME . "_pageprofile")); ?>"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Tài khoản</a>
                                     </li>
-                                    <?php if($limit_posting < MAX_LIMIT_POSTING): ?>
+                                    <?php if($current_account_level != $user_level_max): ?>
                                     <li>
                                         <a title="Nâng cấp Tài khoản" href="<?php echo get_page_link(get_option(SHORT_NAME . "_pageUpgradeAccount")); ?>"><span class="glyphicon glyphicon-usd" aria-hidden="true"></span> Nâng cấp</a>
                                     </li>

@@ -11,7 +11,11 @@ if (isset($_POST['bntSave'])) {
     global $current_user;
     get_currentuserinfo();
     
-    if(validate_user_limit_posting()){
+    if(!validate_user_limit_posting()){
+        $contact_page = get_page_link(get_option(SHORT_NAME . "_pagecontact"));
+        $limit_posting = esc_attr(get_the_author_meta('limit_posting', $current_user->ID));
+        $notify1 = 'Bạn đã đạt ngưỡng '.$limit_posting.' tin đăng chưa hết thời hạn, hãy <a href="'.$contact_page.'" target="_blank">liên hệ</a> với chúng tôi để được trợ giúp.';
+    } else {
         $trantype = getRequest('trantype');
         $category = intval(getRequest('category'));
         $city = getRequest('city');
@@ -120,10 +124,6 @@ if (isset($_POST['bntSave'])) {
             $contact_page = get_page_link(get_option(SHORT_NAME . "_pagecontact"));
             $notify1 = 'Có lỗi xảy ra, bạn hãy thử lại hoặc <a href="'.$contact_page.'" target="_blank">liên hệ</a> với chúng tôi để được trợ giúp.';
         }
-    } else {
-        $contact_page = get_page_link(get_option(SHORT_NAME . "_pagecontact"));
-        $limit_posting = esc_attr(get_the_author_meta('limit_posting', $current_user->ID));
-        $notify1 = 'Bạn đã đạt ngưỡng '.$limit_posting.' tin đăng chưa hết thời hạn, hãy <a href="'.$contact_page.'" target="_blank">liên hệ</a> với chúng tôi để được trợ giúp.';
     }
 }
 

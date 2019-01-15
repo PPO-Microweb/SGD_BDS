@@ -49,12 +49,15 @@
 .carousel-projects-widget .entry .entry-title{
     text-transform: uppercase;
     margin: 0 15px;
-    padding-bottom: 10px;
+    padding-bottom: 5px;
     font-size: 15px;
     font-weight: bold;
     line-height: 1.4
 }
 .carousel-projects-widget .entry .entry-title a{display: block}
+.carousel-projects-widget .entry .ratings{
+    padding: 0 15px 10px
+}
 .carousel-projects-widget .entry .location{
     padding: 0 15px
 }

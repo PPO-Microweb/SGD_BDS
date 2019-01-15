@@ -23,7 +23,7 @@ $user_id = $current_user->ID;
                 <div class="section-header">
                     <div class="list-header">
                         <h1 class="span-title">
-                            <?php _e('Danh sách yêu thích của bạn', SHORT_NAME) ?>
+                            <?php _e('Quản lý tin đăng', SHORT_NAME) ?>
                         </h1>
                     </div>
                 </div>

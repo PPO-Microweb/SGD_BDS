@@ -110,7 +110,11 @@
                         </a>
                     </div>
                     <div class="name"><?php echo get_the_title($supplier_id); ?></div>
-                    <?php if(function_exists('the_ratings_results')) { echo the_ratings_results($supplier_id); } ?>
+                    <?php
+                    if(function_exists('the_ratings_results')) {
+                        echo '<div class="ratings">'. the_ratings_results($supplier_id) . '</div>';
+                    }
+                    ?>
                     <a href="<?php echo get_permalink($supplier_id) ?>" class="xem-them">Xem thêm</a>
                 </div>
             </div>
@@ -160,7 +164,12 @@
                                 <a href="<?php the_permalink(); ?>" rel="bookmark" itemprop="url" 
                                    onclick="ga('send', 'event', 'Dự án', 'Xem dự án', '<?php the_title(); ?>');"><?php the_title(); ?></a>
                             </h3>
-                            <p class="location"><?php echo $khu_vuc ?></p>
+                            <?php
+                            if(function_exists('the_ratings_results')) {
+                                echo '<div class="ratings">'. the_ratings_results(get_the_ID()) . '</div>';
+                            }
+                            ?>
+                            <div class="location"><?php echo $khu_vuc ?></div>
                         </div>
                     </div>
                     <?php
@@ -215,7 +224,12 @@
                                 <a href="<?php the_permalink(); ?>" rel="bookmark" itemprop="url" 
                                    onclick="ga('send', 'event', 'Dự án', 'Xem dự án', '<?php the_title(); ?>');"><?php the_title(); ?></a>
                             </h3>
-                            <p class="location"><?php echo $khu_vuc ?></p>
+                            <?php
+                            if(function_exists('the_ratings_results')) {
+                                echo '<div class="ratings">'. the_ratings_results(get_the_ID()) . '</div>';
+                            }
+                            ?>
+                            <div class="location"><?php echo $khu_vuc ?></div>
                         </div>
                     </div>
                     <?php

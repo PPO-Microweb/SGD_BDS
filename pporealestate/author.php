@@ -40,16 +40,24 @@ if(empty($twitterURL)) $twitterURL = get_option(SHORT_NAME . "_twitterURL");
                     <div class="col-xs-9">
                         <div class="info">
                             <h1 class="name"><?php echo $display_name; ?></h1>
+                            <div class="user-rating">
+                                <div class="display-rating">
+                                    <?php echo ppo_user_ratings($author->ID); ?>
+                                </div>
+                                <div class="set-rating hide">
+                                    <div class="starrr" data-id="<?php echo $author->ID ?>"></div>
+                                    <div class="your-choice-was" style="display: none"></div>
+                                </div>
+                            </div>
                             <div><strong>M: </strong><a href="tel:<?php echo $phone ?>" rel="nofollow"><?php echo $phone ?></a></div>
-                            <div><strong>E: </strong><a href="mailto:<?php echo $author->user_email ?>" rel="nofollow"><?php echo $author->user_email ?></a></div>
-                            <div class="mb10"><strong>W: </strong><a href="<?php echo $website ?>" rel="nofollow"><?php echo $website ?></a></div>
+                            <div class="mb10"><strong>E: </strong><a href="mailto:<?php echo $author->user_email ?>" rel="nofollow"><?php echo $author->user_email ?></a></div>
                             <div class="social_footer">
                                 <ul>
                                     <li class="facebook"><a target="_self" href="<?php echo $fbURL; ?>" rel="nofollow"><i class="fa fa-facebook"></i></a></li>
                                     <li class="gplus"><a target="_self" href="<?php echo $googlePlusURL; ?>" rel="nofollow"><i class="fa fa-google-plus"></i></a></li>
                                     <li class="twitter"><a target="_self" href="<?php echo $twitterURL; ?>" rel="nofollow"><i class="fa fa-twitter"></i></a></li>
-<!--                                    <li class="website"><a href="<?php echo $website; ?>" target="_blank" rel="nofollow"><i class="fa fa-link"></i></a></li>
-                                    <li class="email"><a href="mailto:<?php echo $author->user_email; ?>" rel="nofollow"><i class="fa fa-envelope"></i></a></li>
+                                    <li class="website"><a href="<?php echo $website; ?>" target="_blank" rel="nofollow"><i class="fa fa-link"></i></a></li>
+<!--                                    <li class="email"><a href="mailto:<?php echo $author->user_email; ?>" rel="nofollow"><i class="fa fa-envelope"></i></a></li>
                                     <li class="phone"><a href="tel:<?php echo $phone; ?>" rel="nofollow"><i class="fa fa-phone"></i></a></li>-->
                                 </ul>
                             </div>
