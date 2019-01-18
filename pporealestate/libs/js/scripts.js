@@ -226,6 +226,9 @@ function district_change(id){
 
 // Run
 jQuery(document).ready(function ($) {
+    toastr.options.closeButton = true;
+    toastr.options.positionClass = "toast-bottom-right";
+    
     CustomJS.uploadSlider($);
     CustomJS.uploadAds($);
     CustomJS.uploadMetaFields($);
@@ -283,7 +286,7 @@ jQuery(document).ready(function ($) {
         var city_id = $('#city').val();
         var district_id = $('#district').attr('data-val');
         var ward_id = $('#ward').attr('data-val');
-        if(city_id.toString().trim().length > 0){
+        if(typeof city_id !== 'undefined' && city_id.toString().trim().length > 0){
             jQuery.ajax({
                 url: ajaxurl, type: "POST", dataType: "json", cache: false,
                 data: {
@@ -306,7 +309,7 @@ jQuery(document).ready(function ($) {
                 }
             });
         }
-        if(district_id.toString().trim().length > 0){
+        if(typeof district_id !== 'undefined' && district_id.toString().trim().length > 0){
             jQuery.ajax({
                 url: ajaxurl, type: "POST", dataType: "json", cache: false,
                 data: {
@@ -377,5 +380,31 @@ jQuery(document).ready(function ($) {
             alert("Không hợp lệ!");
             jQuery(this).removeAttr('disabled');
         }
+    });
+    
+    // Cập nhật đơn hàng
+    jQuery("#frmUpdateOrder").submit(function (){
+        jQuery(".ppo-admin-overlay").show();
+        jQuery("#frmUpdateOrder .btn-submit").attr('disabled', 'disabled');
+        toastr.info('Đang cập nhật!');
+        jQuery.ajax({
+            url: ajaxurl, type: "POST", dataType: "json", cache: false,
+            data: jQuery("#frmUpdateOrder").serialize(),
+            success: function(response, textStatus, XMLHttpRequest){
+                if(response && response.status === 'success'){
+                    toastr.success(response.message, '', {timeOut: 5000});
+                }else if(response.status === 'error'){
+                    toastr.error(response.message, '', {timeOut: 5000});
+                }
+            },
+            error: function(MLHttpRequest, textStatus, errorThrown){
+                toastr.error(errorThrown, '', {timeOut: 5000});
+            },
+            complete:function(){
+                jQuery(".ppo-admin-overlay").hide();
+                jQuery("#frmUpdateOrder .btn-submit").removeAttr('disabled');
+            }
+        });
+        return false;
     });
 });

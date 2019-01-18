@@ -160,6 +160,10 @@ class WPOrders_Detail_List_Table extends WP_List_Table {
                 </td>
             </tr>
             <tr>
+                <td>Người giới thiệu:</td>
+                <td><strong style="color:red">{$ordersRow->affiliate_id}</strong></td>
+            </tr>
+            <tr>
                 <td></td>
                 <td>
                     <button type="submit" class="button button-large button-primary btn-submit">Lưu thay đổi</button>

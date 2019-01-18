@@ -48,10 +48,6 @@ function api_post_product(WP_REST_Request $request) {
     
     // Get request params
     $product_category = array();
-    $loaitin = $request->get_param('loai_tin');
-    $loaitin = get_term_by('name', $loaitin, 'product_category');
-    $loaitin = ($loaitin) ? $loaitin->term_id : 0;
-    if($loaitin > 0) $product_category[] = $loaitin;
     $category = $request->get_param('category');
     $category = get_term_by('name', $category, 'product_category');
     $category = ($category) ? $category->term_id : 0;
@@ -199,7 +195,7 @@ function api_get_segment_sites(WP_REST_Request $request) {
     foreach($segments as $bds){
         $message .= '<li><a href="'.$bds['url'].'" rel="nofollow" style="background:'.$bds['bgcolor'].';color:'.$bds['color'].'">'.$bds['name'].'</a></li>';
     }
-    $message .= '<li><a href="javascript://" style="background:#808080"><span class="glyphicon glyphicon-plus"></span></a></li>';
+//    $message .= '<li><a href="javascript://" style="background:#808080"><span class="glyphicon glyphicon-plus"></span></a></li>';
     $message .= '</ul>';
 
     // response json string

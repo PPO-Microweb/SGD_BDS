@@ -100,6 +100,9 @@
                                     <li>
                                         <a title="Đăng ký" href="<?php echo get_page_link(get_option(SHORT_NAME . "_pageregister")); ?>"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Đăng ký</a>
                                     </li>
+                                    <li>
+                                        <a title="Affiliate" href="<?php echo get_page_link(get_option(SHORT_NAME . "_pageAffiliate")); ?>"><span class="glyphicon glyphicon-usd" aria-hidden="true"></span> Affiliate</a>
+                                    </li>
                                     <?php else: ?>
                                     <li>
                                         <a title="Quản lý tin đăng" href="<?php echo get_page_link(get_option(SHORT_NAME . "_pageManagePosts")); ?>"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Quản lý tin đăng</a>
@@ -115,14 +118,17 @@
                                     </li>
                                     <?php if($current_account_level != $user_level_max): ?>
                                     <li>
-                                        <a title="Nâng cấp Tài khoản" href="<?php echo get_page_link(get_option(SHORT_NAME . "_pageUpgradeAccount")); ?>"><span class="glyphicon glyphicon-usd" aria-hidden="true"></span> Nâng cấp</a>
+                                        <a title="Nâng cấp Tài khoản" href="<?php echo get_page_link(get_option(SHORT_NAME . "_pageUpgradeAccount")); ?>"><span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span> Nâng cấp</a>
                                     </li>
                                     <?php endif; ?>
                                     <li>
                                         <a title="Đổi mật khẩu" href="<?php echo get_page_link(get_option(SHORT_NAME . "_pagelostpassword")); ?>"><span class="fa fa-key" aria-hidden="true"></span> Đổi mật khẩu</a>
                                     </li>
                                     <li>
-                                        <a title="Thoát" href="<?php echo wp_logout_url(); ?>"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Thoát</a>
+                                        <a title="Affiliate" href="<?php echo get_page_link(get_option(SHORT_NAME . "_pageAffiliate")); ?>"><span class="glyphicon glyphicon-usd" aria-hidden="true"></span> Affiliate</a>
+                                    </li>
+                                    <li>
+                                        <a title="Thoát" href="<?php echo wp_logout_url(); ?>" onclick="return confirm('Bạn có chắc chắn muốn thoát?');"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Thoát</a>
                                     </li>
                                     <?php endif; ?>
                                 </ul>

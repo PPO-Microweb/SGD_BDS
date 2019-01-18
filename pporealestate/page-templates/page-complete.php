@@ -52,9 +52,8 @@ HTML;
                 'nl_payment_id' => $payment_id,
                 'nl_payment_type' => $payment_type,
                 'nl_secure_code' => $secure_code,
-                'created_at' => date('Y-m-d H:i:s'),
                 'updated_date' => date('Y-m-d H:i:s'),
-            ), array('ID' => $order_code), array('%d', '%d', '%s', '%s', '%s'), array('%d'));
+            ), array('ID' => $order_code), array('%d', '%d', '%s', '%s', '%s', '%s'), array('%d'));
 
             if ($result) {
                 update_usermeta($transaction_info, 'account_level', $order->level_id);
@@ -64,6 +63,7 @@ HTML;
                 $expiry_date = date("Y/m/d", strtotime("$today+1 years"));
                 update_usermeta($current_user->ID, 'user_expiry', $expiry_date);
                 sendInvoiceToEmail($transaction_info, $order_code);
+                PPOAffAwardingCommission($order_code);
             }
         }
     } else {

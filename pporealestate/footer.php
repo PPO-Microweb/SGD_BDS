@@ -146,7 +146,7 @@
             <?php foreach(list_site_loai_bds() as $bds): ?>
             <li><a href="<?php echo $bds['url'] ?>" rel="nofollow" style="background:<?php echo $bds['bgcolor'] ?>;color:<?php echo $bds['color'] ?>"><?php echo $bds['name'] ?></a></li>
             <?php endforeach; ?>
-            <li><a href="javascript://" style="background:#808080"><span class="glyphicon glyphicon-plus"></span></a></li>
+            <!--<li><a href="javascript://" style="background:#808080"><span class="glyphicon glyphicon-plus"></span></a></li>-->
         </ul>
     </div>
 </div>

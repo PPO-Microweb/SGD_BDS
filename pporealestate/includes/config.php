@@ -32,6 +32,7 @@ if (!defined('MAX_LIMIT_POSTING'))
 function get_api_urls(){
     return array(
 //        'http://www.batdongsan.vn/api/v1/realestatepost' => 'Batdongsan.vn',
+        'https://batdongsan.vn/wp-json/api/v1' => 'Batdongsan.vn',
         // Danh sach 30 quan/huyen
         'https://badinh.batdongsan.vn/wp-json/api/v1' => 'Quận Ba Đình',
         'https://bactuliem.batdongsan.vn/wp-json/api/v1' => 'Quận Bắc Từ Liêm',
@@ -71,7 +72,7 @@ function get_api_urls(){
         'http://canhogiare.batdongsan.vn/wp-json/api/v1' => 'Căn hộ giá rẻ',
         'http://canhotapthe.batdongsan.vn/wp-json/api/v1' => 'Căn hộ tập thể',
         'http://canhomini.batdongsan.vn/wp-json/api/v1' => 'Căn hộ mini',
-        'http://nhaoxahoi.batdongsan.vn/wp-json/api/v1' => 'Nhà ở xã hội',
+        'http://canhotrungcap.batdongsan.vn/wp-json/api/v1' => 'Căn hộ trung cấp',
         'http://canhocaocap.batdongsan.vn/wp-json/api/v1' => 'Căn hộ cao cấp',
         'http://condotel.batdongsan.vn/wp-json/api/v1' => 'Căn hộ Condotel',
         'http://officetel.batdongsan.vn/wp-json/api/v1' => 'Căn hộ Officetel',
@@ -82,14 +83,14 @@ function get_api_urls(){
         'http://bietthunghiduong.batdongsan.vn/wp-json/api/v1' => 'Biệt thự nghỉ dưỡng',
         'http://nhamatpho.batdongsan.vn/wp-json/api/v1' => 'Nhà mặt phố',
         'http://shophouse.batdongsan.vn/wp-json/api/v1' => 'Nhà phố Shophouse',
-        'http://thuongmai.batdongsan.vn/wp-json/api/v1' => 'Bất động sản thương mại',
+        'http://cuahangkiot.batdongsan.vn/wp-json/api/v1' => 'Cửa hàng Kiot',
         'http://khachsan.batdongsan.vn/wp-json/api/v1' => 'Khách sạn',
         'http://nhahang.batdongsan.vn/wp-json/api/v1' => 'Nhà hàng',
-        'http://resort.batdongsan.vn/wp-json/api/v1' => 'Khu du lịch (Resort)',
+        'http://resort.batdongsan.vn/wp-json/api/v1' => 'Khu du lịch Resort',
         'http://trangtrai.batdongsan.vn/wp-json/api/v1' => 'Trang trại',
         'http://nhaxuongkhobai.batdongsan.vn/wp-json/api/v1' => 'Nhà xưởng kho bãi',
         'http://khucongnghiep.batdongsan.vn/wp-json/api/v1' => 'Khu công nghiệp',
-        'http://khudothi.batdongsan.vn/wp-json/api/v1' => 'Khu đô thị',
+        'http://beautyhouse.batdongsan.vn/wp-json/api/v1' => 'Beauty House',
         'http://vanphong.batdongsan.vn/wp-json/api/v1' => 'Văn phòng',
         'http://vanphongao.batdongsan.vn/wp-json/api/v1' => 'Văn phòng ảo',
         'http://coworkingspace.batdongsan.vn/wp-json/api/v1' => 'Coworking space',
@@ -97,12 +98,13 @@ function get_api_urls(){
         'http://luxuryhome.batdongsan.vn/wp-json/api/v1' => 'Luxury home',
         'http://homestay.batdongsan.vn/wp-json/api/v1' => 'Homestay',
         'http://timeshare.batdongsan.vn/wp-json/api/v1' => 'Time share',
-        'http://duonglao.batdongsan.vn/wp-json/api/v1' => 'Dưỡng lão',
+        'http://nursinghome.batdongsan.vn/wp-json/api/v1' => 'Nursing Home',
         'http://kidhouse.batdongsan.vn/wp-json/api/v1' => 'Kid house',
         'http://tinyhouse.batdongsan.vn/wp-json/api/v1' => 'Tiny house',
         'http://mobilehome.batdongsan.vn/wp-json/api/v1' => 'Mobile home',
-        'http://smarthome.batdongsan.vn/wp-json/api/v1' => 'Smart home',
-        'http://duan.batdongsan.vn/wp-json/api/v1' => 'Dự án bất động sản',
+        'http://medihouse.batdongsan.vn/wp-json/api/v1' => 'Medi house',
+        'http://trungtamthuongmai.batdongsan.vn/wp-json/api/v1' => 'Dự án bất động sản',
+        'http://canhostudio.batdongsan.vn/wp-json/api/v1' => 'Căn hộ studio',
     );
 }
 function list_site_loai_bds(){
@@ -126,16 +128,46 @@ function list_site_loai_bds(){
             'bgcolor' => '#D3530E'
         ),
         array(
-            'url' => 'http://nhatro.batdongsan.vn',
-            'name' => 'Nhà trọ',
+            'url' => 'http://nhamatpho.batdongsan.vn',
+            'name' => 'Nhà mặt phố',
             'color' => '#fff',
-            'bgcolor' => '#118AE9'
+            'bgcolor' => '#025A78'
+        ),
+        array(
+            'url' => 'http://nhaco.batdongsan.vn',
+            'name' => 'Nhà cổ',
+            'color' => '#fff',
+            'bgcolor' => '#996633'
+        ),
+        array(
+            'url' => 'http://luxuryhome.batdongsan.vn',
+            'name' => 'Luxury home',
+            'color' => '#fff',
+            'bgcolor' => '#85001D'
+        ),
+        array(
+            'url' => 'http://nhabietthu.batdongsan.vn',
+            'name' => 'Nhà biệt thự',
+            'color' => '#fff',
+            'bgcolor' => '#003399'
+        ),
+        array(
+            'url' => 'http://bietthunghiduong.batdongsan.vn',
+            'name' => 'Biệt thự nghỉ dưỡng',
+            'color' => '#fff',
+            'bgcolor' => '#005260'
         ),
         array(
             'url' => 'http://canhogiare.batdongsan.vn',
             'name' => 'Căn hộ giá rẻ',
             'color' => '#000',
             'bgcolor' => '#FDBE56'
+        ),
+        array(
+            'url' => 'http://canhotrungcap.batdongsan.vn',
+            'name' => 'Căn hộ trung cấp',
+            'color' => '#000',
+            'bgcolor' => '#FFFF00'
         ),
         array(
             'url' => 'http://canhotapthe.batdongsan.vn',
@@ -150,10 +182,10 @@ function list_site_loai_bds(){
             'bgcolor' => '#660033'
         ),
         array(
-            'url' => 'http://nhaoxahoi.batdongsan.vn',
-            'name' => 'Nhà ở xã hội',
-            'color' => '#000',
-            'bgcolor' => '#FFFF00'
+            'url' => 'http://canhostudio.batdongsan.vn',
+            'name' => 'Căn hộ studio',
+            'color' => '#fff',
+            'bgcolor' => '#92D14F'
         ),
         array(
             'url' => 'http://canhocaocap.batdongsan.vn',
@@ -186,40 +218,46 @@ function list_site_loai_bds(){
             'bgcolor' => '#1C3248'
         ),
         array(
-            'url' => 'http://apartment.batdongsan.vn',
-            'name' => 'Apartment',
-            'color' => '#fff',
-            'bgcolor' => '#CC0066'
-        ),
-        array(
-            'url' => 'http://nhabietthu.batdongsan.vn',
-            'name' => 'Nhà biệt thự',
-            'color' => '#fff',
-            'bgcolor' => '#003399'
-        ),
-        array(
-            'url' => 'http://bietthunghiduong.batdongsan.vn',
-            'name' => 'Biệt thự nghỉ dưỡng',
-            'color' => '#fff',
-            'bgcolor' => '#005260'
-        ),
-        array(
-            'url' => 'http://nhamatpho.batdongsan.vn',
-            'name' => 'Nhà mặt phố',
-            'color' => '#fff',
-            'bgcolor' => '#025A78'
-        ),
-        array(
             'url' => 'http://shophouse.batdongsan.vn',
             'name' => 'Nhà phố Shophouse',
             'color' => '#fff',
             'bgcolor' => '#4D5B41'
         ),
         array(
-            'url' => 'http://thuongmai.batdongsan.vn',
-            'name' => 'Bất động sản thương mại',
+            'url' => 'http://cuahangkiot.batdongsan.vn',
+            'name' => 'Cửa hàng Kiot',
             'color' => '#fff',
             'bgcolor' => '#00B5C4'
+        ),
+        array(
+            'url' => 'http://trungtamthuongmai.batdongsan.vn',
+            'name' => 'Trung tâm thương mại',
+            'color' => '#fff',
+            'bgcolor' => '#3591A8'
+        ),
+        array(
+            'url' => 'http://nhatro.batdongsan.vn',
+            'name' => 'Nhà trọ',
+            'color' => '#fff',
+            'bgcolor' => '#118AE9'
+        ),
+        array(
+            'url' => 'http://homestay.batdongsan.vn',
+            'name' => 'Homestay',
+            'color' => '#fff',
+            'bgcolor' => '#ff6600'
+        ),
+        array(
+            'url' => 'http://timeshare.batdongsan.vn',
+            'name' => 'Time share',
+            'color' => '#fff',
+            'bgcolor' => '#0070C0'
+        ),
+        array(
+            'url' => 'http://apartment.batdongsan.vn',
+            'name' => 'Apartment',
+            'color' => '#fff',
+            'bgcolor' => '#CC0066'
         ),
         array(
             'url' => 'http://khachsan.batdongsan.vn',
@@ -235,9 +273,45 @@ function list_site_loai_bds(){
         ),
         array(
             'url' => 'http://resort.batdongsan.vn',
-            'name' => 'Khu du lịch (Resort)',
+            'name' => 'Khu du lịch Resort',
             'color' => '#fff',
             'bgcolor' => '#0070C0'
+        ),
+        array(
+            'url' => 'http://beautyhouse.batdongsan.vn',
+            'name' => 'Beauty House',
+            'color' => '#fff',
+            'bgcolor' => '#990134'
+        ),
+        array(
+            'url' => 'http://medihouse.batdongsan.vn',
+            'name' => 'Medi house',
+            'color' => '#fff',
+            'bgcolor' => '#507BAF'
+        ),
+        array(
+            'url' => 'http://kidhouse.batdongsan.vn',
+            'name' => 'Kid house',
+            'color' => '#fff',
+            'bgcolor' => '#FF0000'
+        ),
+        array(
+            'url' => 'http://nursinghome.batdongsan.vn',
+            'name' => 'Nursing Home',
+            'color' => '#fff',
+            'bgcolor' => '#DAA435'
+        ),
+        array(
+            'url' => 'http://tinyhouse.batdongsan.vn',
+            'name' => 'Tiny house',
+            'color' => '#fff',
+            'bgcolor' => '#7030A0'
+        ),
+        array(
+            'url' => 'http://mobilehome.batdongsan.vn',
+            'name' => 'Mobile home',
+            'color' => '#fff',
+            'bgcolor' => '#FF0066'
         ),
         array(
             'url' => 'http://trangtrai.batdongsan.vn',
@@ -258,12 +332,6 @@ function list_site_loai_bds(){
             'bgcolor' => '#173660'
         ),
         array(
-            'url' => 'http://khudothi.batdongsan.vn',
-            'name' => 'Khu đô thị',
-            'color' => '#fff',
-            'bgcolor' => '#F28226'
-        ),
-        array(
             'url' => 'http://vanphong.batdongsan.vn',
             'name' => 'Văn phòng',
             'color' => '#fff',
@@ -280,66 +348,6 @@ function list_site_loai_bds(){
             'name' => 'Coworking space',
             'color' => '#fff',
             'bgcolor' => '#808000'
-        ),
-        array(
-            'url' => 'http://nhaco.batdongsan.vn',
-            'name' => 'Nhà cổ',
-            'color' => '#fff',
-            'bgcolor' => '#996633'
-        ),
-        array(
-            'url' => 'http://luxuryhome.batdongsan.vn',
-            'name' => 'Luxury home',
-            'color' => '#fff',
-            'bgcolor' => '#85001D'
-        ),
-        array(
-            'url' => 'http://homestay.batdongsan.vn',
-            'name' => 'Homestay',
-            'color' => '#fff',
-            'bgcolor' => '#ff6600'
-        ),
-        array(
-            'url' => 'http://timeshare.batdongsan.vn',
-            'name' => 'Time share',
-            'color' => '#fff',
-            'bgcolor' => '#0070C0'
-        ),
-        array(
-            'url' => 'http://duonglao.batdongsan.vn',
-            'name' => 'Dưỡng lão',
-            'color' => '#fff',
-            'bgcolor' => '#DAA435'
-        ),
-        array(
-            'url' => 'http://kidhouse.batdongsan.vn',
-            'name' => 'Kid house',
-            'color' => '#fff',
-            'bgcolor' => '#FF0000'
-        ),
-        array(
-            'url' => 'http://tinyhouse.batdongsan.vn',
-            'name' => 'Tiny house',
-            'color' => '#fff',
-            'bgcolor' => '#7030A0'
-        ),
-        array(
-            'url' => 'http://mobilehome.batdongsan.vn',
-            'name' => 'Mobile home',
-            'color' => '#fff',
-            'bgcolor' => '#FF0066'
-        ),
-        array(
-            'url' => 'http://smarthome.batdongsan.vn',
-            'name' => 'Smart home',
-            'color' => '#fff',
-            'bgcolor' => '#507BAF'
-        ),
-        array(
-            'url' => 'http://duan.batdongsan.vn',
-            'name' => 'Dự án bất động sản',
-            'color' => '#fff',
-            'bgcolor' => '#C00000'
         ),
     );
 }
@@ -599,6 +607,12 @@ $options = array(
             "desc" => ""),
         
         array("type" => "open"),
+        array("name" => "Affiliate",
+            "desc" => "",
+            "id" => SHORT_NAME . "_pageAffiliate",
+            "std" => '',
+            "type" => "select",
+            "options" => $page_list),
         array("name" => "Đăng nhập",
             "desc" => "",
             "id" => SHORT_NAME . "_pagelogin",

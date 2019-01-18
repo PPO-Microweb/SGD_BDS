@@ -243,30 +243,38 @@ class WPOrders_List_Table extends WP_List_Table {
         switch ($action) {
             case "complete":
                 foreach ($wp_list_orders as $id) {
-                    $query = "UPDATE $tblOrders SET status = 1 WHERE ID = $id and status <> 1";
+                    $query = "UPDATE $tblOrders SET status=2, payment_status=1 WHERE ID = $id and status <> 2";
                     $wpdb->query($query); 
-//                    PPOAffAwardingCommission($id);
+                    if($wpdb->num_rows){
+                        PPOAffAwardingCommission($id);
+                    }
                 }
                 break;
             case "pending":
                 foreach ($wp_list_orders as $id) {
-                    $query = "UPDATE $tblOrders SET status = 0 WHERE ID = $id and status <> 0";
+                    $query = "UPDATE $tblOrders SET status=0 WHERE ID = $id and status <> 0";
                     $wpdb->query($query); 
-//                    PPOAffRemoveCommission($id);
+                    if($wpdb->num_rows){
+                        PPOAffRemoveCommission($id);
+                    }
                 }
                 break;
             case "cancel":
                 foreach ($wp_list_orders as $id) {
-                    $query = "UPDATE $tblOrders SET status = 2 WHERE ID = $id and status <> 2";
+                    $query = "UPDATE $tblOrders SET status=3 WHERE ID = $id and status <> 3";
                     $wpdb->query($query); 
-//                    PPOAffRemoveCommission($id);
+                    if($wpdb->num_rows){
+                        PPOAffRemoveCommission($id);
+                    }
                 }
                 break;
             case "restore":
                 foreach ($wp_list_orders as $id) {
                     $query = "UPDATE $tblOrders SET status = 0 WHERE ID = $id and status <> 0";
                     $wpdb->query($query); 
-//                    PPOAffRemoveCommission($id);
+                    if($wpdb->num_rows){
+                        PPOAffRemoveCommission($id);
+                    }
                 }
                 break;
             default:

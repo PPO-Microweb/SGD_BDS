@@ -59,11 +59,7 @@ function ppo_shortcode_carousel_users($atts) {
         $avatar = "<img alt=\"{$display_name}\" src=\"http://2.gravatar.com/avatar/{$md5}?s=160&amp;d=mm&amp;r=g\" 
                     srcset=\"http://2.gravatar.com/avatar/{$md5}?s=192&amp;d=mm&amp;r=g 2x\" itemprop=\"image\" />";
         if(!validate_gravatar($user->user_email)){
-            $first_char = mb_substr($display_name, 0, 2);
-//            $color = dechex(rand(0x000000, 0xFFFFFF));
-//            while ($color === "ffffff") {
-//                $color = dechex(rand(0x000000, 0xFFFFFF));
-//            }
+            $first_char = mb_substr($display_name, 0, 1);
             $rand = array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f');
             $color = $rand[rand(0,15)].$rand[rand(0,15)].$rand[rand(0,15)].$rand[rand(0,15)].$rand[rand(0,15)].$rand[rand(0,15)];
             $avatar = '<span class="avatar-bg" style="background:#'.$color.'"><span class="avatar-first-char">'. strtoupper($first_char).'</span></span>';

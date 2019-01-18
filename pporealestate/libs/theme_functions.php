@@ -617,6 +617,88 @@ function get_wards_by_id($wardID) {
 //    return $records;
 //}
 
+/**
+ * Affiliate awarding commission
+ * 
+ * @global object $wpdb
+ * @param double $sale_amt The sale amount. You get this value from your payment gateway or the shopping cart
+ * @param int $item_id Order ID
+ * @return bool TRUE or FALSE
+ */
+function PPOAffAwardingCommission($order_id) {
+    global $wpdb;
+    $tblOrders = $wpdb->prefix . 'orders';
+    
+    $ordersRow = $wpdb->get_row( "SELECT * FROM $tblOrders WHERE ID = $order_id" );
+    $affiliate_id = $ordersRow->affiliate_id;
+    $affiliate_trans_id = $ordersRow->affiliate_trans_id;
+    if(!empty($affiliate_id) and empty($affiliate_trans_id)){
+        $customer_info = get_userdata($ordersRow->user_id);
+        $txn_id = (empty($ordersRow->nl_payment_id))?random_string(10):$ordersRow->nl_payment_id;
+
+        // The Post URL (Get this value from the settings menu of this plugin)
+        /*$postURL = get_option('wp_aff_comm_post_url');
+
+        // The Secret key (Get this value from the settings menu of this plugin)
+        $secretKey = get_option('wp_aff_secret_word_for_post');
+
+        // Prepare the data
+        $data = array();
+        $data['secret'] = $secretKey;
+        $data['ap_id'] = $affiliate_id;
+        $data['sale_amt'] = $ordersRow->total_amount;
+        $data['item_id'] = $order_id;
+        $data['buyer_email'] = $customer_info->user_email;
+        $data['buyer_name'] = $customer_info->display_name;
+        $data['txn_id'] = $txn_id;
+
+        // send data to post URL to award the commission
+        $ch = curl_init($postURL);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $returnValue = curl_exec($ch);
+        curl_close($ch);*/
+        
+        do_action('wp_affiliate_process_cart_commission', array(
+            "referrer" => $affiliate_id, "sale_amt" =>$ordersRow->total_amount, "txn_id"=>$txn_id, "buyer_email"=>$customer_info->user_email
+        ));
+
+        $wpdb->update( $tblOrders, array(
+            'affiliate_trans_id' => $txn_id,
+            'updated_date' => date('Y-m-d H:i:s'),
+        ), array('ID' => $order_id), array('%s', '%s'), array('%d'));
+        
+        return true;
+    }
+    return false;
+}
+/**
+ * Affiliate remove commission
+ * 
+ * @global object $wpdb
+ * @param int $order_id Order ID
+ * @return bool TRUE or FALSE
+ */
+function PPOAffRemoveCommission($order_id){
+    if(function_exists("wp_aff_delete_sales_data")){
+        global $wpdb;
+        $tblOrders = $wpdb->prefix . 'orders';
+
+        $txn_id = $wpdb->get_var( "SELECT affiliate_trans_id FROM $tblOrders WHERE ID = $order_id" );
+        if($txn_id){
+            wp_aff_delete_sales_data($txn_id);
+            $wpdb->update( $tblOrders, array(
+                'affiliate_trans_id' => '',
+                'updated_date' => date('Y-m-d H:i:s'),
+            ), array('ID' => $order_id), array('%s', '%s'), array('%d'));
+            
+            return true;
+        }
+    }
+    return false;
+}
+
 function show_member_list($users){
     foreach($users as $user):
         $permalink = get_author_posts_url( $user->ID );
@@ -632,7 +714,7 @@ function show_member_list($users){
         $avatar = "<img alt=\"{$display_name}\" src=\"http://2.gravatar.com/avatar/{$md5}?s=150&amp;d=mm&amp;r=g\" 
                     srcset=\"http://2.gravatar.com/avatar/{$md5}?s=192&amp;d=mm&amp;r=g 2x\" itemprop=\"image\" />";
         if(!validate_gravatar($user->user_email)){
-            $first_char = mb_substr($display_name, 0, 2);
+            $first_char = mb_substr($display_name, 0, 1);
             $rand = array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f');
             $color = $rand[rand(0,15)].$rand[rand(0,15)].$rand[rand(0,15)].$rand[rand(0,15)].$rand[rand(0,15)].$rand[rand(0,15)];
             $avatar = '<span class="avatar-bg" style="background:#'.$color.'"><span class="avatar-first-char">'. strtoupper($first_char).'</span></span>';
@@ -751,7 +833,10 @@ function ppo_user_ratings($user_id) {
     global $wpdb;
     $tbl_user_ratings = $wpdb->prefix . 'user_ratings';
     $user_rate = $wpdb->get_row("SELECT COUNT(rating_userid) as count_total, SUM(rating_rating) as rate_total FROM {$tbl_user_ratings} WHERE rating_userid={$user_id}");
-    $rating = $user_rate->rate_total/$user_rate->count_total;
+    $rating = 0;
+    if($user_rate->count_total > 0){
+        $rating = $user_rate->rate_total/$user_rate->count_total;
+    }
     $rating_round = round($rating * 2) / 2;
     if ($rating_round == 0) {
         return '<i class="fa fa-star-o"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i>';

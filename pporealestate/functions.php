@@ -54,13 +54,14 @@ if (is_admin()) {
         }
     }
     
+    include 'includes/plugins-required.php';
     include 'includes/orders.php';
     include 'includes/customers.php';
     include 'includes/user-search.php';
     include 'includes/user-sort.php';
     
     // Add filter
-//    add_filter('acf/settings/show_admin', '__return_false');
+    add_filter('acf/settings/show_admin', '__return_false');
     add_filter('acf/settings/show_updates', '__return_false');
     add_filter('display_post_states', 'ppo_custom_post_states');
 
@@ -472,7 +473,28 @@ function get_template_html($template_name, $attributes = null) {
 ## Add css, js into Admin Footer
 function ppo_admin_add_custom_footer(){
 ?>
+<div class="ppo-admin-overlay" style="display: none">
+    <span>ĐANG XỬ LÝ</span>
+    <span class="dots">...</span>
+    <span>Hãy giữ nguyên màn hình này cho đến khi hoàn tất!</span>
+</div>
 <style type="text/css">
+    .ppo-admin-overlay{
+        background: rgba(255,255,255,.8);
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        font-size: 40px;
+        padding-top: 150px;
+        z-index: 1;
+        display: none;
+        text-shadow: 0 2px 6px #333
+    }
+    .ppo-admin-overlay span{display: block;margin-bottom: 30px}
+    .ppo-admin-overlay span.dots{font-size: 60px}
     /*.user-profile-picture,*/ 
     #profile-page #wordpress-seo, #profile-page #wordpress-seo+.form-table{display: none;visibility: hidden}
     #your-profile .user-rich-editing-wrap,
@@ -895,12 +917,14 @@ function validate_user_expiry(){
 function ppo_custom_post_states($states) { 
     global $post; 
     if( in_array($post->ID, array(
+        get_option(SHORT_NAME . "_pageAffiliate"),
         get_option(SHORT_NAME . "_pagelogin"),
         get_option(SHORT_NAME . "_pageregister"),
         get_option(SHORT_NAME . "_pagelostpassword"),
         get_option(SHORT_NAME . "_pageprofile"),
         get_option(SHORT_NAME . "_pageUpgradeAccount"),
         get_option("online_payment_result"),
+        get_option(SHORT_NAME . "_pageFollowPosts"),
         get_option(SHORT_NAME . "_pageManagePosts"),
         get_option(SHORT_NAME . "_pageFavorites"),
         get_option(SHORT_NAME . "_pageCompare"),

@@ -32,16 +32,11 @@ function api_push_product() {
 //        $pushed = get_post_meta($post_id, 'pushed', true);
 //        if($product and $pushed != 'yes'){
         if($product){
-            $loai_tin = null;
             $category = null;
             $taxonomy = 'product_category';
             $terms = get_the_terms($post_id, $taxonomy);
             foreach ($terms as $term) {
-                if($term->parent == 0){
-                    $loai_tin = get_term( $term, $taxonomy );
-                } else {
-                    $category = get_term( $term, $taxonomy );
-                }
+                $category = get_term( $term, $taxonomy );
             }
             $purpose_cat = array();
             $purposes = get_the_terms($post_id, 'product_purpose');
@@ -73,7 +68,6 @@ function api_push_product() {
             }
 
             $args = array(
-                'loai_tin' => $loai_tin->name,
                 'category' => $category->name,
                 'purpose_cat' => $purpose_cat,
                 'product_price' => $product_price,
@@ -265,6 +259,43 @@ function push_to_batdongsan_vn($api_url, $post_id){
             'message' => 'Không hợp lệ!',
         )));
     }*/
+}
+/**
+ * Cập nhật đơn hàng
+ * @global object $wpdb
+ */
+function ppo_update_order() {
+    $order_id = intval(getRequest('order_id'));
+    $order_status = intval(getRequest('order_status'));
+    $payment_status = intval(getRequest('payment_status'));
+    $notes = getRequest('notes');
+
+    global $wpdb;
+    $result = $wpdb->update($wpdb->prefix . 'orders', array(
+        'order_status' => $order_status,
+        'payment_status' => $payment_status,
+        'notes' => $notes,
+        'updated_date' => date('Y-m-d H:i:s'),
+    ), array('ID' => $order_id), array('%d', '%d', '%s', '%s'), array('%d'));
+
+    if ($result) {
+        if($order_status == 2){
+            PPOAffAwardingCommission($order_id);
+        } else {
+            PPOAffRemoveCommission($order_id);
+        }
+        Response(json_encode(array(
+            'status' => 'success',
+            'message' => __("Cập nhật đơn hàng thành công!", SHORT_NAME),
+        )));
+    } else {
+        Response(json_encode(array(
+            'status' => 'error',
+            'message' => __("Xảy ra lỗi, vui lòng thử lại!", SHORT_NAME),
+        )));
+    }
+
+    exit;
 }
 
 //THANH PHO - QUAN HUYEN - PHUONG XA
@@ -716,6 +747,7 @@ function ppo_downvip_post(){
 function upgrade_account(){
     $level_id = intval(getRequest('level_id'));
     $price = get_field('price', $level_id);
+    $referrer = isset($_COOKIE['ap_id'])?$_COOKIE['ap_id']:"";
 
     if (!is_user_logged_in()) {
         Response(json_encode(array(
@@ -744,6 +776,12 @@ function upgrade_account(){
             $order = $wpdb->get_row( "SELECT * FROM {$tblOrders} WHERE user_id={$current_user->ID} AND level_id={$level_id} LIMIT 1" );
             if($order and $order->payment_status == 0){
                 $order_code = $order->ID;
+                $result = $wpdb->update( $tblOrders, array(
+                    'discount' => 0,
+                    'total_amount' => $price,
+                    'affiliate_id' => $referrer,
+                    'updated_date' => date('Y-m-d H:i:s'),
+                ), array('ID' => $order_code), array('%d', '%d', '%s', '%s'), array('%d'));
             } else {
                 // Insert into Order
                 $result = $wpdb->insert( $tblOrders, array(
@@ -752,7 +790,7 @@ function upgrade_account(){
                     'payment_method' => 'Nganluong',
                     'discount' => 0,
                     'total_amount' => $price,
-                    'affiliate_id' => '',
+                    'affiliate_id' => $referrer,
                     'updated_date' => date('Y-m-d H:i:s'),
                 ), array(
                     '%d',
