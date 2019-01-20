@@ -49,13 +49,13 @@ $specials = get_categories(array(
                                 'selected' => getRequest('category'),
                                 'hierarchical' => true,
                                 'value_field' => 'term_id',
-                                'class' => '',
+                                'class' => 'form-control',
                                 'id' => 'category',
                             ));
                             ?>
                         </li>
                         <li>
-                            <select name="price" id="price" >
+                            <select name="price" id="price" class="form-control">
                                 <option value="">- Giá -</option>
                                 <?php
                                 $priceID = intval(getRequest('price'));
@@ -74,7 +74,7 @@ $specials = get_categories(array(
                 <div class="col-md-2 col-sm-3 col-xs-6">
                     <ul class="tab_select">
                         <li>
-                            <select name="city" id="ddlCity" >
+                            <select name="city" id="ddlCity" class="form-control">
                                 <option value="">- Thành phố -</option>
                                 <?php
                                 foreach ($list_city as $c) {
@@ -84,7 +84,7 @@ $specials = get_categories(array(
                             </select>
                         </li>
                         <li>
-                            <select name="room" id="room" >
+                            <select name="room" id="room" class="form-control">
                                 <option value="">- Số phòng ngủ -</option>
                                 <?php
                                 foreach ($rooms as $key => $value) {
@@ -98,12 +98,12 @@ $specials = get_categories(array(
                 <div class="col-md-2 col-sm-3 col-xs-6">
                     <ul class="tab_select">
                         <li>
-                            <select name="district" id="ddlDistrict" >
+                            <select name="district" id="ddlDistrict" class="form-control">
                                 <option value="">- Quận/ Huyện -</option>
                             </select>
                         </li>
                         <li>
-                            <select name="direction" id="direction" >
+                            <select name="direction" id="direction" class="form-control">
                                 <option value="">- Hướng -</option>
                                 <?php
                                 foreach ($directions as $key => $value) {
@@ -117,12 +117,12 @@ $specials = get_categories(array(
                 <div class="col-md-2 col-sm-3 col-xs-6">
                     <ul class="tab_select">
                         <li>
-                            <select name="ward" id="ddlWard" >
+                            <select name="ward" id="ddlWard" class="form-control">
                                 <option value="">- Phường/ Xã -</option>
                             </select>
                         </li>
                         <li>
-                            <select name="project" id="project" >
+                            <select name="project" id="project" class="form-control">
                                 <option value="">- Dự án -</option>
                                 <?php
                                 while($projects->have_posts()): $projects->the_post();
@@ -137,7 +137,7 @@ $specials = get_categories(array(
                 <div class="col-md-2 col-sm-3 col-xs-6">
                     <ul class="tab_select">
                         <li>
-                            <select name="purpose" id="product_purpose" >
+                            <select name="purpose" id="product_purpose" class="form-control">
                                 <option value="">- Phù hợp để -</option>
                                 <?php
                                 $purposeID = intval(getRequest('product_purpose'));
@@ -152,7 +152,7 @@ $specials = get_categories(array(
                             </select>
                         </li>
                         <li>
-                            <select name="special" id="special" >
+                            <select name="special" id="special" class="form-control">
                                 <option value="">- Đặc điểm -</option>
                                 <?php
                                 $specialID = intval(getRequest('special'));
@@ -171,7 +171,7 @@ $specials = get_categories(array(
                 <div class="col-md-2 col-sm-3 col-xs-6">
                     <ul class="tab_select">
                         <li>
-                            <select name="area" id="area" >
+                            <select name="area" id="area" class="form-control">
                                 <option value="">- Diện tích -</option>
                                 <?php
                                 $areaID = intval(getRequest('area'));
